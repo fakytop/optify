@@ -1,6 +1,6 @@
 package com.optify.domain;
 
-public class Supermarket {
+public class Store {
     private long rut;
     private String name;
 }

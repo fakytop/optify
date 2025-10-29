@@ -10,6 +10,7 @@ public class User {
     private String eMail;
     private String password;
     private City city;
+    private Cart cart = new Cart();
 
     public User() {
 
