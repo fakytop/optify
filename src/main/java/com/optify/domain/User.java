@@ -1,5 +1,7 @@
 package com.optify.domain;
 
+import com.optify.exceptions.AuthenticationException;
+
 public class User {
     private long ci;
     private String name;
@@ -69,7 +71,10 @@ public class User {
         this.city = city;
     }
 
-    public void validPassword(String password) {
-        if(password.length())
+    public void validPassword(String password) throws AuthenticationException {
+        if(password.length() < 8) {
+            throw new AuthenticationException("[Authentication] La contraseña no cumple con los requisitos minimos.");
+        }
+
     }
 }
