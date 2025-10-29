@@ -2,13 +2,14 @@ package com.optify.systems;
 
 import com.optify.domain.User;
 import com.optify.exceptions.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.HashMap;
 
 public class UsersSystem {
     private static UsersSystem instance = new UsersSystem();
-
     private HashMap<String, User> users = new HashMap<>();
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public static UsersSystem getInstance() {
         return instance;
@@ -37,10 +38,13 @@ public class UsersSystem {
         if(user.getCity() == null) {
             //throw new AuthenticationException("[Authentication] Debe seleccionar una ciudad.");
         }
-
         if(!validPassword(user.getPassword())) {
             throw new AuthenticationException("[Authentication] La contraseña debe cumplir con los requisitos mínimos.");
         }
+        //hasheo la contraseña para seguridad.
+        String password = passwordEncoder.encode(user.getPassword());
+        user.setPassword(password);
+
         users.put(user.getUserName(),user);
     }
 
@@ -49,7 +53,7 @@ public class UsersSystem {
             throw new AuthenticationException("[Authentication] No existe el usuario.");
         }
         User user = users.get(userName);
-        if(!user.getPassword().equals(password)) {
+        if(!passwordEncoder.matches(password,user.getPassword())) {
             throw new AuthenticationException("[Authentication] Clave de usuario incorrecta.");
         }
         return user;
