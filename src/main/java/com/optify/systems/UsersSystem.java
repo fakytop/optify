@@ -6,15 +6,20 @@ import com.optify.exceptions.AuthenticationException;
 import java.util.HashMap;
 
 public class UsersSystem {
-    private HashMap<String, User> users;
+    private static UsersSystem instance = new UsersSystem();
 
-    private void signIn(User user) throws AuthenticationException {
+    private HashMap<String, User> users = new HashMap<>();
+
+    public static UsersSystem getInstance() {
+        return instance;
+    }
+
+    private UsersSystem() {
+
+    }
+    public void signIn(User user) throws AuthenticationException {
         if(users.containsKey(user.getUserName())) {
             throw new AuthenticationException("[Authentication] Ya existe el nombre de usuario: " + user.getUserName());
-        }
-
-        if(user.getName() == null || "".equalsIgnoreCase(user.getUserName()) || user.getUserName().length() < 4) {
-            throw new AuthenticationException("[Authentication] Debe ingresar un nombre de usuario válido.");
         }
 
         if(user.getCi() == 0) {
@@ -25,7 +30,7 @@ public class UsersSystem {
             throw new AuthenticationException("[Authentication] Debe ingresar un e-mail válido.");
         }
 
-        if(user.getName() != null || user.getLastName() != null || "".equalsIgnoreCase(user.getName()) || "".equalsIgnoreCase(user.getLastName())) {
+        if(user.getName() == null || user.getLastName() == null || "".equalsIgnoreCase(user.getName()) || "".equalsIgnoreCase(user.getLastName())) {
             throw new AuthenticationException("[Authentication] Nombre y apellido no pueden ser vacíos.");
         }
 
@@ -39,7 +44,7 @@ public class UsersSystem {
         users.put(user.getUserName(),user);
     }
 
-    private User logIn(String userName, String password) throws AuthenticationException {
+    public User logIn(String userName, String password) throws AuthenticationException {
         if(!users.containsKey(userName)) {
             throw new AuthenticationException("[Authentication] No existe el usuario.");
         }
