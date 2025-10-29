@@ -38,9 +38,7 @@ public class UsersSystem {
         if(user.getCity() == null) {
             //throw new AuthenticationException("[Authentication] Debe seleccionar una ciudad.");
         }
-        if(!validPassword(user.getPassword())) {
-            throw new AuthenticationException("[Authentication] La contraseña debe cumplir con los requisitos mínimos.");
-        }
+        user.validPassword(user.getPassword());
         //hasheo la contraseña para seguridad.
         String password = passwordEncoder.encode(user.getPassword());
         user.setPassword(password);
@@ -59,7 +57,5 @@ public class UsersSystem {
         return user;
     }
 
-    private boolean validPassword(String password) {
-        return true;
-    }
+
 }

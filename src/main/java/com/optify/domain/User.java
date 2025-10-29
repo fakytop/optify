@@ -68,4 +68,8 @@ public class User {
     public void setCity(City city) {
         this.city = city;
     }
+
+    public void validPassword(String password) {
+        if(password.length())
+    }
 }
