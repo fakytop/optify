@@ -1,4 +1,4 @@
 package com.optify.domain;
 
-public class OfferEspecificDay extends Offer{
+public class OfferEspecificDay extends OfferType{
 }

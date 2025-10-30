@@ -5,5 +5,6 @@ import java.util.ArrayList;
 public class Offer {
     private Store store;
     private ArrayList<Product> products;
+    private OfferType offerType;
 
 }

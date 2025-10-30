@@ -1,5 +1,5 @@
 package com.optify.domain;
 
-public class OfferPayWay extends Offer{
+public class OfferPayWay extends OfferType {
     private PayWay payWay;
 }
