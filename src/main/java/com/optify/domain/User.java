@@ -11,6 +11,8 @@ public class User {
     private String password;
     private City city;
     private Cart cart = new Cart();
+    private Store preferredStore;
+    private int preferredDay;
 
     public User() {
 
