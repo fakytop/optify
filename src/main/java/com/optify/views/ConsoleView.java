@@ -2,17 +2,20 @@ package com.optify.views;
 
 import com.optify.domain.User;
 import com.optify.exceptions.AuthenticationException;
-import com.optify.systems.UsersSystem;
+import com.optify.services.UserService;
 import com.optify.utilities.Console;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
 import static com.optify.utilities.Console.print;
 import static com.optify.utilities.Console.readInt;
-
+@Component
 public class ConsoleView {
 
-    public UsersSystem userSystem = UsersSystem.getInstance();
+    @Autowired
+    public UserService userService;
 
     public ConsoleView() {
     }
@@ -69,7 +72,7 @@ public class ConsoleView {
         user.setPassword(Console.read("Ingrese su contraseña: "));
 
         try {
-            userSystem.signIn(user);
+            userService.signIn(user);
         } catch (AuthenticationException e) {
             Console.println(e.getMessage());
         }
@@ -83,7 +86,7 @@ public class ConsoleView {
         String password = Console.read("Contraseña: ");
 
         try {
-            User user = userSystem.logIn(userName,password);
+            User user = userService.logIn(userName,password);
             Console.println("Sesión iniciada con éxito.");
             Console.println("Nombre: " + user.getName());
             Console.println("Apellido: " + user.getLastName());

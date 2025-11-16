@@ -1,0 +1,25 @@
+package com.optify;
+
+import com.optify.views.ConsoleView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class AppApplication implements CommandLineRunner {
+
+    @Autowired
+    private ConsoleView consoleView;
+
+    @Override
+    public void run(String... args) throws Exception {
+        consoleView.showConsole();
+    }
+
+    public static void main(String[] args) {
+
+		SpringApplication.run(AppApplication.class, args);
+	}
+
+}
