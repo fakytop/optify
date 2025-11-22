@@ -1,22 +1,27 @@
 package com.optify.views;
 
+import com.optify.domain.Store;
 import com.optify.domain.User;
 import com.optify.exceptions.AuthenticationException;
+import com.optify.exceptions.DataException;
 import com.optify.facade.Facade;
-import com.optify.services.UserService;
+import com.optify.services.StoreService;
 import com.optify.utilities.Console;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static com.optify.utilities.Console.print;
-import static com.optify.utilities.Console.readInt;
+import static com.optify.utilities.Console.*;
+
 @Component
 public class ConsoleView {
 
     @Autowired
     private Facade instance;
+    @Autowired
+    private StoreService storeService;
 
     public ConsoleView() {
     }
@@ -37,6 +42,11 @@ public class ConsoleView {
         options.add("Salir");
         options.add("Registrarse");
         options.add("Iniciar Sesión");
+        options.add("Agregar Tienda");
+        options.add("Actualizar Tienda");
+        options.add("Ver todas las tiendas");
+        options.add("Buscar super por RUT");
+        options.add("Agregar Categoria");
 
         return Console.menu(options);
     }
@@ -55,8 +65,106 @@ public class ConsoleView {
             case 2:
                 this.logIn();
                 break;
+            case 3:
+                this.addStore();
+                break;
+            case 4:
+                this.updateStore();
+                break;
+            case 5:
+                this.readStores();
+                break;
+            case 6:
+                this.findStoreByRut();
+                break;
+            case 7:
+                this.addCategoryUrlToStore();
         }
         return exit;
+    }
+
+    private void addCategoryUrlToStore() {
+        Console.println("***Agregar Category Url***");
+        Console.println("==========================");
+
+        long rut = Console.readLong("Ingrese RUT del super: ");
+        boolean finish = false;
+        Console.println("Agregue la url deseada, digite 0 para terminar.");
+        while(!finish) {
+            String url = Console.read("Categoria url: ");
+            if("0".equals(url)) {
+                finish = true;
+            } else {
+                try {
+                    storeService.addUrlCategoryToStore(rut,url);
+                } catch (DataException e) {
+                    println(e.getMessage());
+                    finish = true;
+                }
+            }
+        }
+    }
+
+    private void findStoreByRut() {
+        Console.println("***Encontrar por RUT**");
+        Console.println("======================");
+
+        Store store = instance.getStoreByRut(readLong("Indique el rut del super: "));
+        printStoreData(store);
+    }
+
+    private void readStores() {
+        Console.println("***Todas las Tiendas**");
+        Console.println("======================");
+
+        List<Store> sotores = instance.getAllStores();
+
+        for(Store store : sotores) {
+            printStoreData(store);
+        }
+    }
+
+    private void printStoreData(Store store) {
+        Console.println("Super: {RUT: " + store.getRut()
+                + ", Nombre: " + store.getName()
+                + ", Nombre Fantasía: " + store.getFantasyName()
+                + ", Url: " + store.getHomePage()
+                + "}");
+    }
+
+
+    private void updateStore() {
+        Console.println("***Actualizar Tienda**");
+        Console.println("======================");
+
+        Store store = new Store();
+        store.setRut(Console.readLong("RUT: "));
+        store.setName(Console.read("Nombre: "));
+        store.setFantasyName(Console.read("Nombre Fantasía: "));
+        store.setHomePage(Console.read("Home Page: "));
+
+        try {
+            instance.updateStore(store);
+        } catch (DataException e) {
+            Console.println(e.getMessage());
+        }
+    }
+
+    private void addStore() {
+        Console.println("*** Agregar Tienda ***");
+        Console.println("======================");
+
+        Store store = new Store();
+        store.setRut(Console.readLong("RUT: "));
+        store.setName(Console.read("Nombre: "));
+        store.setFantasyName(Console.read("Nombre Fantasía: "));
+        store.setHomePage(Console.read("Home Page: "));
+
+        try {
+            instance.addStore(store);
+        } catch (DataException e) {
+            Console.println(e.getMessage());
+        }
     }
 
     private void signIn() {

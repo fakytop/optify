@@ -1,8 +1,15 @@
 package com.optify.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.sql.Timestamp;
 
+@Entity
+@Table(name = "products")
 public class Product {
+    @Id
     private String ean;
     private String gtin;
     private String sku;
@@ -10,7 +17,7 @@ public class Product {
     private String description;
     private String brand;
     private String imageUrl;
-    private Category category;
+    //private Category category;
 
     public Product() {
     }
@@ -71,11 +78,11 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    public Category getCategory() {
-        return category;
-    }
+//    public Category getCategory() {
+//        return category;
+//    }
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+//    public void setCategory(Category category) {
+//        this.category = category;
+//    }
 }

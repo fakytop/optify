@@ -40,6 +40,23 @@ public class Console {
         return readInt(null);
     }
 
+    public static long readLong(String msg) {
+        long n = -1;
+        boolean ok = false;
+        while(!ok) {
+            try {
+                if(msg!= null) {
+                    print(msg);
+                }
+                n = Long.parseLong(read());
+                ok = true;
+            } catch (Exception e) {
+
+            }
+        }
+        return n;
+    }
+
     public static int readInt(String msg) {
         int n = -1;
         boolean ok = false;
