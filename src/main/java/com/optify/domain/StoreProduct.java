@@ -1,10 +1,27 @@
 package com.optify.domain;
 
-import java.sql.Timestamp;
+import jakarta.persistence.*;
 
+import java.sql.Timestamp;
+@Entity
+@Table(name = "store_products")
 public class StoreProduct {
-    private Product product;
+    //Clave compuesta
+    @EmbeddedId
+    private StoreProductPk id;
+
+    //Relación con Store (Muchos StoreProduct a un Store)
+    @ManyToOne
+    @MapsId("storeRut") //Mapea la columna de storeRut de StoreProductPk
+    @JoinColumn(name = "store_rut") //Columna FK en la BD
     private Store store;
+
+    //Relación con Product (Muchos StoreProduct a un Product)
+    @ManyToOne
+    @MapsId("productEan") //Mapea la columna de productEan de StoreProductPk
+    @JoinColumn(name = "product_ean") //Columna FK en la BD
+    private Product product;
+
     private double price;
     private double lowPrice;
     private double highPrice;
@@ -12,6 +29,23 @@ public class StoreProduct {
     private String urlProduct;
 
     public StoreProduct() {
+        this.id = new StoreProductPk();
+    }
+
+    public long getStoreRut() {
+        return this.id.getStoreRut();
+    }
+
+    public void setStoreRut(long storeRut) {
+        this.id.setStoreRut(storeRut);
+    }
+
+    public String getProductEan() {
+        return this.id.getProductEan();
+    }
+
+    public void setProductEan(String productEan) {
+        this.id.setProductEan(productEan);
     }
 
     public String getUrlProduct() {
