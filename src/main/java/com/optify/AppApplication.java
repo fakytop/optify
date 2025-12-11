@@ -7,19 +7,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AppApplication implements CommandLineRunner {
+public class AppApplication  {
 
-    @Autowired
-    private ConsoleView consoleView;
 
-    @Override
-    public void run(String... args) throws Exception {
-        consoleView.showConsole();
-    }
 
     public static void main(String[] args) {
+        SpringApplication.run(AppApplication.class, args);
+    }
 
-		SpringApplication.run(AppApplication.class, args);
-	}
 
 }
+
+

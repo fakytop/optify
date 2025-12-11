@@ -1,5 +1,6 @@
 package com.optify.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -14,10 +15,12 @@ public class Product {
     private String gtin;
     private String sku;
     private String name;
+    @Column(columnDefinition = "TEXT") // Mapea a TEXT en PostgreSQL
     private String description;
     private String brand;
+    @Column(length = 2048) // Aumentamos el límite para la URL de la imagen
     private String imageUrl;
-    //private Category category;
+
 
     public Product() {
     }

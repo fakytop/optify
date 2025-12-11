@@ -4,7 +4,6 @@ import com.optify.domain.User;
 import com.optify.exceptions.AuthenticationException;
 import com.optify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +25,9 @@ public class UserService {
         if(userRepository.existsById(user.getCi())) {
             throw new AuthenticationException("[Authentication] La cédula de identidad ya está registrada.");
         }
-        if(userRepository.findByeMail(user.geteMail()).isPresent()) {
-            throw new AuthenticationException("[Authentication] Ya existe el e-mail: " + user.geteMail());
+        // CORREGIDO: Ahora usa findByMail (esperando que Repository coincida)
+        if(userRepository.findByMail(user.getMail()).isPresent()) {
+            throw new AuthenticationException("[Authentication] Ya existe el e-mail: " + user.getMail());
         }
         user.validPassword();
 

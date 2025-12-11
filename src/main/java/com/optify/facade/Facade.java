@@ -22,8 +22,9 @@ public class Facade {
 
     private Facade() {}
 
-    // Métodos referidos al usuario.
-    public User signIn(User user) throws AuthenticationException {
+    // --- Métodos referidos al usuario ---
+    // CORRECCIÓN 1: signIn debe lanzar DataException (como lo usa ConsoleView)
+    public User signIn(User user) throws AuthenticationException, DataException {
         return userService.signIn(user);
     }
 
@@ -31,24 +32,25 @@ public class Facade {
         return userService.logIn(username, password);
     }
 
-    //Métodos referidos al supermercado
+    // --- Métodos referidos al supermercado (CORREGIDOS) ---
     public Store addStore(Store store) throws DataException {
-        return storeService.addStore(store);
+        return storeService.createOrUpdateStore(store);
     }
 
     public Store updateStore(Store store) throws DataException {
-        return storeService.updateStore(store);
+        return storeService.createOrUpdateStore(store);
     }
 
     public List<Store> getAllStores() {
         return storeService.getAllStores();
     }
 
-    public Store getStoreByRut(long rut) {
-        return storeService.getStoreByRut(rut).get();
+    public Optional<Store> getStoreByRut(long rut) {
+        return storeService.getStoreByRut(rut);
     }
 
+    // CORRECCIÓN FINAL: Se elimina el 'return' de un método void
     public void addUrlCategoryByRut(long rut, String category) throws DataException {
-        storeService.addUrlCategoryToStore(rut,category);
+        storeService.addUrlCategoryToStore(rut, category); // ¡SIN 'return'!
     }
 }

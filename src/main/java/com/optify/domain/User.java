@@ -4,20 +4,29 @@ import com.optify.exceptions.AuthenticationException;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
     private long ci;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "last_name") // Mapeo a la columna correcta en la DB (snake_case)
     private String lastName;
-    private String userName;
-    private String eMail;
+
+    private String userName; // Mapea automáticamente a user_name
+
+    @Column(name = "mail") // Mapeo explícito a la columna 'mail' en la DB
+    private String mail;
+
     private String password;
-//    private City city;
-//    private Cart cart = new Cart();
-//    private Store preferredStore;
+    //    private City city;
+    //    private Cart cart = new Cart();
+    //    private Store preferredStore;
     private int preferredDay;
 
     public User() {
@@ -48,6 +57,7 @@ public class User {
         this.name = name;
     }
 
+    // CORREGIDO: Setter y Getter para lastName
     public String getLastName() {
         return lastName;
     }
@@ -64,21 +74,22 @@ public class User {
         this.userName = userName;
     }
 
-    public String geteMail() {
-        return eMail;
+    // CORREGIDO: Getter y Setter para mail (simple)
+    public String getMail() {
+        return mail;
     }
 
-    public void seteMail(String eMail) {
-        this.eMail = eMail;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
-//    public City getCity() {
-//      return city;
-//    }
+    //    public City getCity() {
+    //      return city;
+    //    }
 
-//    public void setCity(City city) {
-//        this.city = city;
-//    }
+    //    public void setCity(City city) {
+    //        this.city = city;
+    //    }
 
     public void validPassword() throws AuthenticationException {
         if(password.length() < 8) {

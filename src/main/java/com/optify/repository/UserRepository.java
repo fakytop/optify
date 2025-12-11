@@ -9,5 +9,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> findByUserName(String userName);
-    Optional<User> findByeMail(String email);
+    // CORREGIDO: Debe coincidir con el campo 'mail' en la entidad
+    Optional<User> findByMail(String mail);
 }
