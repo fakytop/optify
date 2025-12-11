@@ -21,7 +21,7 @@ public class StoreService {
     // --------------------------------------------------------
     @Transactional
     public Store createOrUpdateStore(Store storeDetails) throws DataException {
-        // (El cuerpo de este método se mantiene igual que el que me enviaste)
+        // (El cuerpo de este metodo se mantiene igual que el que me enviaste)
         Optional<Store> existingStoreOptional = storeRepository.findByName(storeDetails.getName());
 
         if (existingStoreOptional.isPresent()) {
@@ -68,12 +68,12 @@ public class StoreService {
         return storeRepository.findAll();
     }
 
-    // MÉTODO FALTANTE 1: getStoreByRut (soluciona error de Facade)
+    //metoDO FALTANTE 1: getStoreByRut (soluciona error de Facade)
     public Optional<Store> getStoreByRut(long rut) {
         return storeRepository.findByRut(rut);
     }
 
-    // MÉTODO FALTANTE 2: addUrlCategoryToStore (soluciona error de Facade)
+    // metODO FALTANTE 2: addUrlCategoryToStore (soluciona error de Facade)
     @Transactional
     public void addUrlCategoryToStore(long rut, String category) throws DataException {
         try {

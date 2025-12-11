@@ -26,7 +26,7 @@ public class StoreController {
     @PostMapping
     public ResponseEntity<?> createOrUpdateStore(@RequestBody Store store) {
         try {
-            // Llama al nuevo método unificado
+            // Llama al nuevo METODO unificado
             Store resultStore = storeService.createOrUpdateStore(store);
 
             // Podrías devolver 200 OK si se actualizó o 201 Created si se creó
@@ -41,5 +41,5 @@ public class StoreController {
         }
     }
 
-    // ELIMINAMOS EL MÉTODO PUT DE ESTE CONTROLADOR YA QUE POST HACE LA ACTUALIZACIÓN
+    // ELIMINAMOS EL METODO PUT DE ESTE CONTROLADOR YA QUE POST HACE LA ACTUALIZACIÓN
 }

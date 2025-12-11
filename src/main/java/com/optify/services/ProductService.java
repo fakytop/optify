@@ -23,7 +23,7 @@ public class ProductService {
     @Autowired private StoreProductRepository storeProductRepository;
 
     /**
-     * NUEVO MÉTODO: Devuelve todos los productos desde la base de datos.
+     * NUEVO METODO: Devuelve todos los productos desde la base de datos.
      */
     public List<Product> findAllProducts() {
         return productRepository.findAll();

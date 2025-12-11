@@ -109,7 +109,7 @@ public class Store {
     public String getHomePage() { return homePage; }
     public void setHomePage(String homePage) { this.homePage = homePage; }
 
-    // Método que usa tu lógica de consola
+    // metdo que usa tu lógica de consola
     public void addUrlCategory(String category) {
         if (this.urlCategory == null) {
             this.urlCategory = new ArrayList<>();

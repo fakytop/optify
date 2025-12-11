@@ -49,7 +49,7 @@ public class Facade {
         return storeService.getStoreByRut(rut);
     }
 
-    // CORRECCIÓN FINAL: Se elimina el 'return' de un método void
+    // CORRECCIÓN FINAL: Se elimina el 'return' de un METODO void
     public void addUrlCategoryByRut(long rut, String category) throws DataException {
         storeService.addUrlCategoryToStore(rut, category); // ¡SIN 'return'!
     }

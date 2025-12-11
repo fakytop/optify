@@ -18,7 +18,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    // --- NUEVO MÉTODO: GET /products ---
+    // --- NUEVO metODO: GET /products ---
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts() {
         try {

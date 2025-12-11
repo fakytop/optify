@@ -17,7 +17,8 @@ public class StockSystem {
     }
 
     public Product existProduct(Product product) {
-        //TODO: Debería ser un select a la base de datos, si existe me lo quedo, sino retorno null
+
+//          todito deberia ser un select a la base de datos, si existe me lo quedo, sino retorno null
         for(Product p : products) {
             if(p.getEan().equals(product.getEan())) {
                 return p;
