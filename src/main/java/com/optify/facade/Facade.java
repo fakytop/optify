@@ -19,7 +19,7 @@ public class Facade {
     private UserService userService;
     @Autowired
     private StoreService storeService;
-
+    @Aut
     private Facade() {}
 
     // Métodos referidos al usuario.
