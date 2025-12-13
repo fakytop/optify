@@ -16,7 +16,7 @@ public class CategoryService {
 
     public Category addCategory(Category category) throws DataException {
         if(categoryRepository.findByName(category.getName()).isPresent()) {
-            throw new DataException("[DataException] Ya existe una categoría con ese nombre.");
+            throw new DataException("[DataException] Ya existe la categoría: {" + category.getName() + "}");
         }
 
         return categoryRepository.save(category);
@@ -24,7 +24,7 @@ public class CategoryService {
 
      public Category updateCategory(Category category) throws DataException {
         if(!categoryRepository.findByName(category.getName()).isPresent()) {
-            throw new DataException("[DataException] No se encontró la categoría seleccionada.");
+            throw new DataException("[DataException] No existe la categoría con nombre: {" + category.getName() + "}");
         }
         Category updatedCategory = categoryRepository.findByName(category.getName()).get();
         updatedCategory.setName(category.getName());
@@ -39,7 +39,7 @@ public class CategoryService {
 
      public Category getCategoryByName(String name) throws DataException {
         if(!categoryRepository.findByName(name).isPresent()) {
-            throw new DataException("[DataException] No existe la categoría.");
+            throw new DataException("[DataException] No existe la categoría con nombre: {" + name + "}");
         }
 
         return categoryRepository.findByName(name).get();
@@ -47,9 +47,16 @@ public class CategoryService {
 
      public void deleteCategoryByName(String name) throws DataException {
         if(!categoryRepository.findByName(name).isPresent()) {
-            throw new DataException("[DataException] No existe la categoría seleccionada.");
+            throw new DataException("[DataException] No existe la categoría con nombre: {" + name + "}");
         }
 
         categoryRepository.delete(categoryRepository.findByName(name).get());
+     }
+
+     public Category getCategoryById(int id) throws DataException {
+        if(!categoryRepository.findById(id).isPresent()) {
+            throw new DataException("[DataException] No existe la categoría con id: {" + id + "}");
+        }
+        return categoryRepository.findById(id).get();
      }
 }

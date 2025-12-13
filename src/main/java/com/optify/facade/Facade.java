@@ -1,9 +1,11 @@
 package com.optify.facade;
 
+import com.optify.domain.Category;
 import com.optify.domain.Store;
 import com.optify.domain.User;
 import com.optify.exceptions.AuthenticationException;
 import com.optify.exceptions.DataException;
+import com.optify.services.CategoryService;
 import com.optify.services.StoreService;
 import com.optify.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,9 @@ public class Facade {
     private UserService userService;
     @Autowired
     private StoreService storeService;
-    @Aut
+    @Autowired
+    private CategoryService categoryService;
+
     private Facade() {}
 
     // Métodos referidos al usuario.
@@ -51,4 +55,29 @@ public class Facade {
     public void addUrlCategoryByRut(long rut, String category) throws DataException {
         storeService.addUrlCategoryToStore(rut,category);
     }
+
+    public Category addCategory(Category category) throws DataException {
+        return categoryService.addCategory(category);
+    }
+
+    public Category updateCategory(Category category) throws DataException {
+        return categoryService.updateCategory(category);
+    }
+
+    public List<Category> getAllCategories() {
+        return categoryService.getAllCategories();
+    }
+
+    public void deleteCategoryByName(String name) throws DataException {
+        categoryService.deleteCategoryByName(name);
+    }
+
+    public Category getCategoryByName(String name) throws DataException {
+        return categoryService.getCategoryByName(name);
+    }
+
+    public Category getCategoryById(int id) throws DataException {
+        return categoryService.getCategoryById(id);
+    }
+
 }
