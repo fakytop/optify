@@ -5,6 +5,7 @@ import com.optify.domain.User;
 import com.optify.exceptions.AuthenticationException;
 import com.optify.exceptions.DataException;
 import com.optify.facade.Facade;
+import com.optify.services.CategoryService;
 import com.optify.services.StoreService;
 import com.optify.utilities.Console;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class ConsoleView {
     private Facade instance;
     @Autowired
     private StoreService storeService;
+    @Autowired
+    private CategoryService categoryService;
 
     public ConsoleView() {
     }
@@ -39,15 +42,20 @@ public class ConsoleView {
         System.out.println("======================");
 
         ArrayList<String> options = new ArrayList();
-        options.add("Salir");
-        options.add("Registrarse");
-        options.add("Iniciar Sesión");
-        options.add("Agregar Tienda");
-        options.add("Actualizar Tienda");
-        options.add("Ver todas las tiendas");
-        options.add("Buscar super por RUT");
-        options.add("Agregar Categoria");
-
+        options.add("» Salir");
+        options.add("+ Registrarse");
+        options.add("> Iniciar Sesión");
+        options.add("+ Agregar Supermercado");
+        options.add("~ Actualizar Supermercado");
+        options.add("> Ver todos los Supermercados");
+        options.add("> Buscar Supermercado por RUT");
+        options.add("+ Agregar URL Categoria");
+        options.add("+ Nueva Categoría");
+        options.add("~ Actualizar Categoría");
+        options.add("- Borrar Categoria");
+        options.add("> Ver todas las categorías");
+        options.add("> Ver categorías por nombre");
+        options.add("> Ver categorías por id");
         return Console.menu(options);
     }
 
@@ -79,12 +87,56 @@ public class ConsoleView {
                 break;
             case 7:
                 this.addCategoryUrlToStore();
+                break;
+            case 8:
+                this.addNewCategory();
+                break;
+            case 9:
+                this.updateCategory();
+                break;
+            case 10:
+                this.deleteCategory();
+                break;
+            case 11:
+                this.listAllCategories();
+                break;
+            case 12:
+                this.getCategoryByName();
+                break;
+            case 13:
+                this.getCategoryById();
+                break;
         }
         return exit;
     }
 
+    private void getCategoryById() {
+    }
+
+    private void getCategoryByName() {
+        
+    }
+
+    private void listAllCategories() {
+        
+    }
+
+    private void deleteCategory() {
+        
+    }
+
+    private void updateCategory() {
+        
+    }
+
+    private void addNewCategory() {
+        Console.println("*Agregar Nueva Categoria**");
+        Console.println("==========================");
+        
+    }
+
     private void addCategoryUrlToStore() {
-        Console.println("***Agregar Category Url***");
+        Console.println("**Agregar Categoria Url***");
         Console.println("==========================");
 
         long rut = Console.readLong("Ingrese RUT del super: ");
