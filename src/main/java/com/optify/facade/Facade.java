@@ -1,18 +1,14 @@
 package com.optify.facade;
 
-import com.optify.domain.Category;
-import com.optify.domain.Store;
-import com.optify.domain.User;
+import com.optify.domain.*;
+import com.optify.dto.ProductDto;
 import com.optify.exceptions.AuthenticationException;
 import com.optify.exceptions.DataException;
-import com.optify.services.CategoryService;
-import com.optify.services.StoreService;
-import com.optify.services.UserService;
+import com.optify.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class Facade {
@@ -23,6 +19,13 @@ public class Facade {
     private StoreService storeService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private StoreProductService storeProductService;
+
+    @Autowired
+    private DataImportService dataImportService;
 
     private Facade() {}
 
@@ -48,8 +51,8 @@ public class Facade {
         return storeService.getAllStores();
     }
 
-    public Store getStoreByRut(long rut) {
-        return storeService.getStoreByRut(rut).get();
+    public Store getStoreByRut(long rut) throws DataException {
+        return storeService.getStoreByRut(rut);
     }
 
     public void addUrlCategoryByRut(long rut, String category) throws DataException {
@@ -80,4 +83,27 @@ public class Facade {
         return categoryService.getCategoryById(id);
     }
 
+    public Product getProductByEan(String ean) throws DataException {
+        return productService.getProductByEan(ean);
+    }
+
+    public Product getProductByName(String name) throws DataException {
+        return productService.getProductByName(name);
+    }
+
+    public StoreProduct saveStoreProduct(StoreProduct storeProduct) throws DataException {
+        return storeProductService.addOrUpdateStoreProduct(storeProduct);
+    }
+
+    public Product addProduct(Product product) throws DataException {
+        return productService.addProduct(product);
+    }
+
+    public void importProductFromStoreData(ProductDto dto) throws DataException {
+        dataImportService.importProductFromStoreData(dto);
+    }
+
+    public void importProductsBatch(List<ProductDto> dtos) throws DataException {
+        dataImportService.importProductsBatch(dtos);
+    }
 }

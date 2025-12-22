@@ -1,9 +1,7 @@
 package com.optify.domain;
 
 import com.optify.exceptions.AuthenticationException;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -16,12 +14,32 @@ public class User {
     private String eMail;
     private String password;
 //    private City city;
-//    private Cart cart = new Cart();
-//    private Store preferredStore;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Cart cart;
+    @ManyToOne
+    @JoinColumn(name = "preferred_store_rut")
+    private Store preferredStore;
     private int preferredDay;
 
-    public User() {
+    public int getPreferredDay() {
+        return preferredDay;
+    }
 
+    public void setPreferredDay(int preferredDay) {
+        this.preferredDay = preferredDay;
+    }
+
+    public Store getPreferredStore() {
+        return preferredStore;
+    }
+
+    public void setPreferredStore(Store preferredStore) {
+        this.preferredStore = preferredStore;
+    }
+
+    public User() {
+        this.cart = new Cart();
+        cart.setUser(this);
     }
 
     public String getPassword() {
@@ -72,18 +90,25 @@ public class User {
         this.eMail = eMail;
     }
 
-//    public City getCity() {
-//      return city;
-//    }
-
-//    public void setCity(City city) {
-//        this.city = city;
-//    }
-
     public void validPassword() throws AuthenticationException {
         if(password.length() < 8) {
             throw new AuthenticationException("[Authentication] La contraseña no cumple con los requisitos minimos.");
         }
 
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "ci=" + ci +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", eMail='" + eMail + '\'' +
+                ", password='" + password + '\'' +
+                ", cart=" + cart +
+                ", preferredStore=" + preferredStore +
+                ", preferredDay=" + preferredDay +
+                '}';
     }
 }

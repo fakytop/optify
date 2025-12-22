@@ -21,6 +21,15 @@ public class Store {
     @Column(name = "category_url")
     private List<String> urlCategories = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return "Store{" +
+                "rut=" + rut +
+                ", name='" + name + '\'' +
+                ", fantasyName='" + fantasyName + '\'' +
+                '}';
+    }
+
     public List<String> getUrlCategories() {
         return urlCategories;
     }

@@ -37,9 +37,9 @@ public class CategoryService {
         return categoryRepository.findAll();
      }
 
-     public Category getCategoryByName(String name) throws DataException {
+     public Category getCategoryByName(String name) {
         if(!categoryRepository.findByName(name).isPresent()) {
-            throw new DataException("[DataException] No existe la categoría con nombre: {" + name + "}");
+            return null;
         }
 
         return categoryRepository.findByName(name).get();

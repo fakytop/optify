@@ -1,8 +1,6 @@
 package com.optify.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 
@@ -17,7 +15,17 @@ public class Product {
     private String description;
     private String brand;
     private String imageUrl;
-    //private Category category;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public Product() {
     }
@@ -77,12 +85,4 @@ public class Product {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-
-//    public Category getCategory() {
-//        return category;
-//    }
-
-//    public void setCategory(Category category) {
-//        this.category = category;
-//    }
 }

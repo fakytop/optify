@@ -32,22 +32,6 @@ public class StoreProduct {
         this.id = new StoreProductPk();
     }
 
-    public long getStoreRut() {
-        return this.id.getStoreRut();
-    }
-
-    public void setStoreRut(long storeRut) {
-        this.id.setStoreRut(storeRut);
-    }
-
-    public String getProductEan() {
-        return this.id.getProductEan();
-    }
-
-    public void setProductEan(String productEan) {
-        this.id.setProductEan(productEan);
-    }
-
     public String getUrlProduct() {
         return urlProduct;
     }
@@ -62,6 +46,7 @@ public class StoreProduct {
 
     public void setProduct(Product product) {
         this.product = product;
+        this.id.setProductEan(product.getEan());
     }
 
     public Store getStore() {
@@ -70,6 +55,7 @@ public class StoreProduct {
 
     public void setStore(Store store) {
         this.store = store;
+        this.id.setStoreRut(store.getRut());
     }
 
     public double getPrice() {
@@ -102,5 +88,17 @@ public class StoreProduct {
 
     public void setPriceValidUntil(Timestamp priceValidUntil) {
         this.priceValidUntil = priceValidUntil;
+    }
+
+    public StoreProductPk getId() {
+        return this.id;
+    }
+
+    public String getProductEan() {
+        return this.id.getProductEan();
+    }
+
+    public long getStoreRut() {
+        return this.id.getStoreRut();
     }
 }

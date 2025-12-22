@@ -1,7 +1,6 @@
 package com.optify.views;
 
-import com.optify.domain.Store;
-import com.optify.domain.User;
+import com.optify.domain.*;
 import com.optify.exceptions.AuthenticationException;
 import com.optify.exceptions.DataException;
 import com.optify.facade.Facade;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static com.optify.utilities.Console.*;
@@ -21,10 +21,6 @@ public class ConsoleView {
 
     @Autowired
     private Facade instance;
-    @Autowired
-    private StoreService storeService;
-    @Autowired
-    private CategoryService categoryService;
 
     public ConsoleView() {
     }
@@ -38,24 +34,16 @@ public class ConsoleView {
     }
 
     public int printMenu() {
-        System.out.println("***      MENU      ***");
-        System.out.println("======================");
+        System.out.println("╔═══════════════════════════╗");
+        System.out.println("║    MENU                   ║");
+        System.out.println("╚═══════════════════════════╝");
 
         ArrayList<String> options = new ArrayList();
         options.add("» Salir");
         options.add("+ Registrarse");
         options.add("> Iniciar Sesión");
         options.add("+ Agregar Supermercado");
-        options.add("~ Actualizar Supermercado");
-        options.add("> Ver todos los Supermercados");
-        options.add("> Buscar Supermercado por RUT");
-        options.add("+ Agregar URL Categoria");
-        options.add("+ Nueva Categoría");
-        options.add("~ Actualizar Categoría");
-        options.add("- Borrar Categoria");
-        options.add("> Ver todas las categorías");
-        options.add("> Ver categorías por nombre");
-        options.add("> Ver categorías por id");
+        options.add("+ Agregar Nuevo Producto");
         return Console.menu(options);
     }
 
@@ -77,134 +65,104 @@ public class ConsoleView {
                 this.addStore();
                 break;
             case 4:
-                this.updateStore();
-                break;
-            case 5:
-                this.readStores();
-                break;
-            case 6:
-                this.findStoreByRut();
-                break;
-            case 7:
-                this.addCategoryUrlToStore();
-                break;
-            case 8:
-                this.addNewCategory();
-                break;
-            case 9:
-                this.updateCategory();
-                break;
-            case 10:
-                this.deleteCategory();
-                break;
-            case 11:
-                this.listAllCategories();
-                break;
-            case 12:
-                this.getCategoryByName();
-                break;
-            case 13:
-                this.getCategoryById();
+                this.saveProductStore();
                 break;
         }
         return exit;
     }
 
-    private void getCategoryById() {
-    }
-
-    private void getCategoryByName() {
-        
-    }
-
-    private void listAllCategories() {
-        
-    }
-
-    private void deleteCategory() {
-        
-    }
-
-    private void updateCategory() {
-        
-    }
-
-    private void addNewCategory() {
-        Console.println("*Agregar Nueva Categoria**");
-        Console.println("==========================");
-        
-    }
-
-    private void addCategoryUrlToStore() {
-        Console.println("**Agregar Categoria Url***");
-        Console.println("==========================");
-
-        long rut = Console.readLong("Ingrese RUT del super: ");
-        boolean finish = false;
-        Console.println("Agregue la url deseada, digite 0 para terminar.");
-        while(!finish) {
-            String url = Console.read("Categoria url: ");
-            if("0".equals(url)) {
-                finish = true;
-            } else {
-                try {
-                    storeService.addUrlCategoryToStore(rut,url);
-                } catch (DataException e) {
-                    println(e.getMessage());
-                    finish = true;
-                }
-            }
-        }
-    }
-
-    private void findStoreByRut() {
-        Console.println("***Encontrar por RUT**");
-        Console.println("======================");
-
-        Store store = instance.getStoreByRut(readLong("Indique el rut del super: "));
-        printStoreData(store);
-    }
-
-    private void readStores() {
-        Console.println("***Todas las Tiendas**");
-        Console.println("======================");
-
-        List<Store> sotores = instance.getAllStores();
-
-        for(Store store : sotores) {
-            printStoreData(store);
-        }
-    }
-
-    private void printStoreData(Store store) {
-        Console.println("Super: {RUT: " + store.getRut()
-                + ", Nombre: " + store.getName()
-                + ", Nombre Fantasía: " + store.getFantasyName()
-                + ", Url: " + store.getHomePage()
-                + "}");
-    }
-
-
-    private void updateStore() {
-        Console.println("***Actualizar Tienda**");
-        Console.println("======================");
-
-        Store store = new Store();
-        store.setRut(Console.readLong("RUT: "));
-        store.setName(Console.read("Nombre: "));
-        store.setFantasyName(Console.read("Nombre Fantasía: "));
-        store.setHomePage(Console.read("Home Page: "));
-
+    private boolean findProduct(Product product) {
+        String ean = Console.read("Ingrese el código de barras: ");
         try {
-            instance.updateStore(store);
+            product = instance.getProductByEan(ean);
+            return true;
+        } catch (DataException e) {
+            Console.println(e.getMessage());
+        }
+        String name = Console.read("Ingrese el nombre del producto: ");
+        try {
+            product = instance.getProductByName(name);
+            return true;
+        } catch (DataException e) {
+            Console.println(e.getMessage());
+        }
+        product.setEan(ean);
+        product.setName(name);
+        return false;
+    }
+
+    private void saveProduct(Product product) {
+        product.setGtin(Console.read("Ingrese Gtin: "));
+        product.setDescription(Console.read("Ingrese Descripcion: "));
+        product.setImageUrl(Console.read("Ingrese Url de Imagen: "));
+        product.setBrand(Console.read("Ingrese Nombre de Marca: "));
+        Category category = new Category();
+        saveCategory(category);
+        product.setCategory(category);
+        try {
+            instance.addProduct(product);
         } catch (DataException e) {
             Console.println(e.getMessage());
         }
     }
 
+    private void saveCategory(Category category) {
+        String categoryName = null;
+
+        try {
+            categoryName = Console.read("Ingrese Nombre de Categoría: ");
+            category = instance.getCategoryByName(categoryName);
+            return;
+        } catch (DataException e) {
+            Console.println(e.getMessage());
+        }
+
+        category.setName(categoryName);
+        category.setDescription(Console.read("Ingrese descripción de la categoría: "));
+        try {
+            instance.addCategory(category);
+        } catch (DataException ex) {
+            Console.println(ex.getMessage());
+        }
+    }
+
+    private void saveProductStore() {
+        System.out.println("╔═══════════════════════════╗");
+        System.out.println("║ Guardar Producto del Super║");
+        System.out.println("╚═══════════════════════════╝");
+
+        Product product = new Product();
+        boolean productFound = findProduct(product);
+
+        if(!productFound) {
+            saveProduct(product);
+        }
+
+        StoreProduct storeProduct = new StoreProduct();
+        storeProduct.setProduct(product);
+        Store store = null;
+        try {
+            store = instance.getStoreByRut(Console.readLong("Ingrese RUT del supermercado: "));
+            storeProduct.setStore(store);
+        } catch (DataException e) {
+            Console.println(e.getMessage());
+            return;
+        }
+        storeProduct.setUrlProduct(Console.read("Ingrese URL del producto: "));
+        String price = Console.read("Ingrese Precio: $ ");
+        storeProduct.setPrice(Double.parseDouble(price));
+        try {
+            instance.saveStoreProduct(storeProduct);
+        } catch (DataException e) {
+            Console.println(e.getMessage());
+        }
+
+    }
+
     private void addStore() {
-        Console.println("*** Agregar Tienda ***");
-        Console.println("======================");
+        System.out.println("╔═══════════════════════════╗");
+        System.out.println("║    Agregar Supermercado   ║");
+        System.out.println("╚═══════════════════════════╝");
 
         Store store = new Store();
         store.setRut(Console.readLong("RUT: "));
@@ -220,8 +178,9 @@ public class ConsoleView {
     }
 
     private void signIn() {
-        Console.println("***  Registrarse   ***");
-        Console.println("======================");
+        System.out.println("╔═══════════════════════════╗");
+        System.out.println("║    Registrarse            ║");
+        System.out.println("╚═══════════════════════════╝");
 
         User user = new User();
 
@@ -231,6 +190,18 @@ public class ConsoleView {
         user.setLastName(Console.read("Ingrese su apellido: "));
         user.seteMail(Console.read("Ingrese su e-mail de contacto: "));
         user.setPassword(Console.read("Ingrese su contraseña: "));
+        Console.println("Indique el Supermercado de preferencia:");
+
+        List<Store> stores = instance.getAllStores();
+        int option = Console.menu(stores);
+        Store store = instance.getAllStores().get(option);
+        user.setPreferredStore(store);
+
+        Console.println("Indique día preferido de la semana:");
+
+        ArrayList<String> weekDays = getWeekDays();
+        int day = Console.menu(weekDays);
+        user.setPreferredDay(day);
 
         try {
             instance.signIn(user);
@@ -239,19 +210,32 @@ public class ConsoleView {
         }
     }
 
+    private ArrayList<String> getWeekDays() {
+        ArrayList<String> weekDays =  new ArrayList<>();
+        weekDays.add("Domingo");
+        weekDays.add("Lunes");
+        weekDays.add("Martes");
+        weekDays.add("Miércoles");
+        weekDays.add("Jueves");
+        weekDays.add("Viernes");
+        weekDays.add("Sábado");
+        return weekDays;
+    }
+
     private void logIn() {
-        Console.println("*** Iniciar Sesión ***");
-        Console.println("======================");
+        System.out.println("╔═══════════════════════════╗");
+        System.out.println("║    Iniciar Sesión         ║");
+        System.out.println("╚═══════════════════════════╝");
 
         String userName = Console.read("Nombre de Usuario: ");
         String password = Console.read("Contraseña: ");
 
         try {
             User user = instance.logIn(userName,password);
-            Console.println("Sesión iniciada con éxito.");
-            Console.println("Nombre: " + user.getName());
-            Console.println("Apellido: " + user.getLastName());
-            Console.println("Cédula Id: " + user.getCi());
+            Console.println("*******************************");
+            Console.println("* Usuario loggeado con éxito. *");
+            Console.println("*******************************");
+            Console.println(user.toString());
         } catch (AuthenticationException e) {
             Console.println(e.getMessage());
         }

@@ -38,8 +38,11 @@ public class StoreService {
         return storeRepository.findAll();
     }
 
-    public Optional<Store> getStoreByRut(long rut) {
-        return storeRepository.findByRut(rut);
+    public Store getStoreByRut(long rut) throws DataException {
+        if(!storeRepository.findByRut(rut).isPresent()) {
+            throw new DataException("[DataException] No se encontró supermercado con RUT: {" + rut + "}");
+        }
+        return storeRepository.findByRut(rut).get();
     }
 
     @Transactional
