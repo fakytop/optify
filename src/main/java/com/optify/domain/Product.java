@@ -12,6 +12,7 @@ public class Product {
     private String gtin;
     private String sku;
     private String name;
+    @Column(length = 30000)
     private String description;
     private String brand;
     private String imageUrl;
