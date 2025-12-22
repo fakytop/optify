@@ -1,20 +1,16 @@
 package com.optify.views;
 
 import com.optify.domain.*;
+import com.optify.dto.UserDto;
 import com.optify.exceptions.AuthenticationException;
 import com.optify.exceptions.DataException;
 import com.optify.facade.Facade;
-import com.optify.services.CategoryService;
-import com.optify.services.StoreService;
 import com.optify.utilities.Console;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-
-import static com.optify.utilities.Console.*;
 
 @Component
 public class ConsoleView {
@@ -182,29 +178,29 @@ public class ConsoleView {
         System.out.println("║    Registrarse            ║");
         System.out.println("╚═══════════════════════════╝");
 
-        User user = new User();
+        UserDto user = new UserDto();
 
-        user.setCi(Console.readInt("Ingrese su cédula: "));
-        user.setUserName(Console.read("Ingrese su nombre de usuario: "));
-        user.setName(Console.read("Ingrese su nombre: "));
-        user.setLastName(Console.read("Ingrese su apellido: "));
-        user.seteMail(Console.read("Ingrese su e-mail de contacto: "));
-        user.setPassword(Console.read("Ingrese su contraseña: "));
+        user.setUserCi(Console.readInt("Ingrese su cédula: "));
+        user.setUserUsername(Console.read("Ingrese su nombre de usuario: "));
+        user.setUserName(Console.read("Ingrese su nombre: "));
+        user.setUserLastName(Console.read("Ingrese su apellido: "));
+        user.setUserMail(Console.read("Ingrese su e-mail de contacto: "));
+        user.setUserPassword(Console.read("Ingrese su contraseña: "));
         Console.println("Indique el Supermercado de preferencia:");
 
         List<Store> stores = instance.getAllStores();
         int option = Console.menu(stores);
         Store store = instance.getAllStores().get(option);
-        user.setPreferredStore(store);
+        user.setUserPreferredStore(store);
 
         Console.println("Indique día preferido de la semana:");
 
         ArrayList<String> weekDays = getWeekDays();
         int day = Console.menu(weekDays);
-        user.setPreferredDay(day);
+        user.setUserPreferredDay(day);
 
         try {
-            instance.signIn(user);
+            instance.register(user);
         } catch (AuthenticationException e) {
             Console.println(e.getMessage());
         }
@@ -229,9 +225,11 @@ public class ConsoleView {
 
         String userName = Console.read("Nombre de Usuario: ");
         String password = Console.read("Contraseña: ");
-
+        UserDto userDto = new UserDto();
+        userDto.setUserName(userName);
+        userDto.setUserPassword(password);
         try {
-            User user = instance.logIn(userName,password);
+            User user = instance.logIn(userDto);
             Console.println("*******************************");
             Console.println("* Usuario loggeado con éxito. *");
             Console.println("*******************************");

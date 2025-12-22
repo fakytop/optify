@@ -1,5 +1,6 @@
 package com.optify.domain;
 
+import com.optify.dto.UserDto;
 import com.optify.exceptions.AuthenticationException;
 import jakarta.persistence.*;
 
@@ -10,8 +11,8 @@ public class User {
     private long ci;
     private String name;
     private String lastName;
-    private String userName;
-    private String eMail;
+    private String username;
+    private String mail;
     private String password;
 //    private City city;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -74,20 +75,20 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public String geteMail() {
-        return eMail;
+        return mail;
     }
 
     public void seteMail(String eMail) {
-        this.eMail = eMail;
+        this.mail = eMail;
     }
 
     public void validPassword() throws AuthenticationException {
@@ -103,12 +104,23 @@ public class User {
                 "ci=" + ci +
                 ", name='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", userName='" + userName + '\'' +
-                ", eMail='" + eMail + '\'' +
+                ", userName='" + username + '\'' +
+                ", eMail='" + mail + '\'' +
                 ", password='" + password + '\'' +
                 ", cart=" + cart +
                 ", preferredStore=" + preferredStore +
                 ", preferredDay=" + preferredDay +
                 '}';
+    }
+
+    public void setRegisterData(UserDto userDto) {
+        this.name = userDto.getUserName();
+        this.lastName = userDto.getUserLastName();
+        this.username = userDto.getUserUsername();
+        this.ci = userDto.getUserCi();
+        this.mail = userDto.getUserMail();
+        this.password = userDto.getUserPassword();
+        this.preferredStore = userDto.getUserPreferredStore();
+        this.preferredDay = userDto.getUserPreferredDay();
     }
 }

@@ -1,10 +1,10 @@
 package com.optify.services;
 
 import com.optify.domain.User;
+import com.optify.dto.UserDto;
 import com.optify.exceptions.AuthenticationException;
 import com.optify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,19 +16,21 @@ public class UserService {
     private UserRepository userRepository;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public User signIn(User user) throws AuthenticationException {
-        if(user.getCi() == 0) {
+    public User register(UserDto userDto) throws AuthenticationException {
+        if(userDto.getUserCi() == 0) {
             throw new AuthenticationException("[Authentication] Debe ingresar una cédula de identidad válida.");
         }
-        if(userRepository.findByUserName(user.getUserName()).isPresent()) {
-            throw new AuthenticationException("[Authentication] Ya existe el nombre de usuario: " + user.getUserName());
+        if(userRepository.findByUserName(userDto.getUserUsername()).isPresent()) {
+            throw new AuthenticationException("[Authentication] Ya existe el nombre de usuario: " + userDto.getUserUsername());
         }
-        if(userRepository.existsById(user.getCi())) {
+        if(userRepository.existsById(userDto.getUserCi())) {
             throw new AuthenticationException("[Authentication] La cédula de identidad ya está registrada.");
         }
-        if(userRepository.findByeMail(user.geteMail()).isPresent()) {
-            throw new AuthenticationException("[Authentication] Ya existe el e-mail: " + user.geteMail());
+        if(userRepository.findByeMail(userDto.getUserMail()).isPresent()) {
+            throw new AuthenticationException("[Authentication] Ya existe el e-mail: " + userDto.getUserMail());
         }
+        User user = new User();
+        user.setRegisterData(userDto);
         user.validPassword();
 
         String passwordHash = encoder.encode(user.getPassword());
@@ -37,15 +39,15 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User logIn(String userName, String password) throws AuthenticationException {
-        Optional<User> optionalUser = userRepository.findByUserName(userName);
+    public User logIn(UserDto userDto) throws AuthenticationException {
+        Optional<User> optionalUser = userRepository.findByUserName(userDto.getUserName());
 
         if(optionalUser.isEmpty()) {
-            throw new AuthenticationException("[Authentication] No existe el nombre de usuario: " + userName);
+            throw new AuthenticationException("[Authentication] No existe el nombre de usuario: " + userDto.getUserName());
         }
         User user = optionalUser.get();
 
-        if(!encoder.matches(password,user.getPassword())) {
+        if(!encoder.matches(userDto.getUserPassword(),user.getPassword())) {
             throw new AuthenticationException("[Authentication] Clave de usuario incorrecta.");
         }
         return user;

@@ -2,6 +2,7 @@ package com.optify.facade;
 
 import com.optify.domain.*;
 import com.optify.dto.ProductDto;
+import com.optify.dto.UserDto;
 import com.optify.exceptions.AuthenticationException;
 import com.optify.exceptions.DataException;
 import com.optify.services.*;
@@ -30,12 +31,12 @@ public class Facade {
     private Facade() {}
 
     // Métodos referidos al usuario.
-    public User signIn(User user) throws AuthenticationException {
-        return userService.signIn(user);
+    public void register(UserDto userDto) throws AuthenticationException {
+        userService.register(userDto);
     }
 
-    public User logIn(String username, String password) throws AuthenticationException {
-        return userService.logIn(username, password);
+    public User logIn(UserDto userDto) throws AuthenticationException {
+        return userService.logIn(userDto);
     }
 
     //Métodos referidos al supermercado

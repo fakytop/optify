@@ -23,7 +23,7 @@ public class ProductController {
 
         try {
             instance.importProductsBatch(dtos);
-            return ResponseEntity.ok("Productos procesados [" + dtos.size() + "]");
+            return ResponseEntity.ok("[IMPORT] Productos procesados: {" + dtos.size() + "}");
         } catch (DataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
