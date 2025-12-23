@@ -1,13 +1,10 @@
 package com.optify.dto;
 
-import com.optify.domain.Store;
-import org.jspecify.annotations.Nullable;
-
 public class UserDto {
-    private String userName;
+    private String userUsername;
     private String userPassword;
     private long userCi;
-    private String UserUsername;
+    private String userName;
     private String userLastName;
     private String userMail;
     private long userPreferredStore;
@@ -41,11 +38,11 @@ public class UserDto {
     }
 
     public void setUserUsername(String userUsername) {
-        this.UserUsername = userUsername;
+        this.userUsername = userUsername;
     }
 
     public String getUserUsername() {
-        return UserUsername;
+        return userUsername;
     }
 
     public void setUserLastName(String userLastName) {

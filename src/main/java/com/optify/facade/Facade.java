@@ -31,11 +31,11 @@ public class Facade {
     private Facade() {}
 
     // Métodos referidos al usuario.
-    public void register(UserDto userDto) throws AuthenticationException {
+    public void register(UserDto userDto) throws AuthenticationException, DataException {
         userService.register(userDto);
     }
 
-    public User logIn(UserDto userDto) throws AuthenticationException {
+    public String logIn(UserDto userDto) throws AuthenticationException {
         return userService.logIn(userDto);
     }
 

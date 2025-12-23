@@ -83,12 +83,12 @@ public class User {
         this.username = userName;
     }
 
-    public String geteMail() {
+    public String getMail() {
         return mail;
     }
 
-    public void seteMail(String eMail) {
-        this.mail = eMail;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     public void validPassword() throws AuthenticationException {
@@ -113,14 +113,14 @@ public class User {
                 '}';
     }
 
-    public void setRegisterData(UserDto userDto) {
+    public void setRegisterData(UserDto userDto, Store preferredStore) {
         this.name = userDto.getUserName();
         this.lastName = userDto.getUserLastName();
         this.username = userDto.getUserUsername();
         this.ci = userDto.getUserCi();
         this.mail = userDto.getUserMail();
         this.password = userDto.getUserPassword();
-        this.preferredStore = userDto.getUserPreferredStore();
+        this.preferredStore = preferredStore;
         this.preferredDay = userDto.getUserPreferredDay();
     }
 }
