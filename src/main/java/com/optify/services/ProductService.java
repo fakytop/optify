@@ -6,6 +6,8 @@ import com.optify.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
     @Autowired
@@ -22,6 +24,13 @@ public class ProductService {
         }
         return productRepository.save(product);
 
+    }
+
+    public List<Product> getProductsByCategoryId(int categoryId) throws DataException {
+        if(productRepository.findByCategoryId(categoryId).isEmpty()) {
+            throw new DataException("[DataException] No se encontraron productos para la categoría {" + categoryId + "}");
+        }
+        return productRepository.findByCategoryId(categoryId);
     }
 
     public Product getProductByEan(String ean) {

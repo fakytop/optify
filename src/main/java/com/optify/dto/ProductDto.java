@@ -1,5 +1,7 @@
 package com.optify.dto;
 
+import com.optify.domain.Product;
+
 public class ProductDto {
     private String productEan;
     private String productName;
@@ -14,6 +16,17 @@ public class ProductDto {
     private double productPrice;
 
     public ProductDto() {
+    }
+
+    public ProductDto(Product product) {
+        this.productEan = product.getEan();
+        this.productName = product.getName();
+        this.productGtin = product.getGtin();
+        this.productDescription = product.getDescription();
+        this.productImageUrl = product.getImageUrl();
+        this.productBrand = product.getBrand();
+        this.categoryName = product.getCategory().getName();
+        this.categoryDescription = product.getCategory().getDescription();
     }
 
     public String getProductEan() {

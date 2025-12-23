@@ -24,7 +24,6 @@ public class Facade {
     private ProductService productService;
     @Autowired
     private StoreProductService storeProductService;
-
     @Autowired
     private DataImportService dataImportService;
 
@@ -106,5 +105,9 @@ public class Facade {
 
     public void importProductsBatch(List<ProductDto> dtos) throws DataException {
         dataImportService.importProductsBatch(dtos);
+    }
+
+    public List<Product> getProductsByCategoryId(int categoryId) throws DataException {
+        return productService.getProductsByCategoryId(categoryId);
     }
 }
