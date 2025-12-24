@@ -91,11 +91,58 @@ public class User {
         this.mail = mail;
     }
 
-    public void validPassword() throws AuthenticationException {
+    public void validatePassword() throws AuthenticationException {
         if(password.length() < 8) {
             throw new AuthenticationException("[Authentication] La contraseña no cumple con los requisitos minimos.");
         }
 
+        // (?=.*[0-9])       -> Al menos un número
+        // (?=.*[a-z])       -> Al menos una minúscula
+        // (?=.*[A-Z])       -> Al menos una mayúscula
+        // (?=.*[@#$%^&+=!]) -> Al menos un carácter especial
+        // \\S+$             -> Sin espacios en blanco
+        String passwordPattern = "^(?=.*[0-9])" +
+                "(?=.*[a-z])" +
+                "(?=.*[A-Z])" +
+                "(?=.*[@#$%^&+=!])" +
+                "(?=\\S+$).{8,}$";
+        if(!password.matches(passwordPattern)) {
+            throw new AuthenticationException("[Authentication] La contraseña debe incluir mayúsculas, " +
+                    "minúsculas, numeros, caracteres especiales y no puede contener espacios.");
+        }
+
+    }
+
+    public void validateCi() throws AuthenticationException {
+        String ciStr = String.valueOf(ci);
+        if(ciStr.length() < 7 || ciStr.length() > 8) {
+            throw new AuthenticationException("[Authentication] Cédula no válida. Debe incluir el dígito verificador sin puntos ni guiones.");
+        }
+
+        if(ciStr.length() == 7) {
+            ciStr = "0" + ciStr;
+        }
+
+        int verificationDigit = Character.getNumericValue(ciStr.charAt(7));
+        String ciBody = ciStr.substring(0, 7);
+
+        int calculatedDigit = calculateVerificationDigit(ciBody);
+
+        if(verificationDigit != calculatedDigit) {
+            throw new AuthenticationException("[Authentication] El dígito verificador no es correcto.");
+        }
+    }
+
+    private int calculateVerificationDigit(String ciBody) {
+        int[] constants = {2,9,8,7,6,3,4};
+        int sum = 0;
+        for(int i = 0; i < constants.length; i++) {
+            int digit = Character.getNumericValue(ciBody.charAt(i));
+            sum += digit*constants[i] % 10;
+        }
+
+        int modResult = sum % 10;
+        return (modResult == 0) ? 0 : (10 - modResult);
     }
 
     @Override
@@ -113,13 +160,15 @@ public class User {
                 '}';
     }
 
-    public void setRegisterData(UserDto userDto, Store preferredStore) {
+    public void setRegisterData(UserDto userDto, Store preferredStore) throws AuthenticationException {
         this.name = userDto.getUserName();
         this.lastName = userDto.getUserLastName();
         this.username = userDto.getUserUsername();
         this.ci = userDto.getUserCi();
+        validateCi();
         this.mail = userDto.getUserMail();
         this.password = userDto.getUserPassword();
+        validatePassword();
         this.preferredStore = preferredStore;
         this.preferredDay = userDto.getUserPreferredDay();
     }

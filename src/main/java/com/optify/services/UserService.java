@@ -41,7 +41,6 @@ public class UserService {
         User user = new User();
         Store preferredStore = storeService.getStoreByRut(userDto.getUserPreferredStore());
         user.setRegisterData(userDto,preferredStore);
-        user.validPassword();
         String passwordHash = encoder.encode(user.getPassword());
         user.setPassword(passwordHash);
 
