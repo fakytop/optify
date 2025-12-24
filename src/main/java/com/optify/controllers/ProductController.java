@@ -53,8 +53,12 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<?> getProductByName(@PathVariable String name) {
-        List<Product> products = instance.getProductByName(name);
+    @GetMapping("/search")
+    public ResponseEntity<?> searchProductsByName(@RequestParam String term) {
+        List<Product> products = instance.searchProductsByName(term);
+        List<ProductDto> productDtos = products.stream()
+                .map(ProductDto::new)
+                .toList();
+        return ResponseEntity.ok(productDtos);
     }
 }

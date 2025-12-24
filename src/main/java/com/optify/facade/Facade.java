@@ -110,4 +110,8 @@ public class Facade {
     public List<Product> getProductsByCategoryId(int categoryId) throws DataException {
         return productService.getProductsByCategoryId(categoryId);
     }
+
+    public List<Product> searchProductsByName(String term) {
+        return productService.searchProductsByName(term);
+    }
 }

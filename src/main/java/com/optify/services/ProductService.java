@@ -3,7 +3,9 @@ package com.optify.services;
 import com.optify.domain.Product;
 import com.optify.exceptions.DataException;
 import com.optify.repository.ProductRepository;
+import com.optify.specifications.ProductSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,5 +47,10 @@ public class ProductService {
             return null;
         }
         return productRepository.findByName(name).get();
+    }
+
+    public List<Product> searchProductsByName(String term) {
+        Specification<Product> spec = ProductSpecifications.searchByNameMultiWord(term);
+        return productRepository.findAll(spec);
     }
 }
