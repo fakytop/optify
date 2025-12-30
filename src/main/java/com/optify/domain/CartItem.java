@@ -56,4 +56,15 @@ public class CartItem {
     public void setQuant(double quant) {
         this.quant = quant;
     }
+
+    public String getEanProduct() {
+        return product.getEan();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null || getClass() != obj.getClass()) return false;
+        CartItem cartItem = (CartItem)obj;
+        return id.equals(cartItem.id) && getEanProduct().equals(cartItem.getEanProduct());
+    }
 }

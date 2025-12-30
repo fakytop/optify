@@ -91,6 +91,14 @@ public class User {
         this.mail = mail;
     }
 
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void addItemToCart(CartItem cartItem) {
+        cart.addItem(cartItem);
+    }
+
     public void validatePassword() throws AuthenticationException {
         if(password.length() < 8) {
             throw new AuthenticationException("[Authentication] La contraseña no cumple con los requisitos minimos.");

@@ -8,6 +8,7 @@ import com.optify.exceptions.DataException;
 import com.optify.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class Facade {
     private StoreProductService storeProductService;
     @Autowired
     private DataImportService dataImportService;
+    @Autowired
+    private CartService cartService;
 
     private Facade() {}
 
@@ -113,5 +116,9 @@ public class Facade {
 
     public List<Product> searchProductsByName(String term) {
         return productService.searchProductsByName(term);
+    }
+
+    public void addProductToCart(String username, String ean, double quant) throws DataException {
+        cartService.addProductToCart(username, ean, quant);
     }
 }

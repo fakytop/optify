@@ -1,5 +1,6 @@
 package com.optify.domain;
 
+import com.optify.exceptions.DataException;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -37,7 +38,21 @@ public class Cart {
     }
 
     public void addItem(CartItem item) {
-        this.items.add(item);
+        CartItem cartItem = getItem(item);
+        if(cartItem == null) {
+            this.items.add(item);
+            return;
+        }
+        cartItem.setQuant(cartItem.getQuant() + item.getQuant());
+    }
+
+    private CartItem getItem(CartItem item) {
+        for(CartItem cartItem : items) {
+            if(cartItem.equals(item)) {
+                return cartItem;
+            }
+        }
+        return null;
     }
 
     public void removeItem(CartItem item) {
