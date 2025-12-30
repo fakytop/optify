@@ -65,6 +65,6 @@ public class CartItem {
     public boolean equals(Object obj) {
         if(obj == null || getClass() != obj.getClass()) return false;
         CartItem cartItem = (CartItem)obj;
-        return id.equals(cartItem.id) && getEanProduct().equals(cartItem.getEanProduct());
+        return id.equals(cartItem.id);
     }
 }

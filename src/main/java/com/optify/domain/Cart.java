@@ -55,7 +55,11 @@ public class Cart {
         return null;
     }
 
-    public void removeItem(CartItem item) {
+    public void removeItem(CartItem item) throws DataException {
+        if(!items.contains(item)) {
+            throw new DataException("[DataException] El producto ean: " + item.getEanProduct() + "ya no se encuentra en el carrito.");
+        }
+
         this.items.remove(item);
     }
 }

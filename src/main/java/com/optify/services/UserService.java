@@ -20,7 +20,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private StoreService storeService;
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    @Autowired
+    private BCryptPasswordEncoder encoder;
     @Autowired
     private JwtUtil jwtUtil;
 

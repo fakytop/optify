@@ -35,4 +35,19 @@ public class CartService {
 
         userRepository.save(user);
     }
+
+    public void removeProductFromCart(String username, String ean) throws DataException {
+        if(!userRepository.findByUsername(username).isPresent()) {
+            throw new DataException("[DataException] No existe el nombre de usuario: " + username);
+        }
+        if(!productRepository.findByEan(ean).isPresent()) {
+            throw new DataException("[DataException] No se encuentra el producto con código: " + ean);
+        }
+        User user = userRepository.findByUsername(username).get();
+        Product product = productRepository.findByEan(ean).get();
+
+        CartItem cartItem = new CartItem(user.getCart(), product,0);
+        user.removeItemFromCart(cartItem);
+        userRepository.save(user);
+    }
 }

@@ -4,31 +4,34 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
 
-@Component
+// SIN @Component aquí
 public class ApiKeyFilter extends OncePerRequestFilter {
 
-    @Value("${optify.api.key}")
     private String apiKey;
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        String path = request.getRequestURI();
-        if(path.startsWith("/api/")) {
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+
+        String path = request.getServletPath();
+
+        if (path.startsWith("/api/") && !path.contains("/users/")) {
             String requestKey = request.getHeader("X-API-KEY");
-            if(apiKey.equals(requestKey)) {
+            if (apiKey != null && apiKey.trim().equals(requestKey)) {
                 filterChain.doFilter(request, response);
             } else {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("Error: API Key inválida o inexistente.");
+                response.getWriter().write("API Key invalida");
             }
-        } else {
-            filterChain.doFilter(request, response);
+            return;
         }
+        filterChain.doFilter(request, response);
     }
 }

@@ -121,4 +121,8 @@ public class Facade {
     public void addProductToCart(String username, String ean, double quant) throws DataException {
         cartService.addProductToCart(username, ean, quant);
     }
+
+    public void removeProductFromCart(String username, String ean) throws DataException {
+        cartService.removeProductFromCart(username, ean);
+    }
 }

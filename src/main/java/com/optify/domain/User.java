@@ -2,6 +2,7 @@ package com.optify.domain;
 
 import com.optify.dto.UserDto;
 import com.optify.exceptions.AuthenticationException;
+import com.optify.exceptions.DataException;
 import jakarta.persistence.*;
 
 @Entity
@@ -179,5 +180,9 @@ public class User {
         validatePassword();
         this.preferredStore = preferredStore;
         this.preferredDay = userDto.getUserPreferredDay();
+    }
+
+    public void removeItemFromCart(CartItem cartItem) throws DataException {
+        this.cart.removeItem(cartItem);
     }
 }
