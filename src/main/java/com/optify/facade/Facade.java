@@ -3,6 +3,7 @@ package com.optify.facade;
 import com.optify.domain.*;
 import com.optify.dto.ProductDto;
 import com.optify.dto.UserDto;
+import com.optify.dto.UserLoginDto;
 import com.optify.exceptions.AuthenticationException;
 import com.optify.exceptions.DataException;
 import com.optify.services.*;
@@ -37,7 +38,7 @@ public class Facade {
         userService.register(userDto);
     }
 
-    public String logIn(UserDto userDto) throws AuthenticationException {
+    public String logIn(UserLoginDto userDto) throws AuthenticationException {
         return userService.logIn(userDto);
     }
 

@@ -3,6 +3,7 @@ package com.optify.services;
 import com.optify.domain.Store;
 import com.optify.domain.User;
 import com.optify.dto.UserDto;
+import com.optify.dto.UserLoginDto;
 import com.optify.exceptions.AuthenticationException;
 import com.optify.exceptions.DataException;
 import com.optify.repository.UserRepository;
@@ -48,7 +49,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public String logIn(UserDto userDto) throws AuthenticationException {
+    public String logIn(UserLoginDto userDto) throws AuthenticationException {
         Optional<User> optionalUser = userRepository.findByUsername(userDto.getUserUsername());
 
         if(optionalUser.isEmpty()) {

@@ -1,6 +1,7 @@
 package com.optify.controllers;
 
 import com.optify.dto.UserDto;
+import com.optify.dto.UserLoginDto;
 import com.optify.exceptions.AuthenticationException;
 import com.optify.exceptions.DataException;
 import com.optify.facade.Facade;
@@ -19,7 +20,7 @@ public class UserController {
     private Facade instance;
 
     @PostMapping("/login")
-    public ResponseEntity<?> logIn(@RequestBody UserDto userDto) {
+    public ResponseEntity<?> logIn(@RequestBody UserLoginDto userDto) {
         try {
             String token = instance.logIn(userDto);
             return ResponseEntity.ok(token);
