@@ -6,6 +6,7 @@ import com.optify.dto.CategoryDto;
 import com.optify.dto.ProductDto;
 import com.optify.exceptions.DataException;
 import com.optify.facade.Facade;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ public class ProductController {
     @Autowired
     private Facade instance;
 
+    @SecurityRequirement(name = "ApiKeyAuth")
     @PostMapping("/import")
     public ResponseEntity<?> importProducts(@RequestBody List<ProductDto> dtos) {
 
@@ -29,6 +31,7 @@ public class ProductController {
         }
     }
 
+    @SecurityRequirement(name = "ApiKeyAuth")
     @GetMapping("/categories")
     public ResponseEntity<List<CategoryDto>> getCategories() {
         List<Category> categories = instance.getAllCategories();
@@ -39,6 +42,7 @@ public class ProductController {
         return ResponseEntity.ok(categoryDtos);
     }
 
+    @SecurityRequirement(name = "ApiKeyAuth")
     @GetMapping("/category/{id}")
     public ResponseEntity<?> getProductsByCategoryId(@PathVariable int id) {
         try {
@@ -53,6 +57,7 @@ public class ProductController {
         }
     }
 
+    @SecurityRequirement(name = "ApiKeyAuth")
     @GetMapping("/search")
     public ResponseEntity<?> searchProductsByName(@RequestParam String term) {
         List<Product> products = instance.searchProductsByName(term);

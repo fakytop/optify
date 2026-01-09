@@ -2,14 +2,13 @@ package com.optify.facade;
 
 import com.optify.domain.*;
 import com.optify.dto.ProductDto;
-import com.optify.dto.UserDto;
+import com.optify.dto.UserRegisterDto;
 import com.optify.dto.UserLoginDto;
 import com.optify.exceptions.AuthenticationException;
 import com.optify.exceptions.DataException;
 import com.optify.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,8 +33,8 @@ public class Facade {
     private Facade() {}
 
     // Métodos referidos al usuario.
-    public void register(UserDto userDto) throws AuthenticationException, DataException {
-        userService.register(userDto);
+    public void register(UserRegisterDto userRegisterDto) throws AuthenticationException, DataException {
+        userService.register(userRegisterDto);
     }
 
     public String logIn(UserLoginDto userDto) throws AuthenticationException {

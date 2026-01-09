@@ -2,7 +2,7 @@ package com.optify.services;
 
 import com.optify.domain.Store;
 import com.optify.domain.User;
-import com.optify.dto.UserDto;
+import com.optify.dto.UserRegisterDto;
 import com.optify.dto.UserLoginDto;
 import com.optify.exceptions.AuthenticationException;
 import com.optify.exceptions.DataException;
@@ -27,22 +27,22 @@ public class UserService {
     private JwtUtil jwtUtil;
 
     @Transactional(rollbackFor = Exception.class)
-    public User register(UserDto userDto) throws AuthenticationException, DataException {
-        if(userDto.getUserCi() == 0) {
+    public User register(UserRegisterDto userRegisterDto) throws AuthenticationException, DataException {
+        if(userRegisterDto.getUserCi() == 0) {
             throw new AuthenticationException("[Authentication] Debe ingresar una cédula de identidad válida.");
         }
-        if(userRepository.findByUsername(userDto.getUserUsername()).isPresent()) {
-            throw new AuthenticationException("[Authentication] Ya existe el nombre de usuario: " + userDto.getUserUsername());
+        if(userRepository.findByUsername(userRegisterDto.getUserUsername()).isPresent()) {
+            throw new AuthenticationException("[Authentication] Ya existe el nombre de usuario: " + userRegisterDto.getUserUsername());
         }
-        if(userRepository.existsById(userDto.getUserCi())) {
+        if(userRepository.existsById(userRegisterDto.getUserCi())) {
             throw new AuthenticationException("[Authentication] La cédula de identidad ya está registrada.");
         }
-        if(userRepository.findByMail(userDto.getUserMail()).isPresent()) {
-            throw new AuthenticationException("[Authentication] Ya existe el e-mail: " + userDto.getUserMail());
+        if(userRepository.findByMail(userRegisterDto.getUserMail()).isPresent()) {
+            throw new AuthenticationException("[Authentication] Ya existe el e-mail: " + userRegisterDto.getUserMail());
         }
         User user = new User();
-        Store preferredStore = storeService.getStoreByRut(userDto.getUserPreferredStore());
-        user.setRegisterData(userDto,preferredStore);
+        Store preferredStore = storeService.getStoreByRut(userRegisterDto.getUserPreferredStore());
+        user.setRegisterData(userRegisterDto,preferredStore);
         String passwordHash = encoder.encode(user.getPassword());
         user.setPassword(passwordHash);
 

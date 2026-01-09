@@ -2,6 +2,7 @@ package com.optify.controllers;
 
 import com.optify.exceptions.DataException;
 import com.optify.facade.Facade;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,8 @@ public class CartController {
     @Autowired
     private Facade instance;
 
+    @SecurityRequirement(name = "ApiKeyAuth")
+    @SecurityRequirement(name = "BearerAuth")
     @PostMapping("/addProduct")
     public ResponseEntity<?> addProductToCart(Authentication auth, @RequestParam String ean, @RequestParam double quant) {
 
@@ -29,6 +32,8 @@ public class CartController {
         }
     }
 
+    @SecurityRequirement(name = "ApiKeyAuth")
+    @SecurityRequirement(name = "BearerAuth")
     @PostMapping("/removeProduct")
     public ResponseEntity<?> removeProductFromCart(Authentication auth, @RequestParam String ean) {
         try {
@@ -39,6 +44,4 @@ public class CartController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-
 }

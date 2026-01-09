@@ -1,6 +1,6 @@
 package com.optify.domain;
 
-import com.optify.dto.UserDto;
+import com.optify.dto.UserRegisterDto;
 import com.optify.exceptions.AuthenticationException;
 import com.optify.exceptions.DataException;
 import jakarta.persistence.*;
@@ -169,17 +169,17 @@ public class User {
                 '}';
     }
 
-    public void setRegisterData(UserDto userDto, Store preferredStore) throws AuthenticationException {
-        this.name = userDto.getUserName();
-        this.lastName = userDto.getUserLastName();
-        this.username = userDto.getUserUsername();
-        this.ci = userDto.getUserCi();
+    public void setRegisterData(UserRegisterDto userRegisterDto, Store preferredStore) throws AuthenticationException {
+        this.name = userRegisterDto.getUserName();
+        this.lastName = userRegisterDto.getUserLastName();
+        this.username = userRegisterDto.getUserUsername();
+        this.ci = userRegisterDto.getUserCi();
         validateCi();
-        this.mail = userDto.getUserMail();
-        this.password = userDto.getUserPassword();
+        this.mail = userRegisterDto.getUserMail();
+        this.password = userRegisterDto.getUserPassword();
         validatePassword();
         this.preferredStore = preferredStore;
-        this.preferredDay = userDto.getUserPreferredDay();
+        this.preferredDay = userRegisterDto.getUserPreferredDay();
     }
 
     public void removeItemFromCart(CartItem cartItem) throws DataException {

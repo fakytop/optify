@@ -1,10 +1,11 @@
 package com.optify.controllers;
 
-import com.optify.dto.UserDto;
+import com.optify.dto.UserRegisterDto;
 import com.optify.dto.UserLoginDto;
 import com.optify.exceptions.AuthenticationException;
 import com.optify.exceptions.DataException;
 import com.optify.facade.Facade;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ public class UserController {
     @Autowired
     private Facade instance;
 
+    @SecurityRequirement(name = "ApiKeyAuth")
     @PostMapping("/login")
     public ResponseEntity<?> logIn(@RequestBody UserLoginDto userDto) {
         try {
@@ -29,10 +31,11 @@ public class UserController {
         }
     }
 
+    @SecurityRequirement(name = "ApiKeyAuth")
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserDto userDto) {
+    public ResponseEntity<?> register(@RequestBody UserRegisterDto userRegisterDto) {
         try {
-            instance.register(userDto);
+            instance.register(userRegisterDto);
             return ResponseEntity.ok("[REGISTER] Usuario registrado con éxito.");
         } catch (AuthenticationException | DataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

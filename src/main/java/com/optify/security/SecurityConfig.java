@@ -1,5 +1,10 @@
 package com.optify.security;
 
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -65,5 +70,24 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title("Optify API")
+                        .version("1.0")
+                        .description("Documentación de Optify"))
+                .components(new Components()
+                        // Definimos el esquema de API KEY
+                        .addSecuritySchemes("ApiKeyAuth", new SecurityScheme()
+                                .name("X-API-KEY")
+                                .type(SecurityScheme.Type.APIKEY)
+                                .in(SecurityScheme.In.HEADER))
+                        // Definimos el esquema de JWT
+                        .addSecuritySchemes("BearerAuth", new SecurityScheme()
+                                .name("Authorization")
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .bearerFormat("JWT")));
+    }
 }

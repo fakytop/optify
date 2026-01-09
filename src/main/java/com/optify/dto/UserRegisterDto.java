@@ -1,6 +1,6 @@
 package com.optify.dto;
 
-public class UserDto {
+public class UserRegisterDto {
     private String userUsername;
     private String userPassword;
     private long userCi;
@@ -10,7 +10,7 @@ public class UserDto {
     private long userPreferredStore;
     private int userPreferredDay;
 
-    public UserDto() {
+    public UserRegisterDto() {
     }
 
     public String getUserName() {
