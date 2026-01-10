@@ -22,7 +22,7 @@ public class ApiKeyFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
 
-        if (path.startsWith("/api/") && !path.contains("/users/")) {
+        if (path.startsWith("/api/") /*&& !path.contains("/users/")*/) {
             String requestKey = request.getHeader("X-API-KEY");
             if (apiKey != null && apiKey.trim().equals(requestKey)) {
                 filterChain.doFilter(request, response);
