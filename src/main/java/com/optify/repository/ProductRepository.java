@@ -1,6 +1,8 @@
 package com.optify.repository;
 
 import com.optify.domain.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -13,5 +15,5 @@ public interface ProductRepository extends JpaRepository<Product,String>, JpaSpe
     Optional<Product> findByEan(String ean);
     Optional<Product> findByGtin(String gtin);
     Optional<Product> findByName(String name);
-    List<Product> findByCategoryId(int categoryId);
+    Page<Product> findByCategoryId(int categoryId, Pageable pageable);
 }

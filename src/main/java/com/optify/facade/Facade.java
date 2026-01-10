@@ -8,6 +8,8 @@ import com.optify.exceptions.AuthenticationException;
 import com.optify.exceptions.DataException;
 import com.optify.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -110,12 +112,12 @@ public class Facade {
         dataImportService.importProductsBatch(dtos);
     }
 
-    public List<Product> getProductsByCategoryId(int categoryId) throws DataException {
-        return productService.getProductsByCategoryId(categoryId);
+    public Page<Product> getProductsByCategoryId(int categoryId, Pageable pageable) throws DataException {
+        return productService.getProductsByCategoryId(categoryId,pageable);
     }
 
-    public List<Product> searchProductsByName(String term) {
-        return productService.searchProductsByName(term);
+    public Page<Product> searchProductsByName(String term, Pageable pageable) throws DataException {
+        return productService.searchProductsByName(term,pageable);
     }
 
     public void addProductToCart(String username, String ean, double quant) throws DataException {
@@ -136,5 +138,9 @@ public class Facade {
 
     public void subtractUnitProductCart(String username, String ean) throws DataException {
         cartService.subtractUnitProductCart(username,ean);
+    }
+
+    public Page<Product> getAllProducts(Pageable pageable) {
+        return productService.getAllProducts(pageable);
     }
 }
