@@ -19,7 +19,7 @@ public class Store {
             joinColumns = @JoinColumn(name = "store_rut")
     )
     @Column(name = "category_url")
-    private List<String> urlCategories = new ArrayList<>();
+    private List<String> urlCategories;
 
     @Override
     public String toString() {
@@ -30,10 +30,20 @@ public class Store {
                 '}';
     }
 
+    public Store() {
+    }
+
+    public Store(long rut, String name, String fantasyName, String homePage) {
+        this.rut = rut;
+        this.name = name;
+        this.fantasyName = fantasyName;
+        this.homePage = homePage;
+        this.urlCategories = new ArrayList<>();
+    }
+
     public List<String> getUrlCategories() {
         return urlCategories;
     }
-
 
     public String getFantasyName() {
         return fantasyName;

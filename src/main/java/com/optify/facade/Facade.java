@@ -2,6 +2,7 @@ package com.optify.facade;
 
 import com.optify.domain.*;
 import com.optify.dto.ProductDto;
+import com.optify.dto.StoreAddDto;
 import com.optify.dto.UserRegisterDto;
 import com.optify.dto.UserLoginDto;
 import com.optify.exceptions.AuthenticationException;
@@ -62,6 +63,10 @@ public class Facade {
 
     public void addUrlCategoryByRut(long rut, String category) throws DataException {
         storeService.addUrlCategoryToStore(rut,category);
+    }
+
+    public void deleteStore(long rut) throws DataException {
+        storeService.deleteStore(rut);
     }
 
     public Category addCategory(Category category) throws DataException {
