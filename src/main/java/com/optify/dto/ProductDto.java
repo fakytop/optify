@@ -1,5 +1,6 @@
 package com.optify.dto;
 
+import com.optify.domain.CartItem;
 import com.optify.domain.Product;
 
 public class ProductDto {

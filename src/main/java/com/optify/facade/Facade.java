@@ -125,4 +125,16 @@ public class Facade {
     public void removeProductFromCart(String username, String ean) throws DataException {
         cartService.removeProductFromCart(username, ean);
     }
+
+    public List<CartItem> getProductsCart(String username) throws DataException {
+        return cartService.getProductsCart(username);
+    }
+
+    public void addUnitProductCart(String username, String ean) throws DataException {
+        cartService.addUnitProductCart(username,ean);
+    }
+
+    public void subtractUnitProductCart(String username, String ean) throws DataException {
+        cartService.subtractUnitProductCart(username,ean);
+    }
 }
