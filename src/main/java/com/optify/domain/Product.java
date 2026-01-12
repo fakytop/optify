@@ -8,6 +8,9 @@ import java.sql.Timestamp;
 @Table(name = "products")
 public class Product {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Column(unique = true)
     private String ean;
     private String gtin;
     private String sku;
@@ -86,4 +89,13 @@ public class Product {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }

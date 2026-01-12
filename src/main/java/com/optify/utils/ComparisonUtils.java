@@ -1,0 +1,137 @@
+package com.optify.utils;
+
+import com.optify.exceptions.DataException;
+import info.debatty.java.stringsimilarity.Levenshtein;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+public class ComparisonUtils {
+    private static final Levenshtein lev = new Levenshtein();
+    private static Logger logger = LoggerFactory.getLogger(ComparisonUtils.class);
+    //Reparar errores de encoding (Mojibake)
+    public static String repairEncoding(String text) {
+        if(text == null) return null;
+        if(text.contains("Ã") || text.contains("Â")) {
+            return new String(text.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+        }
+        return text;
+    }
+
+    public static String normalize(String text) {
+        if(text == null) return "";
+
+        String temp = text.toLowerCase();
+
+        temp = deleteDiacriticalMarks(temp);
+        temp = separateNumbersFromLetters(temp);
+        temp = cleanMarks(temp);
+        temp = collapseGaps(temp);
+        return temp;
+    }
+
+    public static String deleteDiacriticalMarks(String text) {
+        text = Normalizer.normalize(text, Normalizer.Form.NFD);
+        text = text.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+        return text;
+    }
+
+    public static String separateNumbersFromLetters(String text) {
+        text = text.replaceAll("(\\d+)([a-zA-Z]+)", "$1 $2");
+        text = text.replaceAll("([a-zA-Z]+)(\\d+)", "$1 $2");
+        return text;
+    }
+
+    public static String cleanMarks(String text) {
+        text = text.replaceAll("[\\.\\,\\(\\)\\-\\_\\/]", " ");
+        text = text.replaceAll("[^a-z0-9\\s]", "");
+        return text;
+    }
+
+    public static String collapseGaps(String text) {
+        text = text.replaceAll("\\s+", " ");
+        return text.trim();
+    }
+
+    public static boolean compare(String name1, String name2, boolean retry) throws DataException {
+        logger.debug(String.format("[COMPARAR] name1=%s, name2=%s", name1, name2));
+        if(name1 == null || name2 == null) {
+            throw new DataException("Los nombres no pueden ser nulos. { Name1: " + name1 + "; Name2: " + name2 + "}");
+        }
+        double similarity = 0;
+        similarity = calculateJaccardByWords(name1,name2);
+        logger.debug(String.format("[COMPARANDO x JACCARD] similarity=%f", similarity));
+        if (similarity > 80) {
+            logger.debug("[RESULTADO x JACCARD] ¡Hay Match!");
+            return true;
+        }else if (retry) {
+            similarity = calculateHybridSimilarity(name1,name2);
+            logger.debug(String.format("[COMPARANDO x HIBRIDO] similarity=%f",similarity));
+            if(similarity > 80) {
+                logger.debug("[RESULTADO X HIBRIDO] ¡Hay Match!");
+                return true;
+            } else {
+                //reparar nombre 1 (viene de afuera)
+                String nameRepared = repairEncoding(name1);
+                return compare(nameRepared,name2,false);
+            }
+        } else {
+            logger.debug("[RESULTADO FINAL] No hay match => Crear nuevo producto.");
+            return false;
+        }
+    }
+
+    private static double calculateHybridSimilarity(String name1, String name2) {
+        String[] words1 = normalize(name1).split("\\s+");
+        String[] words2 = normalize(name2).split("\\s+");
+
+        Set<String> set1 = new HashSet<>(Arrays.asList(words1));
+        Set<String> set2 = new HashSet<>(Arrays.asList(words2));
+
+        int coincidences = 0;
+        Set<String> alredyUsedFromSet2 = new HashSet<>();
+        for(String w1 : set1) {
+            for(String w2 : set2) {
+                if(alredyUsedFromSet2.contains(w2)) continue;
+
+                if(w1.equals(w2) || isTooSimilar(w1,w2)) {
+                    coincidences++;
+                    alredyUsedFromSet2.add(w2);
+                    break;
+                }
+            }
+        }
+        int unionSize =set1.size()+ set2.size() - coincidences;
+        return (double) coincidences / unionSize * 100;
+    }
+
+    private static boolean isTooSimilar(String w1, String w2) {
+        if(w1.matches(".*\\d.*") || w2.matches(".*\\d.*")) return w1.equals(w2);
+        if(w1.length() <= 3) return w1.equals(w2);
+        double distance = lev.distance(w1,w2);
+        return distance <= 1;
+    }
+
+
+    private static double calculateJaccardByWords(String name1, String name2) {
+        Set<String> set1 = new HashSet<>(Arrays.asList(normalize(name1).split("\\s+")));
+        Set<String> set2 = new HashSet<>(Arrays.asList(normalize(name2).split("\\s+")));
+
+        //Calcular interseccion (palabras que estan en ambos sets)
+        Set<String> intersection = new HashSet<>(set1);
+        intersection.retainAll(set2);
+
+        //Calcular unión (palabras únicas combinadas)
+        Set<String> union = new HashSet<>(set1);
+        union.addAll(set2);
+
+        //Calcular Jaccard: Interseccion / union
+        if(union.isEmpty()) return 0;
+        return (double) intersection.size() / union.size() * 100;
+    }
+}
