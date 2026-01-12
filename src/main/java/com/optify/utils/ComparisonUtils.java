@@ -10,6 +10,7 @@ import java.text.Normalizer;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ComparisonUtils {
     private static final Levenshtein lev = new Levenshtein();
@@ -27,10 +28,12 @@ public class ComparisonUtils {
         if(text == null) return "";
 
         String temp = text.toLowerCase();
-
         temp = deleteDiacriticalMarks(temp);
         temp = separateNumbersFromLetters(temp);
+        temp = normalizeUnits(temp);
+        temp = normalizeSynonyms(temp);
         temp = cleanMarks(temp);
+        temp = removeStopWords(temp);
         temp = collapseGaps(temp);
         return temp;
     }
@@ -59,29 +62,28 @@ public class ComparisonUtils {
     }
 
     public static boolean compare(String name1, String name2, boolean retry) throws DataException {
-        logger.debug(String.format("[COMPARAR] name1=%s, name2=%s", name1, name2));
         if(name1 == null || name2 == null) {
             throw new DataException("Los nombres no pueden ser nulos. { Name1: " + name1 + "; Name2: " + name2 + "}");
         }
         double similarity = 0;
         similarity = calculateJaccardByWords(name1,name2);
-        logger.debug(String.format("[COMPARANDO x JACCARD] similarity=%f", similarity));
         if (similarity > 80) {
-            logger.debug("[RESULTADO x JACCARD] ¡Hay Match!");
+            logger.debug(String.format("*[RESULTADO x JACCARD]*name1=%s*name2=%s*similarity=%f*resultado=¡Match!", name1, name2,similarity));
             return true;
         }else if (retry) {
+            logger.debug(String.format("*[RESULTADO x JACCARD]*name1=%s*name2=%s*similarity=%f*resultado=¡NO Match!", name1, name2,similarity));
             similarity = calculateHybridSimilarity(name1,name2);
-            logger.debug(String.format("[COMPARANDO x HIBRIDO] similarity=%f",similarity));
             if(similarity > 80) {
-                logger.debug("[RESULTADO X HIBRIDO] ¡Hay Match!");
+                logger.debug(String.format("*[RESULTADO HIBRIDO]*name1=%s*name2=%s*similarity=%f*resultado=¡Match!", name1, name2,similarity));
                 return true;
             } else {
                 //reparar nombre 1 (viene de afuera)
                 String nameRepared = repairEncoding(name1);
+                logger.debug(String.format("*[RESULTADO HIBRIDO]*name1=%s*name2=%s*similarity=%f*resultado=¡NO Match!", name1, name2,similarity));
                 return compare(nameRepared,name2,false);
             }
         } else {
-            logger.debug("[RESULTADO FINAL] No hay match => Crear nuevo producto.");
+            logger.debug(String.format("*[RESULTADO ENCODING]*name1=%s*name2=%s*similarity=%f*resultado=¡NO Match!", name1, name2,similarity));
             return false;
         }
     }
@@ -133,5 +135,32 @@ public class ComparisonUtils {
         //Calcular Jaccard: Interseccion / union
         if(union.isEmpty()) return 0;
         return (double) intersection.size() / union.size() * 100;
+    }
+
+    private static String normalizeUnits(String text) {
+        if (text == null) return null;
+        // Unificar gramos
+        text = text.replaceAll("\\b(gr|grs|gramos|grms)\\b", "g");
+        // Unificar mililitros / litros
+        text = text.replaceAll("\\b(ml|mls|c\\.c\\.|cc)\\b", "ml");
+        text = text.replaceAll("\\b(lts|litros|lt|l)\\b", "l");
+        // Unificar porcentajes (importante para el 0% que vimos en el log)
+        //text = text.replaceAll("%", " porciento");
+        return text;
+    }
+
+    private static final Set<String> STOP_WORDS = new HashSet<>(Arrays.asList(
+            "de", "con", "el", "la", "un", "una", "para", "por", "al", "en", "del"
+    ));
+
+    private static String removeStopWords(String text) {
+        return Arrays.stream(text.split("\\s+"))
+                .filter(word -> !STOP_WORDS.contains(word))
+                .collect(Collectors.joining(" "));
+    }
+
+    private static String normalizeSynonyms(String text) {
+        // Caso específico del mercado uruguayo
+        return text.replaceAll("\\b(dietetico|diet)\\b", "light");
     }
 }

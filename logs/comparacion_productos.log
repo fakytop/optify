@@ -1,0 +1,12 @@
+2026-01-12 09:15:02 - *[RESULTADO x JACCARD]*name1=Dulce de Leche Conaprole Light 440 g*name2=Dulce de leche Conaprole Dietético 0% 440 g*similarity=85.714286*resultado=¡Match!
+2026-01-12 09:15:02 - *[RESULTADO x JACCARD]*name1=Dulce de leche dietético Conaprole 440 gr*name2=Dulce de leche Conaprole Dietético 0% 440 g*similarity=85.714286*resultado=¡Match!
+2026-01-12 09:15:02 - *[RESULTADO x JACCARD]*name1=Dulce Crema de Leche Conaprole 500 g*name2=Dulce de leche Conaprole Dietético 0% 440 g*similarity=44.444444*resultado=¡NO Match!
+2026-01-12 09:15:02 - *[RESULTADO HIBRIDO]*name1=Dulce Crema de Leche Conaprole 500 g*name2=Dulce de leche Conaprole Dietético 0% 440 g*similarity=44.444444*resultado=¡NO Match!
+2026-01-12 09:15:02 - *[RESULTADO ENCODING]*name1=Dulce Crema de Leche Conaprole 500 g*name2=Dulce de leche Conaprole Dietético 0% 440 g*similarity=44.444444*resultado=¡NO Match!
+2026-01-12 09:15:02 - *[RESULTADO x JACCARD]*name1=Dulce de Leche Crema Conaprole 500 g*name2=Dulce Crema de Leche Conaprole 500 g*similarity=100.000000*resultado=¡Match!
+2026-01-12 09:15:02 - *[RESULTADO x JACCARD]*name1=Dulce Crema de Leche Conaprole 500 gr*name2=Dulce Crema de Leche Conaprole 500 g*similarity=100.000000*resultado=¡Match!
+2026-01-12 09:15:02 - *[RESULTADO x JACCARD]*name1=Helado Conaprole Sinfonía Chocolate Holandés Marmolado con Dulce de Leche 2 L*name2=Dulce Crema de Leche Conaprole 500 g*similarity=23.076923*resultado=¡NO Match!
+2026-01-12 09:15:02 - *[RESULTADO HIBRIDO]*name1=Helado Conaprole Sinfonía Chocolate Holandés Marmolado con Dulce de Leche 2 L*name2=Dulce Crema de Leche Conaprole 500 g*similarity=23.076923*resultado=¡NO Match!
+2026-01-12 09:15:02 - *[RESULTADO ENCODING]*name1=Helado Conaprole Sinfonía Chocolate Holandés Marmolado con Dulce de Leche 2 L*name2=Dulce Crema de Leche Conaprole 500 g*similarity=23.076923*resultado=¡NO Match!
+2026-01-12 09:15:02 - *[RESULTADO x JACCARD]*name1=Fideos Espinaca Adria Tirabuzon 500 g*name2=Fideos Espinaca Adria Tirabuzon 500 g*similarity=100.000000*resultado=¡Match!
+2026-01-12 09:15:02 - *[RESULTADO x JACCARD]*name1=Fideos Tirabuzon de Espinaca Adria 500g*name2=Fideos Espinaca Adria Tirabuzon 500 g*similarity=100.000000*resultado=¡Match!
