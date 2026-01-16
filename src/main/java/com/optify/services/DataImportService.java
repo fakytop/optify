@@ -39,7 +39,7 @@ public class DataImportService {
             product = productService.getProductByEan(dto.getProductEan());
         }
         if(product == null) {
-            product = findProductBySimilarName(dto.getProductName());
+            product = findProductBySimilarName(dto);
         }
 
         if(product == null) {
@@ -67,12 +67,20 @@ public class DataImportService {
         storeProductService.addOrUpdateStoreProduct(storeProduct);
     }
 
-    private Product findProductBySimilarName(String productName) throws DataException {
+    private Product findProductBySimilarName(ProductDto productDto) throws DataException {
+        String productName = productDto.getProductName();
+        String brandName = productDto.getProductBrand() != null ? productDto.getProductBrand().toLowerCase().trim() : null;
+
         List<Product> productsCandidates = productService.getSimilarCandidates(productName);
         if(productsCandidates.isEmpty()) {
             return null;
         }
         for(Product product : productsCandidates){
+            String candidateBrand = product.getBrand() != null ? product.getBrand().toLowerCase().trim() : null;
+            if(candidateBrand != null && brandName != null &&  !candidateBrand.equals(brandName)) {
+                continue;
+            }
+
             boolean isSameProduct = ComparisonUtils.compare(productName,product.getName(),true);
             if(isSameProduct) {
                 return product;
