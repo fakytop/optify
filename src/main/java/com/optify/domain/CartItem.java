@@ -14,8 +14,8 @@ public class CartItem {
     private Cart cart;
 
     @ManyToOne
-    @MapsId("productEan")
-    @JoinColumn(name = "product_ean")
+    @MapsId("productId")
+    @JoinColumn(name = "product_id")
     private Product product;
 
     private double quant;
@@ -24,15 +24,15 @@ public class CartItem {
         this.id = new CartItemPk();
     }
 
-    public CartItem(int id, String ean) {
-        this.id = new CartItemPk(id,ean);
+    public CartItem(int id, long productId) {
+        this.id = new CartItemPk(id,productId);
     }
 
     public CartItem(Cart cart, Product product, double quant) {
         this.cart = cart;
         this.product = product;
         this.quant = quant;
-        this.id = new CartItemPk(cart.getId(),product.getEan());
+        this.id = new CartItemPk(cart.getId(),product.getId());
     }
 
     public Cart getCart() {
@@ -50,7 +50,7 @@ public class CartItem {
 
     public void setProduct(Product product) {
         this.product = product;
-        this.id.setProductEan(product.getEan());
+        this.id.setProductId(product.getId());
     }
 
     public double getQuant() {
@@ -61,8 +61,8 @@ public class CartItem {
         this.quant = quant;
     }
 
-    public String getEanProduct() {
-        return product.getEan();
+    public int getIdProduct() {
+        return product.getId();
     }
 
     @Override

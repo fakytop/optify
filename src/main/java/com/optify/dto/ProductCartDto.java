@@ -3,7 +3,7 @@ package com.optify.dto;
 import com.optify.domain.CartItem;
 
 public class ProductCartDto {
-    private String productEan;
+    private int productId;
     private String productName;
     private String productDescription;
     private String productImageUrl;
@@ -16,7 +16,7 @@ public class ProductCartDto {
     }
 
     public ProductCartDto(CartItem cartItem) {
-        this.productEan = cartItem.getProduct().getEan();
+        this.productId = cartItem.getProduct().getId();
         this.productName = cartItem.getProduct().getName();
         this.productDescription = cartItem.getProduct().getDescription();
         this.productImageUrl = cartItem.getProduct().getImageUrl();
@@ -26,12 +26,12 @@ public class ProductCartDto {
         this.quant = cartItem.getQuant();
     }
 
-    public String getProductEan() {
-        return productEan;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setProductEan(String productEan) {
-        this.productEan = productEan;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getProductName() {

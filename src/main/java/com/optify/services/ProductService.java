@@ -33,13 +33,6 @@ public class ProductService {
         return products;
     }
 
-    public Product getProductByEan(String ean) {
-        if(!productRepository.findByEan(ean).isPresent()) {
-            return null;
-        }
-        return productRepository.findByEan(ean).get();
-    }
-
     public Product getProductByName(String name)  {
         if(!productRepository.findByName(name).isPresent()) {
             return null;
@@ -54,6 +47,10 @@ public class ProductService {
             throw new DataException("[SEARCH] No se encontraron productos con la búsqueda especificada.");
         }
         return products;
+    }
+
+    public Product getProductById(int id) {
+        return productRepository.findById(id).get();
     }
 
     public List<Product> getSimilarCandidates(String name) {

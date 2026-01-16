@@ -23,10 +23,16 @@ public class StoreProduct {
     private Product product;
 
     private double price;
-    private double lowPrice;
-    private double highPrice;
-    private Timestamp priceValidUntil;
     private String urlProduct;
+    private long idWeb;
+
+    public long getIdWeb() {
+        return idWeb;
+    }
+
+    public void setIdWeb(long idWeb) {
+        this.idWeb = idWeb;
+    }
 
     public StoreProduct() {
         this.id = new StoreProductPk();
@@ -64,30 +70,6 @@ public class StoreProduct {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public double getLowPrice() {
-        return lowPrice;
-    }
-
-    public void setLowPrice(double lowPrice) {
-        this.lowPrice = lowPrice;
-    }
-
-    public double getHighPrice() {
-        return highPrice;
-    }
-
-    public void setHighPrice(double highPrice) {
-        this.highPrice = highPrice;
-    }
-
-    public Timestamp getPriceValidUntil() {
-        return priceValidUntil;
-    }
-
-    public void setPriceValidUntil(Timestamp priceValidUntil) {
-        this.priceValidUntil = priceValidUntil;
     }
 
     public StoreProductPk getId() {

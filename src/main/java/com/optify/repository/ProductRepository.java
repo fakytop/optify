@@ -14,8 +14,7 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Integer>, JpaSpecificationExecutor<Product> {
-    Optional<Product> findByEan(String ean);
-    Optional<Product> findByGtin(String gtin);
+    Optional<Product> findById(int id);
     Optional<Product> findByName(String name);
     Page<Product> findByCategoryId(int categoryId, Pageable pageable);
     @Query(value = "SELECT * FROM Products p " +

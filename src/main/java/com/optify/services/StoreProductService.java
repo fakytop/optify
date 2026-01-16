@@ -23,4 +23,12 @@ public class StoreProductService {
         return storeProductRepository.save(storeProduct);
     }
 
+    public int getIdProduct(long idWeb, long rut) {
+        if(storeProductRepository.findByIdWebAndStore_Rut(idWeb, rut).isPresent()) {
+            StoreProduct storeProduct = storeProductRepository.findByIdWebAndStore_Rut(idWeb,rut).get();
+            return storeProduct.getId().getProductId();
+        }
+        return -1;
+    }
+
 }

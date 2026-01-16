@@ -93,10 +93,6 @@ public class Facade {
         return categoryService.getCategoryById(id);
     }
 
-    public Product getProductByEan(String ean) throws DataException {
-        return productService.getProductByEan(ean);
-    }
-
     public Product getProductByName(String name) throws DataException {
         return productService.getProductByName(name);
     }
@@ -125,24 +121,24 @@ public class Facade {
         return productService.searchProductsByName(term,pageable);
     }
 
-    public void addProductToCart(String username, String ean, double quant) throws DataException {
-        cartService.addProductToCart(username, ean, quant);
+    public void addProductToCart(String username, int id, double quant) throws DataException {
+        cartService.addProductToCart(username, id, quant);
     }
 
-    public void removeProductFromCart(String username, String ean) throws DataException {
-        cartService.removeProductFromCart(username, ean);
+    public void removeProductFromCart(String username, int id) throws DataException {
+        cartService.removeProductFromCart(username, id);
     }
 
     public List<CartItem> getProductsCart(String username) throws DataException {
         return cartService.getProductsCart(username);
     }
 
-    public void addUnitProductCart(String username, String ean) throws DataException {
-        cartService.addUnitProductCart(username,ean);
+    public void addUnitProductCart(String username, int id) throws DataException {
+        cartService.addUnitProductCart(username,id);
     }
 
-    public void subtractUnitProductCart(String username, String ean) throws DataException {
-        cartService.subtractUnitProductCart(username,ean);
+    public void subtractUnitProductCart(String username, int id) throws DataException {
+        cartService.subtractUnitProductCart(username,id);
     }
 
     public Page<Product> getAllProducts(Pageable pageable) {

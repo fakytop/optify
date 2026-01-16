@@ -1,9 +1,6 @@
 package com.optify.services;
 
-import com.optify.domain.Category;
-import com.optify.domain.Product;
-import com.optify.domain.Store;
-import com.optify.domain.StoreProduct;
+import com.optify.domain.*;
 import com.optify.dto.ProductDto;
 import com.optify.exceptions.DataException;
 import com.optify.utils.ComparisonUtils;
@@ -34,9 +31,13 @@ public class DataImportService {
 
 
     public void importProductFromStoreData(ProductDto dto) throws DataException {
+        Store store = storeService.getStoreByRut(dto.getStoreRut());
         Product product = null;
-        if(dto.getProductEan() != null) {
-            product = productService.getProductByEan(dto.getProductEan());
+        if(dto.getIdWeb() != 0 && store != null) {
+            int id = storeProductService.getIdProduct(dto.getIdWeb(),dto.getStoreRut());
+            if(id != -1){
+                product = productService.getProductById(id);
+            }
         }
         if(product == null) {
             product = findProductBySimilarName(dto);
@@ -51,7 +52,6 @@ public class DataImportService {
             if(category == null) {
                 category = new Category();
                 category.setName(normalizedDiacriticalMarksName);
-                category.setDescription(dto.getCategoryDescription());
                 category = categoryService.addCategory(category);
             }
             product.setCategory(category);
@@ -60,8 +60,8 @@ public class DataImportService {
 
         StoreProduct storeProduct = new StoreProduct();
         storeProduct.setProduct(product);
-        Store store = storeService.getStoreByRut(dto.getStoreRut());
         storeProduct.setStore(store);
+        storeProduct.setIdWeb(dto.getIdWeb());
         storeProduct.setUrlProduct(dto.getUrlProduct());
         storeProduct.setPrice(dto.getProductPrice());
         storeProductService.addOrUpdateStoreProduct(storeProduct);
@@ -81,7 +81,7 @@ public class DataImportService {
                 continue;
             }
 
-            boolean isSameProduct = ComparisonUtils.compare(productName,product.getName(),true);
+            boolean isSameProduct = ComparisonUtils.compare(productName,product.getName());
             if(isSameProduct) {
                 return product;
             }
@@ -90,10 +90,8 @@ public class DataImportService {
     }
 
     private void setProductData(Product product, ProductDto dto) {
-        product.setEan(dto.getProductEan());
         String utfName = ComparisonUtils.repairEncoding(dto.getProductName());
         product.setName(utfName);
-        product.setGtin(dto.getProductGtin());
         product.setDescription(dto.getProductDescription());
         product.setImageUrl(dto.getProductImageUrl());
         product.setBrand(dto.getProductBrand());

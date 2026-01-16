@@ -57,7 +57,7 @@ public class Cart {
 
     public void removeItem(CartItem item) throws DataException {
         if(!items.contains(item)) {
-            throw new DataException("[DataException] El producto ean: " + item.getEanProduct() + "ya no se encuentra en el carrito.");
+            throw new DataException("[DataException] El producto id: " + item.getIdProduct() + "ya no se encuentra en el carrito.");
         }
 
         this.items.remove(item);

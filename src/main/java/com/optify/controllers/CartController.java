@@ -24,12 +24,12 @@ public class CartController {
     @SecurityRequirement(name = "ApiKeyAuth")
     @SecurityRequirement(name = "BearerAuth")
     @PostMapping("/addProduct")
-    public ResponseEntity<?> addProductToCart(Authentication auth, @RequestParam String ean, @RequestParam double quant) {
+    public ResponseEntity<?> addProductToCart(Authentication auth, @RequestParam int id, @RequestParam double quant) {
 
         try {
             String username = auth.getName();
-            instance.addProductToCart(username, ean, quant);
-            return ResponseEntity.ok("[ADDED] Producto agregado: {Codigo Producto: " + ean + ", Cantidad: "+ quant + "}");
+            instance.addProductToCart(username, id, quant);
+            return ResponseEntity.ok("[ADDED] Producto agregado: {Codigo Producto: " + id + ", Cantidad: "+ quant + "}");
         } catch (DataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -38,11 +38,11 @@ public class CartController {
     @SecurityRequirement(name = "ApiKeyAuth")
     @SecurityRequirement(name = "BearerAuth")
     @PostMapping("/removeProduct")
-    public ResponseEntity<?> removeProductFromCart(Authentication auth, @RequestParam String ean) {
+    public ResponseEntity<?> removeProductFromCart(Authentication auth, @RequestParam int id) {
         try {
             String username = auth.getName();
-            instance.removeProductFromCart(username,ean);
-            return ResponseEntity.ok("[DELETED] Producto: "+ ean + " borrado del carrito.");
+            instance.removeProductFromCart(username,id);
+            return ResponseEntity.ok("[DELETED] Producto: "+ id + " borrado del carrito.");
         } catch (DataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -68,11 +68,11 @@ public class CartController {
     @SecurityRequirement(name = "ApiKeyAuth")
     @SecurityRequirement(name = "BearerAuth")
     @PostMapping("/addUnitProductCart")
-    public ResponseEntity<?> addUnitProductCart(Authentication auth, @RequestParam String ean) {
+    public ResponseEntity<?> addUnitProductCart(Authentication auth, @RequestParam int id) {
 
         String username = auth.getName();
         try {
-            instance.addUnitProductCart(username,ean);
+            instance.addUnitProductCart(username,id);
             return ResponseEntity.ok("[CART] Unidad agregada.");
         } catch (DataException e) {
             return  ResponseEntity.badRequest().body(e.getMessage());
@@ -83,11 +83,11 @@ public class CartController {
     @SecurityRequirement(name = "ApiKeyAuth")
     @SecurityRequirement(name = "BearerAuth")
     @PostMapping("/subtractUnitProductCart")
-    public ResponseEntity<?> subtractUnitProductCart(Authentication auth, @RequestParam String ean) {
+    public ResponseEntity<?> subtractUnitProductCart(Authentication auth, @RequestParam int id) {
 
         String username = auth.getName();
         try {
-            instance.subtractUnitProductCart(username,ean);
+            instance.subtractUnitProductCart(username,id);
             return ResponseEntity.ok("[CART] Unidad quitada.");
         } catch (DataException e) {
             return  ResponseEntity.badRequest().body(e.getMessage());

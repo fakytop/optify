@@ -67,42 +67,38 @@ public class ComparisonUtils {
         return text.trim();
     }
 
-    public static boolean compare(String name1, String name2, boolean retry) throws DataException {
+    public static boolean compare(String name1, String name2) throws DataException {
         if(name1 == null || name2 == null) {
             throw new DataException("Los nombres no pueden ser nulos. { Name1: " + name1 + "; Name2: " + name2 + "}");
         }
-        String normalizedName1 = normalize(name1);
-        String normalizedName2 = normalize(name2);
-        if(!haveSameQuantity(normalizedName1,normalizedName2)) {
+
+        String nameRepared1 = repairEncoding(normalize(name1));
+        String nameRepared2 = repairEncoding(normalize(name2));
+
+        if(!haveSameQuantity(nameRepared1,nameRepared2)) {
             logger.info("[CANTIDAD DIFERENTE] {} vs {} -> Rechazado", name1, name2);
             return false;
         }
 
-        if(!haveSameCategoryKeywords(normalizedName1,normalizedName2)) {
+        if(!haveSameCategoryKeywords(nameRepared1,nameRepared2)) {
             logger.info("[CATEGORIA DIFERENTE] {} vs {} -> Rechazado", name1, name2);
             return false;
         }
-
         double similarity = 0;
-        similarity = calculateJaccardByWords(normalizedName1,normalizedName2);
+        similarity = calculateJaccardByWords(nameRepared1,nameRepared2);
         if (similarity > 90) {
             logger.debug(String.format("*[RESULTADO x JACCARD]*name1=%s*name2=%s*similarity=%f*resultado=¡Match!", name1, name2,similarity));
             return true;
-        }else if (retry) {
-            logger.debug(String.format("*[RESULTADO x JACCARD]*name1=%s*name2=%s*similarity=%f*resultado=¡NO Match!", name1, name2,similarity));
-            similarity = calculateHybridSimilarity(normalizedName1,normalizedName2);
-            if(similarity > 80) {
-                logger.debug(String.format("*[RESULTADO HIBRIDO]*name1=%s*name2=%s*similarity=%f*resultado=¡Match!", name1, name2,similarity));
+        }else {
+            logger.debug(String.format("*[RESULTADO x JACCARD]*name1=%s*name2=%s*similarity=%f*resultado=¡NO Match!", name1, name2, similarity));
+            similarity = calculateHybridSimilarity(nameRepared1, nameRepared2);
+            if (similarity > 80) {
+                logger.debug(String.format("*[RESULTADO HIBRIDO]*name1=%s*name2=%s*similarity=%f*resultado=¡Match!", name1, name2, similarity));
                 return true;
             } else {
-                //reparar nombre 1 (viene de afuera)
-                String nameRepared = repairEncoding(normalizedName1);
-                logger.debug(String.format("*[RESULTADO HIBRIDO]*name1=%s*name2=%s*similarity=%f*resultado=¡NO Match!", name1, name2,similarity));
-                return compare(nameRepared,normalizedName2,false);
+                logger.debug(String.format("*[RESULTADO ENCODING]*name1=%s*name2=%s*similarity=%f*resultado=¡NO Match!", name1, name2, similarity));
+                return false;
             }
-        } else {
-            logger.debug(String.format("*[RESULTADO ENCODING]*name1=%s*name2=%s*similarity=%f*resultado=¡NO Match!", name1, name2,similarity));
-            return false;
         }
     }
 

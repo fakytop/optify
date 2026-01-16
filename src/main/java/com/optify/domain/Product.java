@@ -11,9 +11,6 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(unique = true)
-    private String ean;
-    private String gtin;
-    private String sku;
     private String name;
     @Column(length = 30000)
     private String description;
@@ -32,30 +29,6 @@ public class Product {
     }
 
     public Product() {
-    }
-
-    public String getEan() {
-        return ean;
-    }
-
-    public void setEan(String ean) {
-        this.ean = ean;
-    }
-
-    public String getGtin() {
-        return gtin;
-    }
-
-    public void setGtin(String gtin) {
-        this.gtin = gtin;
-    }
-
-    public String getSku() {
-        return sku;
-    }
-
-    public void setSku(String sku) {
-        this.sku = sku;
     }
 
     public String getName() {
@@ -98,4 +71,9 @@ public class Product {
         this.id = id;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        Product prod =  (Product) obj;
+        return prod.getId() == id;
+    }
 }
