@@ -46,7 +46,7 @@ public class Cart {
         cartItem.setQuant(cartItem.getQuant() + item.getQuant());
     }
 
-    private CartItem getItem(CartItem item) {
+    public CartItem getItem(CartItem item) {
         for(CartItem cartItem : items) {
             if(cartItem.equals(item)) {
                 return cartItem;

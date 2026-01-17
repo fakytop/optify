@@ -5,6 +5,8 @@ import com.optify.exceptions.DataException;
 import com.optify.repository.ProductRepository;
 import com.optify.specifications.ProductSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -31,11 +33,16 @@ public class ProductService {
 
     }
 
-    public List<Product> getProductsByCategoryId(int categoryId) throws DataException {
-        if(productRepository.findByCategoryId(categoryId).isEmpty()) {
+    public Page<Product> getAllProducts(Pageable pageable) {
+        return productRepository.findAll(pageable);
+    }
+
+    public Page<Product> getProductsByCategoryId(int categoryId, Pageable pageable) throws DataException {
+        Page<Product> products = productRepository.findByCategoryId(categoryId, pageable);
+        if(products.isEmpty()) {
             throw new DataException("[DataException] No se encontraron productos para la categoría {" + categoryId + "}");
         }
-        return productRepository.findByCategoryId(categoryId);
+        return products;
     }
 
     public Product getProductByEan(String ean) {
@@ -52,8 +59,12 @@ public class ProductService {
         return productRepository.findByName(name).get();
     }
 
-    public List<Product> searchProductsByName(String term) {
+    public Page<Product> searchProductsByName(String term, Pageable pageable) throws DataException {
         Specification<Product> spec = ProductSpecifications.searchByNameMultiWord(term);
-        return productRepository.findAll(spec);
+        Page<Product> products = productRepository.findAll(spec,pageable);
+        if(products.isEmpty()) {
+            throw new DataException("[SEARCH] No se encontraron productos con la búsqueda especificada.");
+        }
+        return products;
     }
 }

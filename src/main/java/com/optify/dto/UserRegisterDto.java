@@ -1,13 +1,25 @@
 package com.optify.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class UserRegisterDto {
     private String userUsername;
+    @Schema(description = "Contraseña: Debe tener al menos 1 mayúscula, 1 mínuscula, 1 número, sin espacios y un carácter especial {@#$%^&+=!}",
+    example = "Admin1234!",
+    minLength = 8,
+    format = "password")
     private String userPassword;
+    @Schema(description = "Cédula de identidad: Sin puntos ni guiones, incluye dígito verificador.",
+            example = "5042053-7 => 50420537")
     private long userCi;
     private String userName;
     private String userLastName;
     private String userMail;
+    @Schema(description = "Rut de la tienda preferida.")
     private long userPreferredStore;
+    @Schema(description = "Día de la semana: indicar el día de la semana preferido para hacer sus compras.",
+    minimum = "0 - Domingo",
+    maximum = "6 - Sábado")
     private int userPreferredDay;
 
     public UserRegisterDto() {

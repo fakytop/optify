@@ -24,6 +24,10 @@ public class CartItem {
         this.id = new CartItemPk();
     }
 
+    public CartItem(int id, String ean) {
+        this.id = new CartItemPk(id,ean);
+    }
+
     public CartItem(Cart cart, Product product, double quant) {
         this.cart = cart;
         this.product = product;
