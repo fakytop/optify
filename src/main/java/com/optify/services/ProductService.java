@@ -15,6 +15,9 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
     public Product addProduct(Product product) throws DataException {
         if(productRepository.findByEan(product.getEan()).isPresent()
                 || productRepository.findByGtin(product.getGtin()).isPresent()) {

@@ -33,6 +33,12 @@ public class Facade {
     private Facade() {}
 
     // Métodos referidos al usuario.
+
+
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
+    }
+
     public void register(UserRegisterDto userRegisterDto) throws AuthenticationException, DataException {
         userService.register(userRegisterDto);
     }

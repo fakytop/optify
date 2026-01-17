@@ -20,6 +20,15 @@ public class ProductController {
     private Facade instance;
 
     @SecurityRequirement(name = "ApiKeyAuth")
+    @GetMapping("/all")
+    public ResponseEntity<List<ProductDto>> getAllProducts() {
+        List<Product> products = instance.getAllProducts();
+        List<ProductDto> productDtos = products.stream()
+                .map(ProductDto::new)
+                .toList();
+        return ResponseEntity.ok(productDtos);
+    }
+    @SecurityRequirement(name = "ApiKeyAuth")
     @PostMapping("/import")
     public ResponseEntity<?> importProducts(@RequestBody List<ProductDto> dtos) {
 
