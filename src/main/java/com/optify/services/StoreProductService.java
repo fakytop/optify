@@ -14,13 +14,21 @@ public class StoreProductService {
 
     public StoreProduct findById(StoreProductPk id) throws DataException {
         if(!storeProductRepository.findById(id).isPresent()) {
-            throw new DataException("[DataException] No se encontró el producto { ean: " + id.getProductEan() + "; rut: " + id.getStoreRut() + "}");
+            throw new DataException("[DataException] No se encontró el producto { ean: " + id.getProductId() + "; rut: " + id.getStoreRut() + "}");
         }
         return storeProductRepository.findById(id).get();
     }
 
     public StoreProduct addOrUpdateStoreProduct(StoreProduct storeProduct) {
         return storeProductRepository.save(storeProduct);
+    }
+
+    public int getIdProduct(long idWeb, long rut) {
+        if(storeProductRepository.findByIdWebAndStore_Rut(idWeb, rut).isPresent()) {
+            StoreProduct storeProduct = storeProductRepository.findByIdWebAndStore_Rut(idWeb,rut).get();
+            return storeProduct.getId().getProductId();
+        }
+        return -1;
     }
 
 }

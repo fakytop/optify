@@ -5,6 +5,8 @@ import com.optify.exceptions.AuthenticationException;
 import com.optify.exceptions.DataException;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -182,7 +184,14 @@ public class User {
         this.preferredDay = userRegisterDto.getUserPreferredDay();
     }
 
-    public void removeItemFromCart(CartItem cartItem) throws DataException {
-        this.cart.removeItem(cartItem);
+    public CartItem removeItemFromCart(Product product) throws DataException {
+        List<CartItem> items = cart.getItems();
+        for(CartItem item : items) {
+            if(item.getProduct().equals(product)) {
+                items.remove(item);
+                return item;
+            }
+        }
+        throw new DataException("[DataException] El producto ya no se encuentra en el carrito.");
     }
 }

@@ -8,34 +8,34 @@ import java.util.Objects;
 public class CartItemPk implements Serializable {
 
     private int cartId;
-    private String productEan;
+    private long productId;
 
     public CartItemPk() {
 
     }
 
-    public CartItemPk(int cartId, String productEan) {
+    public CartItemPk(int cartId, long productId) {
         this.cartId = cartId;
-        this.productEan = productEan;
+        this.productId = productId;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         CartItemPk that = (CartItemPk) o;
-        return cartId == that.cartId && that.productEan.equalsIgnoreCase(productEan);
+        return cartId == that.cartId && that.productId==productId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cartId, productEan);
+        return Objects.hash(cartId, productId);
     }
 
     public void setCartId(int cartId) {
         this.cartId = cartId;
     }
 
-    public void setProductEan(String productEan) {
-        this.productEan = productEan;
+    public void setProductId(long productId) {
+        this.productId = productId;
     }
 }

@@ -8,34 +8,35 @@ import java.util.Objects;
 @Embeddable
 public class StoreProductPk implements Serializable {
     private long storeRut;
-    private String productEan;
+    private int productId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if(o == null || getClass() != o.getClass()) return false;
         StoreProductPk that = (StoreProductPk) o;
-        return storeRut == that.storeRut && productEan.equals(that.productEan);
+        return storeRut == that.storeRut && productId == that.productId;
     }
 
     @Override
     public int hashCode() {
-        return  Objects.hash(storeRut, productEan);
+
+        return  Objects.hash(storeRut, productId);
     }
 
     public long getStoreRut() {
         return storeRut;
     }
 
-    public String getProductEan() {
-        return productEan;
-    }
-
     public void setStoreRut(long storeRut) {
         this.storeRut = storeRut;
     }
 
-    public void setProductEan(String productEan) {
-        this.productEan = productEan;
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 }

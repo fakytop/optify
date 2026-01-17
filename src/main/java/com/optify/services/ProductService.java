@@ -17,17 +17,11 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
     public Product addProduct(Product product) throws DataException {
-        if(productRepository.findByEan(product.getEan()).isPresent()
-                || productRepository.findByGtin(product.getGtin()).isPresent()) {
-            throw new DataException(
-                    "[StockException] Ya se encuentra el producto {ean: "
-                            + product.getEan() + ", nombre: "
-                            + product.getName() + "} guardado en la base de datos."
-            );
-        }
         return productRepository.save(product);
-
     }
 
     public Page<Product> getAllProducts(Pageable pageable) {
@@ -40,13 +34,6 @@ public class ProductService {
             throw new DataException("[DataException] No se encontraron productos para la categoría {" + categoryId + "}");
         }
         return products;
-    }
-
-    public Product getProductByEan(String ean) {
-        if(!productRepository.findByEan(ean).isPresent()) {
-            return null;
-        }
-        return productRepository.findByEan(ean).get();
     }
 
     public Product getProductByName(String name)  {
@@ -63,5 +50,13 @@ public class ProductService {
             throw new DataException("[SEARCH] No se encontraron productos con la búsqueda especificada.");
         }
         return products;
+    }
+
+    public Product getProductById(int id) {
+        return productRepository.findById(id).get();
+    }
+
+    public List<Product> getSimilarCandidates(String name) {
+        return productRepository.findSimilarByName(name, 10);
     }
 }

@@ -1,11 +1,9 @@
 package com.optify.services;
 
-import com.optify.domain.Category;
-import com.optify.domain.Product;
-import com.optify.domain.Store;
-import com.optify.domain.StoreProduct;
+import com.optify.domain.*;
 import com.optify.dto.ProductDto;
 import com.optify.exceptions.DataException;
+import com.optify.utils.ComparisonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,21 +31,27 @@ public class DataImportService {
 
 
     public void importProductFromStoreData(ProductDto dto) throws DataException {
+        Store store = storeService.getStoreByRut(dto.getStoreRut());
         Product product = null;
-        product = productService.getProductByEan(dto.getProductEan());
+        if(dto.getIdWeb() != 0 && store != null) {
+            int id = storeProductService.getIdProduct(dto.getIdWeb(),dto.getStoreRut());
+            if(id != -1){
+                product = productService.getProductById(id);
+            }
+        }
         if(product == null) {
-            product = productService.getProductByName(dto.getProductName());
+            product = findProductBySimilarName(dto);
         }
 
         if(product == null) {
             product = new Product();
             setProductData(product, dto);
             Category category = null;
-            category = categoryService.getCategoryByName(dto.getCategoryName());
+            String normalizedDiacriticalMarksName = ComparisonUtils.deleteDiacriticalMarks(dto.getCategoryName());
+            category = categoryService.getCategoryByName(normalizedDiacriticalMarksName);
             if(category == null) {
                 category = new Category();
-                category.setName(dto.getCategoryName());
-                category.setDescription(dto.getCategoryDescription());
+                category.setName(normalizedDiacriticalMarksName);
                 category = categoryService.addCategory(category);
             }
             product.setCategory(category);
@@ -55,20 +59,39 @@ public class DataImportService {
         }
 
         StoreProduct storeProduct = new StoreProduct();
-        //TODO: Puede ser null xq lo estoy seteando yo al producto con lo que viene del scrapper,
-        // hay que controlar aparte que la futura PK del producto no sea nula (no puede ser solo EAN).
         storeProduct.setProduct(product);
-        Store store = storeService.getStoreByRut(dto.getStoreRut());
         storeProduct.setStore(store);
+        storeProduct.setIdWeb(dto.getIdWeb());
         storeProduct.setUrlProduct(dto.getUrlProduct());
         storeProduct.setPrice(dto.getProductPrice());
         storeProductService.addOrUpdateStoreProduct(storeProduct);
     }
 
+    private Product findProductBySimilarName(ProductDto productDto) throws DataException {
+        String productName = productDto.getProductName();
+        String brandName = productDto.getProductBrand() != null ? productDto.getProductBrand().toLowerCase().trim() : null;
+
+        List<Product> productsCandidates = productService.getSimilarCandidates(productName);
+        if(productsCandidates.isEmpty()) {
+            return null;
+        }
+        for(Product product : productsCandidates){
+            String candidateBrand = product.getBrand() != null ? product.getBrand().toLowerCase().trim() : null;
+            if(candidateBrand != null && brandName != null &&  !candidateBrand.equals(brandName)) {
+                continue;
+            }
+
+            boolean isSameProduct = ComparisonUtils.compare(productName,product.getName());
+            if(isSameProduct) {
+                return product;
+            }
+        }
+        return null;
+    }
+
     private void setProductData(Product product, ProductDto dto) {
-        product.setEan(dto.getProductEan());
-        product.setName(dto.getProductName());
-        product.setGtin(dto.getProductGtin());
+        String utfName = ComparisonUtils.repairEncoding(dto.getProductName());
+        product.setName(utfName);
         product.setDescription(dto.getProductDescription());
         product.setImageUrl(dto.getProductImageUrl());
         product.setBrand(dto.getProductBrand());

@@ -18,15 +18,21 @@ public class StoreProduct {
 
     //Relación con Product (Muchos StoreProduct a un Product)
     @ManyToOne
-    @MapsId("productEan") //Mapea la columna de productEan de StoreProductPk
-    @JoinColumn(name = "product_ean") //Columna FK en la BD
+    @MapsId("productId") //Mapea la columna de productEan de StoreProductPk
+    @JoinColumn(name = "product_id") //Columna FK en la BD
     private Product product;
 
     private double price;
-    private double lowPrice;
-    private double highPrice;
-    private Timestamp priceValidUntil;
     private String urlProduct;
+    private long idWeb;
+
+    public long getIdWeb() {
+        return idWeb;
+    }
+
+    public void setIdWeb(long idWeb) {
+        this.idWeb = idWeb;
+    }
 
     public StoreProduct() {
         this.id = new StoreProductPk();
@@ -46,7 +52,7 @@ public class StoreProduct {
 
     public void setProduct(Product product) {
         this.product = product;
-        this.id.setProductEan(product.getEan());
+        this.id.setProductId(product.getId());
     }
 
     public Store getStore() {
@@ -66,39 +72,12 @@ public class StoreProduct {
         this.price = price;
     }
 
-    public double getLowPrice() {
-        return lowPrice;
-    }
-
-    public void setLowPrice(double lowPrice) {
-        this.lowPrice = lowPrice;
-    }
-
-    public double getHighPrice() {
-        return highPrice;
-    }
-
-    public void setHighPrice(double highPrice) {
-        this.highPrice = highPrice;
-    }
-
-    public Timestamp getPriceValidUntil() {
-        return priceValidUntil;
-    }
-
-    public void setPriceValidUntil(Timestamp priceValidUntil) {
-        this.priceValidUntil = priceValidUntil;
-    }
-
     public StoreProductPk getId() {
         return this.id;
-    }
-
-    public String getProductEan() {
-        return this.id.getProductEan();
     }
 
     public long getStoreRut() {
         return this.id.getStoreRut();
     }
+
 }
