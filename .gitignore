@@ -32,10 +32,3 @@ build/
 ### VS Code ###
 .vscode/
 
-# Ignorar archivo de configuración local
-application.properties
-
-# También es recomendable ignorar carpetas de compilación y el IDE
-/target/
-.idea/
-*.class

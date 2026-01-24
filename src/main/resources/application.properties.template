@@ -1,0 +1,43 @@
+spring.application.name=app
+# ----------------------------------------------------
+# 1. Configuración de la Base de Datos
+# ----------------------------------------------------
+
+# URL de conexión: reemplaza 'mi_proyecto_local' con el nombre de la BD que creaste en pgAdmin
+spring.datasource.url=jdbc:postgresql://localhost:5432/optify_local
+# Usuario (el superusuario por defecto)
+spring.datasource.username=postgres
+# Contraseña (la que definiste durante la instalación de PostgreSQL)
+spring.datasource.password=password
+# Driver
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# ----------------------------------------------------
+# 2. Configuración de JPA/Hibernate
+# ----------------------------------------------------
+
+# Muestra el SQL generado en la consola (útil para desarrollo)
+spring.jpa.show-sql=true
+
+# Hibernate DDL Auto:
+# 'update': Actualiza el esquema de la BD sin eliminar datos. (Recomendado para desarrollo)
+# 'create-drop': Crea la BD al inicio y la borra al cerrar (Solo para pruebas).
+# 'none': No hace nada (Recomendado para producción).
+spring.jpa.hibernate.ddl-auto=create-drop
+
+# Dialecto de SQL para PostgreSQL
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+optify.api.key=clave_secreta_optify
+
+logging.level.org.springframework.security=DEBUG
+
+# 1. Tamaño del lote (cuántos inserts junta antes de mandarlos)
+spring.jpa.properties.hibernate.jdbc.batch_size=200
+
+# 2. Optimiza el orden para que la base de datos trabaje menos
+spring.jpa.properties.hibernate.order_inserts=true
+spring.jpa.properties.hibernate.order_updates=true
+
+# 3. (Opcional) Muestra estadísticas para ver si el batch funciona
+spring.jpa.properties.hibernate.generate_statistics=true
