@@ -33,7 +33,7 @@ build/
 .vscode/
 
 # Ignorar archivo de configuración local
-configuration.properties
+application.properties
 
 # También es recomendable ignorar carpetas de compilación y el IDE
 /target/
