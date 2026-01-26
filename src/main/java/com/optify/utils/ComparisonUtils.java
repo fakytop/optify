@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class ComparisonUtils {
     private static final Set<String> TYPE_KEYWORDS = new HashSet<>(Arrays.asList(
             "harina","fideo","aceite","arroz","pan","gelatina","light", "maiz", "girasol",
-            "oliva","integral","parboiled"
+            "oliva","integral","parboiled","sin sal"
     ));
     private static final Levenshtein lev = new Levenshtein();
     private static Logger logger = LoggerFactory.getLogger(ComparisonUtils.class);
@@ -76,30 +76,33 @@ public class ComparisonUtils {
         String nameRepared2 = repairEncoding(normalize(name2));
 
         if(!haveSameQuantity(nameRepared1,nameRepared2)) {
-            logger.info("[CANTIDAD DIFERENTE] {} vs {} -> Rechazado", name1, name2);
+            logger.info("*[CANTIDAD DIFERENTE]*name1={}*name2={}*similarty=0%*resultado=¡NO Match!", name1, name2);
             return false;
         }
 
         if(!haveSameCategoryKeywords(nameRepared1,nameRepared2)) {
-            logger.info("[CATEGORIA DIFERENTE] {} vs {} -> Rechazado", name1, name2);
+            logger.info("*[CATEGORIA DIFERENTE]*name1={}*name2={}*similarty=0%*resultado=¡NO Match!", name1, name2);
             return false;
         }
         double similarity = 0;
         similarity = calculateJaccardByWords(nameRepared1,nameRepared2);
-        if (similarity > 90) {
+        if (similarity > 85) {
             logger.debug(String.format("*[RESULTADO x JACCARD]*name1=%s*name2=%s*similarity=%f*resultado=¡Match!", name1, name2,similarity));
             return true;
-        }else {
+        }else if (similarity > 60){
             logger.debug(String.format("*[RESULTADO x JACCARD]*name1=%s*name2=%s*similarity=%f*resultado=¡NO Match!", name1, name2, similarity));
             similarity = calculateHybridSimilarity(nameRepared1, nameRepared2);
-            if (similarity > 80) {
+            if (similarity > 85) {
                 logger.debug(String.format("*[RESULTADO HIBRIDO]*name1=%s*name2=%s*similarity=%f*resultado=¡Match!", name1, name2, similarity));
                 return true;
-            } else {
-                logger.debug(String.format("*[RESULTADO ENCODING]*name1=%s*name2=%s*similarity=%f*resultado=¡NO Match!", name1, name2, similarity));
-                return false;
             }
+            logger.debug(String.format("*[RESULTADO HIBRIDO]*name1=%s*name2=%s*similarity=%f*resultado=¡NO Match!", name1, name2, similarity));
+            return false;
         }
+
+        logger.debug(String.format("*[RESULTADO x JACCARD]*name1=%s*name2=%s*similarity=%f*resultado=¡NO Match!", name1, name2, similarity));
+        return false;
+
     }
 
     private static boolean haveSameCategoryKeywords(String normalizedName1, String normalizedName2) {
@@ -193,13 +196,14 @@ public class ComparisonUtils {
         text = text.replaceAll("\\b(lts|litros|lt|l)\\b", "l");
         // Unificar kilogramos
         text = text.replaceAll("\\b(kg|kilos|kilogramos|kgs)\\b","k");
+        text = text.replaceAll("\\b(un|uds|unidades)\\b","u");
         // Unificar porcentajes (importante para el 0% que vimos en el log)
         //text = text.replaceAll("%", " porciento");
         return text;
     }
 
     private static final Set<String> STOP_WORDS = new HashSet<>(Arrays.asList(
-            "de", "con", "el", "la", "un", "una", "para", "por", "al", "en", "del"
+            "de", "con", "el", "la", "un", "una", "para", "por", "al", "en", "del", "pouch", "al huevo"
     ));
 
     private static String removeStopWords(String text) {
@@ -209,7 +213,12 @@ public class ComparisonUtils {
     }
 
     private static String normalizeSynonyms(String text) {
+        if (text == null) return null;
         // Caso específico del mercado uruguayo
-        return text.replaceAll("\\b(dietetico|diet)\\b", "light");
+        text.replaceAll("\\b(dietetico|diet)\\b", "light");
+        text.replaceAll("\\b(galleta)\\b", "galletas");
+        text.replaceAll("\\b(tradicional|clasica)\\b", "clasicas");
+
+        return text;
     }
 }

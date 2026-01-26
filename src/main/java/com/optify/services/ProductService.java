@@ -56,7 +56,7 @@ public class ProductService {
         return productRepository.findById(id).get();
     }
 
-    public List<Product> getSimilarCandidates(String name) {
-        return productRepository.findSimilarByName(name, 10);
+    public List<Product> getSimilarCandidates(String name,long storeRut,long idWeb) {
+        return productRepository.findSimilarByName(name, storeRut, idWeb,10);
     }
 }

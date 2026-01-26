@@ -1,9 +1,7 @@
 package com.optify.controllers;
 
 import com.optify.domain.CartItem;
-import com.optify.domain.Product;
 import com.optify.dto.ProductCartDto;
-import com.optify.dto.ProductDto;
 import com.optify.exceptions.DataException;
 import com.optify.facade.Facade;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
