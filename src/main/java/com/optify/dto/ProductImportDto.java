@@ -2,9 +2,8 @@ package com.optify.dto;
 
 import com.optify.domain.Product;
 
-public class ProductDto {
+public class ProductImportDto {
     private long idWeb;
-    private int productId;
     private String productName;
     private String productDescription;
     private String productImageUrl;
@@ -14,25 +13,16 @@ public class ProductDto {
     private String urlProduct;
     private double productPrice;
 
-    public ProductDto() {
+    public ProductImportDto() {
     }
 
-    public ProductDto(Product product) {
+    public ProductImportDto(Product product) {
         this.idWeb = product.getId();
-        this.productId = product.getId();
         this.productName = product.getName();
         this.productDescription = product.getDescription();
         this.productImageUrl = product.getImageUrl();
         this.productBrand = product.getBrand();
         this.categoryName = product.getCategory().getName();
-    }
-
-    public int getProductId() {
-        return productId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
     }
 
     public long getIdWeb() {

@@ -10,11 +10,11 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(unique = true)
     private String name;
     @Column(length = 30000)
     private String description;
     private String brand;
+    @Column(length = 30000)
     private String imageUrl;
     @ManyToOne
     @JoinColumn(name = "category_id")

@@ -19,7 +19,15 @@ public interface ProductRepository extends JpaRepository<Product,Integer>, JpaSp
     Page<Product> findByCategoryId(int categoryId, Pageable pageable);
     @Query(value = "SELECT * FROM Products p " +
             "WHERE p.name % :term " +
+            "AND p.id NOT IN (" +
+            "   SELECT sp.product_id FROM store_products sp" +
+            "   WHERE sp.store_rut = :storeRut AND sp.id_web != :idWeb" +
+            ")" +
             "ORDER BY similarity(p.name, :term) DESC " +
             "LIMIT :limit", nativeQuery = true)
-    List<Product> findSimilarByName(@Param("term") String term, @Param("limit") int limit);
+    List<Product> findSimilarByName(@Param("term") String term,
+                                    @Param("storeRut") long storeRut,
+                                    @Param("idWeb") long idWeb,
+                                    @Param("limit") int limit);
+
 }

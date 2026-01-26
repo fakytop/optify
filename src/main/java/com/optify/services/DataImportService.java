@@ -1,7 +1,7 @@
 package com.optify.services;
 
 import com.optify.domain.*;
-import com.optify.dto.ProductDto;
+import com.optify.dto.ProductImportDto;
 import com.optify.exceptions.DataException;
 import com.optify.utils.ComparisonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +23,14 @@ public class DataImportService {
 
 
     @Transactional(rollbackFor = Exception.class) //Si algo falla, vuelve atrás.
-    public void importProductsBatch(List<ProductDto> dtos) throws DataException {
-        for(ProductDto dto : dtos){
+    public void importProductsBatch(List<ProductImportDto> dtos) throws DataException {
+        for(ProductImportDto dto : dtos){
             this.importProductFromStoreData(dto);
         }
     }
 
 
-    public void importProductFromStoreData(ProductDto dto) throws DataException {
+    public void importProductFromStoreData(ProductImportDto dto) throws DataException {
         Store store = storeService.getStoreByRut(dto.getStoreRut());
         Product product = null;
         if(dto.getIdWeb() != 0 && store != null) {
@@ -67,11 +67,12 @@ public class DataImportService {
         storeProductService.addOrUpdateStoreProduct(storeProduct);
     }
 
-    private Product findProductBySimilarName(ProductDto productDto) throws DataException {
-        String productName = productDto.getProductName();
-        String brandName = productDto.getProductBrand() != null ? productDto.getProductBrand().toLowerCase().trim() : null;
-
-        List<Product> productsCandidates = productService.getSimilarCandidates(productName);
+    private Product findProductBySimilarName(ProductImportDto productImportDto) throws DataException {
+        String productName = productImportDto.getProductName();
+        String brandName = productImportDto.getProductBrand() != null ? productImportDto.getProductBrand().toLowerCase().trim() : null;
+        long storeRut = productImportDto.getStoreRut();
+        long idWeb = productImportDto.getIdWeb();
+        List<Product> productsCandidates = productService.getSimilarCandidates(productName,storeRut,idWeb);
         if(productsCandidates.isEmpty()) {
             return null;
         }
@@ -89,7 +90,7 @@ public class DataImportService {
         return null;
     }
 
-    private void setProductData(Product product, ProductDto dto) {
+    private void setProductData(Product product, ProductImportDto dto) {
         String utfName = ComparisonUtils.repairEncoding(dto.getProductName());
         product.setName(utfName);
         product.setDescription(dto.getProductDescription());

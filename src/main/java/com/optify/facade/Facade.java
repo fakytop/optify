@@ -1,8 +1,7 @@
 package com.optify.facade;
 
 import com.optify.domain.*;
-import com.optify.dto.ProductDto;
-import com.optify.dto.StoreAddDto;
+import com.optify.dto.ProductImportDto;
 import com.optify.dto.UserRegisterDto;
 import com.optify.dto.UserLoginDto;
 import com.optify.exceptions.AuthenticationException;
@@ -111,11 +110,11 @@ public class Facade {
         return productService.addProduct(product);
     }
 
-    public void importProductFromStoreData(ProductDto dto) throws DataException {
+    public void importProductFromStoreData(ProductImportDto dto) throws DataException {
         dataImportService.importProductFromStoreData(dto);
     }
 
-    public void importProductsBatch(List<ProductDto> dtos) throws DataException {
+    public void importProductsBatch(List<ProductImportDto> dtos) throws DataException {
         dataImportService.importProductsBatch(dtos);
     }
 

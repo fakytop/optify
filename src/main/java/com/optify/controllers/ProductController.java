@@ -3,7 +3,8 @@ package com.optify.controllers;
 import com.optify.domain.Category;
 import com.optify.domain.Product;
 import com.optify.dto.CategoryDto;
-import com.optify.dto.ProductDto;
+import com.optify.dto.ProductCatalogDto;
+import com.optify.dto.ProductImportDto;
 import com.optify.exceptions.DataException;
 import com.optify.facade.Facade;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -22,7 +23,7 @@ public class ProductController {
     @Autowired
     private Facade instance;
 
-    @SecurityRequirement(name = "ApiKeyAuth")
+/*    @SecurityRequirement(name = "ApiKeyAuth")
     @GetMapping("/all")
     public ResponseEntity<List<ProductDto>> getAllProducts() {
         List<Product> products = instance.getAllProducts();
@@ -31,9 +32,11 @@ public class ProductController {
                 .toList();
         return ResponseEntity.ok(productDtos);
     }
+*/
+
     @SecurityRequirement(name = "ApiKeyAuth")
     @PostMapping("/import")
-    public ResponseEntity<?> importProducts(@RequestBody List<ProductDto> dtos) {
+    public ResponseEntity<?> importProducts(@RequestBody List<ProductImportDto> dtos) {
 
         try {
             instance.importProductsBatch(dtos);
@@ -59,7 +62,7 @@ public class ProductController {
     public ResponseEntity<?> getProductsByCategoryId(@PathVariable int id, @PageableDefault(size = 20) Pageable pageable) {
         try {
             Page<Product> products = instance.getProductsByCategoryId(id,pageable);
-            Page<ProductDto> productDtos = products.map(ProductDto::new);
+            Page<ProductCatalogDto> productDtos = products.map(ProductCatalogDto::new);
 
             return ResponseEntity.ok(productDtos);
         } catch (DataException e) {
@@ -73,7 +76,7 @@ public class ProductController {
         Page<Product> products = null;
         try {
             products = instance.searchProductsByName(term,pageable);
-            Page<ProductDto> productDtos = products.map(ProductDto::new);
+            Page<ProductCatalogDto> productDtos = products.map(ProductCatalogDto::new);
             return ResponseEntity.ok(productDtos);
         } catch (DataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -84,7 +87,7 @@ public class ProductController {
     @GetMapping("/allProducts")
     public ResponseEntity<?> getAllProducts(@PageableDefault(size = 20) Pageable pageable) {
         Page<Product> products = instance.getAllProducts(pageable);
-        Page<ProductDto> productDtos = products.map(ProductDto::new);
+        Page<ProductCatalogDto> productDtos = products.map(ProductCatalogDto::new);
         return ResponseEntity.ok(productDtos);
     }
 }
