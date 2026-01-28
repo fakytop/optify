@@ -1,9 +1,7 @@
 package com.optify.facade;
 
 import com.optify.domain.*;
-import com.optify.dto.ProductImportDto;
-import com.optify.dto.UserRegisterDto;
-import com.optify.dto.UserLoginDto;
+import com.optify.dto.*;
 import com.optify.exceptions.AuthenticationException;
 import com.optify.exceptions.DataException;
 import com.optify.services.*;
@@ -11,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,7 +31,8 @@ public class Facade {
     @Autowired
     private CartService cartService;
 
-    private Facade() {}
+    private Facade() {
+    }
 
     // Métodos referidos al usuario.
 
@@ -67,7 +67,7 @@ public class Facade {
     }
 
     public void addUrlCategoryByRut(long rut, String category) throws DataException {
-        storeService.addUrlCategoryToStore(rut,category);
+        storeService.addUrlCategoryToStore(rut, category);
     }
 
     public void deleteStore(long rut) throws DataException {
@@ -119,11 +119,11 @@ public class Facade {
     }
 
     public Page<Product> getProductsByCategoryId(int categoryId, Pageable pageable) throws DataException {
-        return productService.getProductsByCategoryId(categoryId,pageable);
+        return productService.getProductsByCategoryId(categoryId, pageable);
     }
 
     public Page<Product> searchProductsByName(String term, Pageable pageable) throws DataException {
-        return productService.searchProductsByName(term,pageable);
+        return productService.searchProductsByName(term, pageable);
     }
 
     public void addProductToCart(String username, int id, double quant) throws DataException {
@@ -139,14 +139,22 @@ public class Facade {
     }
 
     public void addUnitProductCart(String username, int id) throws DataException {
-        cartService.addUnitProductCart(username,id);
+        cartService.addUnitProductCart(username, id);
     }
 
     public void subtractUnitProductCart(String username, int id) throws DataException {
-        cartService.subtractUnitProductCart(username,id);
+        cartService.subtractUnitProductCart(username, id);
     }
 
     public Page<Product> getAllProducts(Pageable pageable) {
         return productService.getAllProducts(pageable);
+    }
+
+    public void updateUserProfile(String username, UserUpdateDto userUpdateDto) throws DataException {
+        userService.updateUserProfile(username, userUpdateDto);
+    }
+
+    public void changeUserPassword(String username, UserPasswordUpdateDto userPasswordUpdateDto) throws AuthenticationException, DataException {
+        userService.changeUserPassword(username, userPasswordUpdateDto);
     }
 }
