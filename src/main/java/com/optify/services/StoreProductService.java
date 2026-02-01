@@ -7,6 +7,8 @@ import com.optify.repository.StoreProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StoreProductService {
     @Autowired
@@ -29,6 +31,10 @@ public class StoreProductService {
             return storeProduct.getId().getProductId();
         }
         return -1;
+    }
+
+    public List<StoreProduct> getStoreProductsByProductIds(List<Integer> productIds) {
+        return storeProductRepository.findByProduct_IdInOrderByProduct_IdAsc(productIds);
     }
 
 }
