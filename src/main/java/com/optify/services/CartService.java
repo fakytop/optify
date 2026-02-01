@@ -3,6 +3,7 @@ package com.optify.services;
 
 import com.optify.domain.*;
 import com.optify.exceptions.DataException;
+import com.optify.repository.CartSimulationRepository;
 import com.optify.repository.ProductRepository;
 import com.optify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class CartService {
     ProductRepository productRepository;
     @Autowired
     private StoreProductService storeProductService;
+    @Autowired
+    private CartSimulationRepository cartSimulationRepository;
 
     @Transactional(rollbackFor=Exception.class)
     public void addProductToCart(String username, int id, double quant) throws DataException {
@@ -160,14 +163,48 @@ public class CartService {
         setTotalValuesToCartSimulation(hashCartValues,storeNames,productIdsTransactional);
 
         List<CartSimulation> finalResults = new ArrayList<>();
-        finalResults.add(hashCartValues.get("Optimal Cart"));
+
+        CartSimulation optimal = hashCartValues.get("Optimal Cart");
+
         CartSimulation preferred = hashCartValues.get(user.getPreferredStore().getFantasyName());
-        preferred.setName("Super preferido: " + preferred.getName());
-        finalResults.add(preferred);
+
         CartSimulation cheapest = getCheapestSupermarket(hashCartValues,storeNames);
+
+        if(preferred == cheapest) {
+            double totalCartValue = cheapest.getTotalCartValue();
+            double totalTransacionalCartValue = cheapest.getTotalTransactionalCartValue();
+            HashMap<Integer, CheapestProductInfo> cheapestProducts = cheapest.getCheapestProducts();
+            cheapest = new CartSimulation(cheapest.getName(),user,cheapest.getDate());
+            cheapest.setTotalCartValue(totalCartValue);
+            cheapest.setTotalTransactionalCartValue(totalTransacionalCartValue);
+            cheapest.setCheapestProducts(cheapestProducts);
+        }
+
+        preferred.setName("Super preferido: " + preferred.getName());
         cheapest.setName("Super más barato: " + cheapest.getName());
+
+        finalResults.add(optimal);
+        finalResults.add(preferred);
         finalResults.add(cheapest);
+
+        saveDetailsResults(finalResults);
+
         return finalResults;
+    }
+
+    private void saveDetailsResults(List<CartSimulation> finalResults) {
+        for(CartSimulation cartSimulation : finalResults) {
+            for(CheapestProductInfo info :  cartSimulation.getCheapestProducts().values()) {
+                CartSimulationDetail detail = new CartSimulationDetail();
+                detail.setProduct(info.getProduct());
+                detail.setPrice(info.getPrice());
+                detail.setTransactional(info.isTransactional());
+                String storeString = String.join(", ", info.getStores().stream().map(Store::getFantasyName).toList());
+                detail.setStoreNames(storeString);
+                cartSimulation.addDetail(detail);
+            }
+            cartSimulationRepository.save(cartSimulation);
+        }
     }
 
     private CartSimulation getCheapestSupermarket(HashMap<String, CartSimulation> hashCartValues, List<String> storeNames) {

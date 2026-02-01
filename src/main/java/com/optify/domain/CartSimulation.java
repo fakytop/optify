@@ -1,22 +1,36 @@
 package com.optify.domain;
 
 import com.optify.exceptions.DataException;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+@Entity
+@Table(name = "cart_simulations")
 public class CartSimulation {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
     private Timestamp date;
-    HashMap<Integer,CheapestProductInfo> cheapestProducts;
+    @Transient
+    private HashMap<Integer,CheapestProductInfo> cheapestProducts;
     private double totalCartValue = 0;
     private double totalTransactionalCartValue = 0;
+    @OneToMany(mappedBy = "simulation", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartSimulationDetail> details = new ArrayList<>();
+
+    public void addDetail(CartSimulationDetail detail) {
+        details.add(detail);
+        detail.setSimulation(this);
+    }
 
     public CartSimulation(String name, User user, Timestamp date) {
         this.name = name;
