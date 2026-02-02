@@ -23,7 +23,7 @@ public class DataImportService {
     @Autowired
     private StoreService storeService;
     @Autowired
-    private ManualMatchRepository manualMatchRepository;
+    private ManualMatchService manualMatchService;
 
 
     @Transactional(rollbackFor = Exception.class) //Si algo falla, vuelve atrás.
@@ -70,13 +70,13 @@ public class DataImportService {
         } else if(product == null && productResult != null && productResult.containsKey("control")) {
             //TODO: Lógica para guardar registro en tabla para futura validación
             //No se debe hacer la asociación.
-            if(!manualMatchRepository.existsByStoreAndIdWeb(store,dto.getIdWeb())) {
+            if(!manualMatchService.existsByStoreAndIdWeb(store,dto.getIdWeb())) {
                 String urlProductDB = storeProductService.getFirstUrlByProductId(productResult.get("control").getId());
                 ManualMatchPending pending = new ManualMatchPending(productResult.get("control"),store,dto.getIdWeb(),
                         dto.getProductName(),dto.getProductDescription(),dto.getProductImageUrl(),dto.getProductBrand(),
                         dto.getCategoryName(),dto.getUrlProduct(),dto.getProductPrice(),urlProductDB
                 );
-                manualMatchRepository.save(pending);
+                manualMatchService.addManualMatch(pending);
             }
         }
 
