@@ -152,6 +152,8 @@ public class Facade {
 
     public void changeUserPassword(String username, UserPasswordUpdateDto userPasswordUpdateDto) throws AuthenticationException, DataException {
         userService.changeUserPassword(username, userPasswordUpdateDto);
+    }
+    
     public List<CartSimulation> calculateCartValues(String username) throws DataException {
         return cartService.getCheapestResults(username);
     }
