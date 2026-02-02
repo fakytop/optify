@@ -106,7 +106,9 @@ public class CartSimulation {
         double total = 0;
         for(Integer productId : productIdsTransactional) {
             CheapestProductInfo product = this.getCheapestProducts().get(productId);
-            product.setTransactional(isTransactional);
+            if(isTransactional) {
+                product.setTransactional(isTransactional);
+            }
             total += product.getPrice();
         }
         return total;

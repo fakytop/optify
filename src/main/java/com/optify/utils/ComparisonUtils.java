@@ -76,31 +76,31 @@ public class ComparisonUtils {
         String nameRepared2 = repairEncoding(normalize(name2));
 
         if(!haveSameQuantity(nameRepared1,nameRepared2)) {
-            logger.info("*[CANTIDAD DIFERENTE]*name1={}*name2={}*similarty=0%*resultado=¡NO Match!", name1, name2);
+            logger.info("*[CANTIDAD DIFERENTE]*{}*{}*0*¡NO Match!", name1, name2);
             return false;
         }
 
         if(!haveSameCategoryKeywords(nameRepared1,nameRepared2)) {
-            logger.info("*[CATEGORIA DIFERENTE]*name1={}*name2={}*similarty=0%*resultado=¡NO Match!", name1, name2);
+            logger.info("*[CATEGORIA DIFERENTE]*{}*{}*0*¡NO Match!", name1, name2);
             return false;
         }
         double similarity = 0;
         similarity = calculateJaccardByWords(nameRepared1,nameRepared2);
-        if (similarity > 85) {
-            logger.debug(String.format("*[RESULTADO x JACCARD]*name1=%s*name2=%s*similarity=%f*resultado=¡Match!", name1, name2,similarity));
-            return true;
-        }else if (similarity > 60){
-            logger.debug(String.format("*[RESULTADO x JACCARD]*name1=%s*name2=%s*similarity=%f*resultado=¡NO Match!", name1, name2, similarity));
-            similarity = calculateHybridSimilarity(nameRepared1, nameRepared2);
-            if (similarity > 85) {
-                logger.debug(String.format("*[RESULTADO HIBRIDO]*name1=%s*name2=%s*similarity=%f*resultado=¡Match!", name1, name2, similarity));
-                return true;
-            }
-            logger.debug(String.format("*[RESULTADO HIBRIDO]*name1=%s*name2=%s*similarity=%f*resultado=¡NO Match!", name1, name2, similarity));
-            return false;
+
+        int maxWords = Math.max(nameRepared1.split("\\s+").length,nameRepared2.split("\\s+").length);
+        double dynamicThreshold = 80;
+        if(maxWords <= 3) {
+            dynamicThreshold = 85;
+        } else if(maxWords >= 6) {
+            dynamicThreshold = 75;
         }
 
-        logger.debug(String.format("*[RESULTADO x JACCARD]*name1=%s*name2=%s*similarity=%f*resultado=¡NO Match!", name1, name2, similarity));
+        if (similarity > dynamicThreshold) {
+            logger.debug(String.format("*[RESULTADO x JACCARD]*%s*%s*%f*¡Match!", name1, name2,similarity));
+            return true;
+        }
+
+        logger.debug(String.format("*[RESULTADO x JACCARD]*%s*%s*%f*¡NO Match!", name1, name2, similarity));
         return false;
 
     }
@@ -218,6 +218,7 @@ public class ComparisonUtils {
         text.replaceAll("\\b(dietetico|diet)\\b", "light");
         text.replaceAll("\\b(galleta)\\b", "galletas");
         text.replaceAll("\\b(tradicional|clasica)\\b", "clasicas");
+        text.replaceAll("\\b(antitranspirante)\\b","desodorante");
 
         return text;
     }
