@@ -1,55 +1,115 @@
-2026-02-02 12:30:58 - *[RESULTADO x JACCARD]*Papas LAY'S Rústicas 160 gr*Papas Lays Rusticas Con Sal 160 g*83.333333*¡Match!
-2026-02-02 12:30:58 - *[RESULTADO x JACCARD]*Yerba ARMIÑO Clásica 1 Kg*Yerba Mate Armiño 1 Kg*80.000000*¡No Match! Control Manual
-2026-02-02 12:30:59 - *[CANTIDAD DIFERENTE]*Yerba ARMIÑO Clásica 500 gr*Yerba Mate Armiño 1 Kg*0*¡NO Match!
-2026-02-02 12:30:59 - *[CANTIDAD DIFERENTE]*Yerba ARMIÑO Clásica 500 gr*Yerba Armiño Suave 1.1 Kg*0*¡NO Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Yerba ARMIÑO Compuesta 1 Kg*Yerba Mate Compuesta Armiño 1 Kg*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Yerba ARMIÑO Suave 1 Kg + 100 gr de Regalo*Yerba Armiño Suave 1.1 Kg*62.500000*¡No Match! Control Manual
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Antitranspirante en Aerosol V8 REXONA 250 ml*Desodorante En Aerosol Rexona Ap 250 Ml*62.500000*¡No Match! Control Manual
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Dulce de Leche CONAPROLE Clásico 500 gr*Dulce De Leche Conaprole Común 500 G*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Dulce de Leche CONAPROLE 250 gr*Dulce De Leche Conaprole 250 G*100.000000*¡Match!
-2026-02-02 12:30:59 - *[CANTIDAD DIFERENTE]*Helado Crema de Dulce de Leche con Granizado de Chocolate CONAPROLE 1 L*Dulce De Leche Conaprole Crema 250 G*0*¡NO Match!
-2026-02-02 12:30:59 - *[CANTIDAD DIFERENTE]*Helado Crema de Dulce de Leche con Granizado de Chocolate CONAPROLE 1 L*Dulce De Leche Conaprole Light 440 G*0*¡NO Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Dulce Crema de Leche CONAPROLE 250gr*Dulce De Leche Conaprole Crema 250 G*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Dulce de Leche Dietetico CONAPROLE 440 gr*Dulce De Leche Conaprole Light 440 G*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*PAPAS LAYS RUSTICAS SAL 160GR*Papas Lays Rusticas Con Sal 160 g*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Yerba Armiño Clasica 1Kg*Yerba ARMIÑO Clásica 1 Kg*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Yerba Armiño Clasica 500Gr*Yerba ARMIÑO Clásica 500 gr*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Yerba Armiño Compuesta 1Kg*Yerba Mate Compuesta Armiño 1 Kg*100.000000*¡Match!
-2026-02-02 12:30:59 - *[CANTIDAD DIFERENTE]*YERBA ARMIÑO SUAVE 1KG+100GR*Yerba Armiño Suave 1.1 Kg*0*¡NO Match!
-2026-02-02 12:30:59 - *[CANTIDAD DIFERENTE]*YERBA ARMIÑO SUAVE 1KG+100GR*Yerba Mate Armiño Suave 1 Kg*0*¡NO Match!
-2026-02-02 12:30:59 - *[CANTIDAD DIFERENTE]*YERBA ARMIÑO SUAVE 1KG+100GR*Yerba ARMIÑO Suave 1 Kg + 100 gr de Regalo*0*¡NO Match!
-2026-02-02 12:30:59 - *[CANTIDAD DIFERENTE]*YERBA ARMIÑO SUAVE 1KG+100GR*Yerba Mate Armiño 1 Kg*0*¡NO Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Desodorante Rexona Men Ap V8 Aeresol 250Ml*Desodorante En Aerosol Rexona Ap 250 Ml*50.000000*¡No Match! Control Manual
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Dulce De Leche Conaprole 500Gr .*Dulce De Leche Conaprole Común 500 G*83.333333*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Dulce De Leche Conaprole 250Gr .*Dulce De Leche Conaprole 250 G*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Helado Conaprole 1Lt  Dulce de leche Granizado*Helado Crema de Dulce de Leche con Granizado de Chocolate CONAPROLE 1 L*77.777778*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Dulce De Leche Conaprole Crema 250Gr .*Dulce De Leche Conaprole Crema 250 G*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Dulce De Leche Conaprole Dietetico Vidrio 440Gr*Dulce De Leche Conaprole Light 440 G*85.714286*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*HELADO CONAPROLE 2Lt CHOCOLATE HOLANDES Y DULCE DE LECHE*Helado sabor Dulce de Leche y Chocolate Tipo Holandés CONAPROLE Pote 2 L*75.000000*¡No Match! Control Manual
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Papas fritas LAYS rusticas 160 G*Papas Lays Rusticas Con Sal 160 g*71.428571*¡No Match! Control Manual
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Yerba ARMIÑO 1 kg*Yerba Mate Armiño 1 Kg*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Yerba ARMIÑO suave 1 kg*Yerba Armiño Suave 1.1 Kg*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Yerba ARMIÑO 500 g*Yerba ARMIÑO Clásica 500 gr*80.000000*¡No Match! Control Manual
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Yerba compuesta ARMIÑO 1 kg*Yerba Mate Compuesta Armiño 1 Kg*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Desodorante REXONA V8 Men 250 ml*Desodorante Rexona Men Ap V8 Aeresol 250Ml*77.777778*¡Match!
-2026-02-02 12:30:59 - *[CANTIDAD DIFERENTE]*Desodorante REXONA Fanatics antitranspirante 105 g*Antitranspirante en Aerosol V8 REXONA 250 ml*0*¡NO Match!
-2026-02-02 12:30:59 - *[CANTIDAD DIFERENTE]*Desodorante REXONA Fanatics antitranspirante 105 g*Desodorante En Aerosol Rexona Ap 250 Ml*0*¡NO Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE 500 g*Dulce De Leche Conaprole Común 500 G*83.333333*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE 250 g*Dulce De Leche Conaprole 250 G*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Helado CONAPROLE dulce de leche granizado 1 L*Helado Crema de Dulce de Leche con Granizado de Chocolate CONAPROLE 1 L*77.777778*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Dulce crema de leche CONAPROLE 250 g*Dulce De Leche Conaprole Crema 250 G*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE dietético 0% 440 g*Dulce De Leche Conaprole Light 440 G*85.714286*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Helado CONAPROLE chocolate holandés y dulce de leche 2 L*HELADO CONAPROLE 2Lt CHOCOLATE HOLANDES Y DULCE DE LECHE*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Papas fritas LAYS rusticas 160 G*Papas fritas LAYS rusticas 160 G*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Yerba ARMIÑO 1 kg*Yerba Mate Armiño 1 Kg*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Yerba ARMIÑO suave 1 kg*Yerba Armiño Suave 1.1 Kg*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Yerba ARMIÑO 500 g*Yerba ARMIÑO 500 g*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Yerba compuesta ARMIÑO 1 kg*Yerba Mate Compuesta Armiño 1 Kg*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Desodorante REXONA V8 Men 250 ml*Desodorante Rexona Men Ap V8 Aeresol 250Ml*77.777778*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Desodorante REXONA Fanatics antitranspirante 105 g*Desodorante REXONA Fanatics antitranspirante 105 g*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE 500 g*Dulce De Leche Conaprole Común 500 G*83.333333*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE 250 g*Dulce De Leche Conaprole 250 G*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Helado CONAPROLE dulce de leche granizado 1 L*Helado Crema de Dulce de Leche con Granizado de Chocolate CONAPROLE 1 L*77.777778*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Dulce crema de leche CONAPROLE 250 g*Dulce De Leche Conaprole Crema 250 G*100.000000*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE dietético 0% 440 g*Dulce De Leche Conaprole Light 440 G*85.714286*¡Match!
-2026-02-02 12:30:59 - *[RESULTADO x JACCARD]*Helado CONAPROLE chocolate holandés y dulce de leche 2 L*HELADO CONAPROLE 2Lt CHOCOLATE HOLANDES Y DULCE DE LECHE*100.000000*¡Match!
+2026-02-02 14:17:40 - *[RESULTADO x JACCARD]*Papas LAY'S Rústicas 160 gr*Papas Lays Rusticas Con Sal 160 g*83.333333*¡Match!
+2026-02-02 14:17:40 - *[RESULTADO x JACCARD]*Yerba ARMIÑO Clásica 1 Kg*Yerba Mate Armiño 1 Kg*80.000000*¡No Match! Control Manual
+2026-02-02 14:17:41 - *[CANTIDAD DIFERENTE]*Yerba ARMIÑO Clásica 500 gr*Yerba Mate Armiño 1 Kg*0*¡NO Match!
+2026-02-02 14:17:41 - *[CANTIDAD DIFERENTE]*Yerba ARMIÑO Clásica 500 gr*Yerba Armiño Suave 1.1 Kg*0*¡NO Match!
+2026-02-02 14:17:41 - *[RESULTADO x JACCARD]*Yerba ARMIÑO Compuesta 1 Kg*Yerba Mate Compuesta Armiño 1 Kg*100.000000*¡Match!
+2026-02-02 14:17:41 - *[RESULTADO x JACCARD]*Yerba ARMIÑO Suave 1 Kg + 100 gr de Regalo*Yerba Armiño Suave 1.1 Kg*62.500000*¡No Match! Control Manual
+2026-02-02 14:17:41 - *[RESULTADO x JACCARD]*Antitranspirante en Aerosol V8 REXONA 250 ml*Desodorante En Aerosol Rexona Ap 250 Ml*62.500000*¡No Match! Control Manual
+2026-02-02 14:19:06 - *[RESULTADO x JACCARD]*Papas LAY'S Rústicas 160 gr*Papas Lays Rusticas Con Sal 160 g*83.333333*¡Match!
+2026-02-02 14:19:06 - *[RESULTADO x JACCARD]*Yerba ARMIÑO Clásica 1 Kg*Yerba Mate Armiño 1 Kg*80.000000*¡No Match! Control Manual
+2026-02-02 14:19:06 - *[CANTIDAD DIFERENTE]*Yerba ARMIÑO Clásica 500 gr*Yerba Mate Armiño 1 Kg*0*¡NO Match!
+2026-02-02 14:19:06 - *[CANTIDAD DIFERENTE]*Yerba ARMIÑO Clásica 500 gr*Yerba Armiño Suave 1.1 Kg*0*¡NO Match!
+2026-02-02 14:19:06 - *[RESULTADO x JACCARD]*Yerba ARMIÑO Compuesta 1 Kg*Yerba Mate Compuesta Armiño 1 Kg*100.000000*¡Match!
+2026-02-02 14:19:06 - *[RESULTADO x JACCARD]*Yerba ARMIÑO Suave 1 Kg + 100 gr de Regalo*Yerba Armiño Suave 1.1 Kg*62.500000*¡No Match! Control Manual
+2026-02-02 14:19:06 - *[RESULTADO x JACCARD]*Antitranspirante en Aerosol V8 REXONA 250 ml*Desodorante En Aerosol Rexona Ap 250 Ml*62.500000*¡No Match! Control Manual
+2026-02-02 14:19:06 - *[RESULTADO x JACCARD]*Dulce de Leche CONAPROLE Clásico 500 gr*Dulce De Leche Conaprole Común 500 G*100.000000*¡Match!
+2026-02-02 14:19:06 - *[RESULTADO x JACCARD]*Dulce de Leche CONAPROLE 250 gr*Dulce De Leche Conaprole 250 G*100.000000*¡Match!
+2026-02-02 14:19:06 - *[CANTIDAD DIFERENTE]*Helado Crema de Dulce de Leche con Granizado de Chocolate CONAPROLE 1 L*Dulce De Leche Conaprole Crema 250 G*0*¡NO Match!
+2026-02-02 14:19:06 - *[CANTIDAD DIFERENTE]*Helado Crema de Dulce de Leche con Granizado de Chocolate CONAPROLE 1 L*Dulce De Leche Conaprole Light 440 G*0*¡NO Match!
+2026-02-02 14:19:06 - *[RESULTADO x JACCARD]*Dulce Crema de Leche CONAPROLE 250gr*Dulce De Leche Conaprole Crema 250 G*100.000000*¡Match!
+2026-02-02 14:19:06 - *[RESULTADO x JACCARD]*Dulce de Leche Dietetico CONAPROLE 440 gr*Dulce De Leche Conaprole Light 440 G*100.000000*¡Match!
+2026-02-02 14:19:06 - *[RESULTADO x JACCARD]*PAPAS LAYS RUSTICAS SAL 160GR*Papas Lays Rusticas Con Sal 160 g*100.000000*¡Match!
+2026-02-02 14:19:06 - *[CANTIDAD DIFERENTE]*Yerba Armiño Clasica 1Kg*Yerba ARMIÑO Clásica 500 gr*0*¡NO Match!
+2026-02-02 14:19:06 - *[RESULTADO x JACCARD]*Yerba Armiño Clasica 1Kg*Yerba Mate Armiño 1 Kg*80.000000*¡No Match! Control Manual
+2026-02-02 14:19:06 - *[RESULTADO x JACCARD]*Yerba Armiño Clasica 500Gr*Yerba ARMIÑO Clásica 500 gr*100.000000*¡Match!
+2026-02-02 14:19:06 - *[RESULTADO x JACCARD]*Yerba Armiño Compuesta 1Kg*Yerba Mate Compuesta Armiño 1 Kg*100.000000*¡Match!
+2026-02-02 14:19:06 - *[CANTIDAD DIFERENTE]*YERBA ARMIÑO SUAVE 1KG+100GR*Yerba Armiño Suave 1.1 Kg*0*¡NO Match!
+2026-02-02 14:19:06 - *[CANTIDAD DIFERENTE]*YERBA ARMIÑO SUAVE 1KG+100GR*Yerba Mate Armiño Suave 1 Kg*0*¡NO Match!
+2026-02-02 14:19:06 - *[CANTIDAD DIFERENTE]*YERBA ARMIÑO SUAVE 1KG+100GR*Yerba Mate Armiño 1 Kg*0*¡NO Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Desodorante Rexona Men Ap V8 Aeresol 250Ml*Desodorante En Aerosol Rexona Ap 250 Ml*50.000000*¡No Match! Control Manual
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Dulce De Leche Conaprole 500Gr .*Dulce De Leche Conaprole Común 500 G*83.333333*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Dulce De Leche Conaprole 250Gr .*Dulce De Leche Conaprole 250 G*100.000000*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Helado Conaprole 1Lt  Dulce de leche Granizado*Helado Crema de Dulce de Leche con Granizado de Chocolate CONAPROLE 1 L*77.777778*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Dulce De Leche Conaprole Crema 250Gr .*Dulce De Leche Conaprole Crema 250 G*100.000000*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Dulce De Leche Conaprole Dietetico Vidrio 440Gr*Dulce De Leche Conaprole Light 440 G*85.714286*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*HELADO CONAPROLE 2Lt CHOCOLATE HOLANDES Y DULCE DE LECHE*Helado sabor Dulce de Leche y Chocolate Tipo Holandés CONAPROLE Pote 2 L*75.000000*¡No Match! Control Manual
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Papas fritas LAYS rusticas 160 G*Papas Lays Rusticas Con Sal 160 g*71.428571*¡No Match! Control Manual
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Yerba ARMIÑO 1 kg*Yerba Mate Armiño 1 Kg*100.000000*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Yerba ARMIÑO suave 1 kg*Yerba Armiño Suave 1.1 Kg*100.000000*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Yerba ARMIÑO 500 g*Yerba ARMIÑO Clásica 500 gr*80.000000*¡No Match! Control Manual
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Yerba compuesta ARMIÑO 1 kg*Yerba Mate Compuesta Armiño 1 Kg*100.000000*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Desodorante REXONA V8 Men 250 ml*Desodorante En Aerosol Rexona Ap 250 Ml*44.444444*¡No Match! Control Manual
+2026-02-02 14:19:07 - *[CANTIDAD DIFERENTE]*Desodorante REXONA Fanatics antitranspirante 105 g*Desodorante En Aerosol Rexona Ap 250 Ml*0*¡NO Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE 500 g*Dulce De Leche Conaprole Común 500 G*83.333333*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE 250 g*Dulce De Leche Conaprole 250 G*100.000000*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Helado CONAPROLE dulce de leche granizado 1 L*Helado Crema de Dulce de Leche con Granizado de Chocolate CONAPROLE 1 L*77.777778*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Dulce crema de leche CONAPROLE 250 g*Dulce De Leche Conaprole Crema 250 G*100.000000*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE dietético 0% 440 g*Dulce De Leche Conaprole Light 440 G*85.714286*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Helado CONAPROLE chocolate holandés y dulce de leche 2 L*Helado sabor Dulce de Leche y Chocolate Tipo Holandés CONAPROLE Pote 2 L*75.000000*¡No Match! Control Manual
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Papas fritas LAYS rusticas 160 G*Papas Lays Rusticas Con Sal 160 g*71.428571*¡No Match! Control Manual
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Yerba ARMIÑO 1 kg*Yerba Mate Armiño 1 Kg*100.000000*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Yerba ARMIÑO suave 1 kg*Yerba Armiño Suave 1.1 Kg*100.000000*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Yerba ARMIÑO 500 g*Yerba ARMIÑO Clásica 500 gr*80.000000*¡No Match! Control Manual
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Yerba compuesta ARMIÑO 1 kg*Yerba Mate Compuesta Armiño 1 Kg*100.000000*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Desodorante REXONA V8 Men 250 ml*Desodorante En Aerosol Rexona Ap 250 Ml*44.444444*¡No Match! Control Manual
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Desodorante REXONA Fanatics antitranspirante 105 g*Desodorante REXONA Fanatics antitranspirante 105 g*100.000000*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE 500 g*Dulce De Leche Conaprole Común 500 G*83.333333*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE 250 g*Dulce De Leche Conaprole 250 G*100.000000*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Helado CONAPROLE dulce de leche granizado 1 L*Helado Crema de Dulce de Leche con Granizado de Chocolate CONAPROLE 1 L*77.777778*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Dulce crema de leche CONAPROLE 250 g*Dulce De Leche Conaprole Crema 250 G*100.000000*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE dietético 0% 440 g*Dulce De Leche Conaprole Light 440 G*85.714286*¡Match!
+2026-02-02 14:19:07 - *[RESULTADO x JACCARD]*Helado CONAPROLE chocolate holandés y dulce de leche 2 L*Helado sabor Dulce de Leche y Chocolate Tipo Holandés CONAPROLE Pote 2 L*75.000000*¡No Match! Control Manual
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Papas LAY'S Rústicas 160 gr*Papas Lays Rusticas Con Sal 160 g*83.333333*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Yerba ARMIÑO Clásica 1 Kg*Yerba Mate Armiño 1 Kg*80.000000*¡No Match! Control Manual
+2026-02-02 14:31:21 - *[CANTIDAD DIFERENTE]*Yerba ARMIÑO Clásica 500 gr*Yerba Mate Armiño 1 Kg*0*¡NO Match!
+2026-02-02 14:31:21 - *[CANTIDAD DIFERENTE]*Yerba ARMIÑO Clásica 500 gr*Yerba Armiño Suave 1.1 Kg*0*¡NO Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Yerba ARMIÑO Compuesta 1 Kg*Yerba Mate Compuesta Armiño 1 Kg*100.000000*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Yerba ARMIÑO Suave 1 Kg + 100 gr de Regalo*Yerba Armiño Suave 1.1 Kg*62.500000*¡No Match! Control Manual
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Antitranspirante en Aerosol V8 REXONA 250 ml*Desodorante En Aerosol Rexona Ap 250 Ml*62.500000*¡No Match! Control Manual
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Dulce de Leche CONAPROLE Clásico 500 gr*Dulce De Leche Conaprole Común 500 G*100.000000*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Dulce de Leche CONAPROLE 250 gr*Dulce De Leche Conaprole 250 G*100.000000*¡Match!
+2026-02-02 14:31:21 - *[CANTIDAD DIFERENTE]*Helado Crema de Dulce de Leche con Granizado de Chocolate CONAPROLE 1 L*Dulce De Leche Conaprole Crema 250 G*0*¡NO Match!
+2026-02-02 14:31:21 - *[CANTIDAD DIFERENTE]*Helado Crema de Dulce de Leche con Granizado de Chocolate CONAPROLE 1 L*Dulce De Leche Conaprole Light 440 G*0*¡NO Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Dulce Crema de Leche CONAPROLE 250gr*Dulce De Leche Conaprole Crema 250 G*100.000000*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Dulce de Leche Dietetico CONAPROLE 440 gr*Dulce De Leche Conaprole Light 440 G*100.000000*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*PAPAS LAYS RUSTICAS SAL 160GR*Papas Lays Rusticas Con Sal 160 g*100.000000*¡Match!
+2026-02-02 14:31:21 - *[CANTIDAD DIFERENTE]*Yerba Armiño Clasica 1Kg*Yerba ARMIÑO Clásica 500 gr*0*¡NO Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Yerba Armiño Clasica 1Kg*Yerba Mate Armiño 1 Kg*80.000000*¡No Match! Control Manual
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Yerba Armiño Clasica 500Gr*Yerba ARMIÑO Clásica 500 gr*100.000000*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Yerba Armiño Compuesta 1Kg*Yerba Mate Compuesta Armiño 1 Kg*100.000000*¡Match!
+2026-02-02 14:31:21 - *[CANTIDAD DIFERENTE]*YERBA ARMIÑO SUAVE 1KG+100GR*Yerba Armiño Suave 1.1 Kg*0*¡NO Match!
+2026-02-02 14:31:21 - *[CANTIDAD DIFERENTE]*YERBA ARMIÑO SUAVE 1KG+100GR*Yerba Mate Armiño Suave 1 Kg*0*¡NO Match!
+2026-02-02 14:31:21 - *[CANTIDAD DIFERENTE]*YERBA ARMIÑO SUAVE 1KG+100GR*Yerba Mate Armiño 1 Kg*0*¡NO Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Desodorante Rexona Men Ap V8 Aeresol 250Ml*Desodorante En Aerosol Rexona Ap 250 Ml*50.000000*¡No Match! Control Manual
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Dulce De Leche Conaprole 500Gr .*Dulce De Leche Conaprole Común 500 G*83.333333*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Dulce De Leche Conaprole 250Gr .*Dulce De Leche Conaprole 250 G*100.000000*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Helado Conaprole 1Lt  Dulce de leche Granizado*Helado Crema de Dulce de Leche con Granizado de Chocolate CONAPROLE 1 L*77.777778*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Dulce De Leche Conaprole Crema 250Gr .*Dulce De Leche Conaprole Crema 250 G*100.000000*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Dulce De Leche Conaprole Dietetico Vidrio 440Gr*Dulce De Leche Conaprole Light 440 G*85.714286*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*HELADO CONAPROLE 2Lt CHOCOLATE HOLANDES Y DULCE DE LECHE*Helado sabor Dulce de Leche y Chocolate Tipo Holandés CONAPROLE Pote 2 L*75.000000*¡No Match! Control Manual
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Papas fritas LAYS rusticas 160 G*Papas Lays Rusticas Con Sal 160 g*71.428571*¡No Match! Control Manual
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Yerba ARMIÑO 1 kg*Yerba Mate Armiño 1 Kg*100.000000*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Yerba ARMIÑO suave 1 kg*Yerba Armiño Suave 1.1 Kg*100.000000*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Yerba ARMIÑO 500 g*Yerba ARMIÑO Clásica 500 gr*80.000000*¡No Match! Control Manual
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Yerba compuesta ARMIÑO 1 kg*Yerba Mate Compuesta Armiño 1 Kg*100.000000*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Desodorante REXONA V8 Men 250 ml*Desodorante En Aerosol Rexona Ap 250 Ml*44.444444*¡No Match! Control Manual
+2026-02-02 14:31:21 - *[CANTIDAD DIFERENTE]*Desodorante REXONA Fanatics antitranspirante 105 g*Desodorante En Aerosol Rexona Ap 250 Ml*0*¡NO Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE 500 g*Dulce De Leche Conaprole Común 500 G*83.333333*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE 250 g*Dulce De Leche Conaprole 250 G*100.000000*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Helado CONAPROLE dulce de leche granizado 1 L*Helado Crema de Dulce de Leche con Granizado de Chocolate CONAPROLE 1 L*77.777778*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Dulce crema de leche CONAPROLE 250 g*Dulce De Leche Conaprole Crema 250 G*100.000000*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE dietético 0% 440 g*Dulce De Leche Conaprole Light 440 G*85.714286*¡Match!
+2026-02-02 14:31:21 - *[RESULTADO x JACCARD]*Helado CONAPROLE chocolate holandés y dulce de leche 2 L*Helado sabor Dulce de Leche y Chocolate Tipo Holandés CONAPROLE Pote 2 L*75.000000*¡No Match! Control Manual
+2026-02-02 14:31:22 - *[RESULTADO x JACCARD]*Papas fritas LAYS rusticas 160 G*Papas Lays Rusticas Con Sal 160 g*71.428571*¡No Match! Control Manual
+2026-02-02 14:31:22 - *[RESULTADO x JACCARD]*Yerba ARMIÑO 1 kg*Yerba Mate Armiño 1 Kg*100.000000*¡Match!
+2026-02-02 14:31:22 - *[RESULTADO x JACCARD]*Yerba ARMIÑO suave 1 kg*Yerba Armiño Suave 1.1 Kg*100.000000*¡Match!
+2026-02-02 14:31:22 - *[RESULTADO x JACCARD]*Yerba ARMIÑO 500 g*Yerba ARMIÑO Clásica 500 gr*80.000000*¡No Match! Control Manual
+2026-02-02 14:31:22 - *[RESULTADO x JACCARD]*Yerba compuesta ARMIÑO 1 kg*Yerba Mate Compuesta Armiño 1 Kg*100.000000*¡Match!
+2026-02-02 14:31:22 - *[RESULTADO x JACCARD]*Desodorante REXONA V8 Men 250 ml*Desodorante En Aerosol Rexona Ap 250 Ml*44.444444*¡No Match! Control Manual
+2026-02-02 14:31:22 - *[RESULTADO x JACCARD]*Desodorante REXONA Fanatics antitranspirante 105 g*Desodorante REXONA Fanatics antitranspirante 105 g*100.000000*¡Match!
+2026-02-02 14:31:22 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE 500 g*Dulce De Leche Conaprole Común 500 G*83.333333*¡Match!
+2026-02-02 14:31:22 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE 250 g*Dulce De Leche Conaprole 250 G*100.000000*¡Match!
+2026-02-02 14:31:22 - *[RESULTADO x JACCARD]*Helado CONAPROLE dulce de leche granizado 1 L*Helado Crema de Dulce de Leche con Granizado de Chocolate CONAPROLE 1 L*77.777778*¡Match!
+2026-02-02 14:31:22 - *[RESULTADO x JACCARD]*Dulce crema de leche CONAPROLE 250 g*Dulce De Leche Conaprole Crema 250 G*100.000000*¡Match!
+2026-02-02 14:31:22 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE dietético 0% 440 g*Dulce De Leche Conaprole Light 440 G*85.714286*¡Match!
+2026-02-02 14:31:22 - *[RESULTADO x JACCARD]*Helado CONAPROLE chocolate holandés y dulce de leche 2 L*Helado sabor Dulce de Leche y Chocolate Tipo Holandés CONAPROLE Pote 2 L*75.000000*¡No Match! Control Manual

@@ -13,4 +13,5 @@ public interface StoreProductRepository extends JpaRepository<StoreProduct, Stor
     Optional<StoreProduct> findById(StoreProductPk id);
     Optional<StoreProduct> findByIdWebAndStore_Rut(long idWeb, long rut);
     List<StoreProduct> findByProduct_IdInOrderByProduct_IdAsc(List<Integer> productIds);
+    List<StoreProduct> findByProduct_id(long product_id);
 }

@@ -37,4 +37,12 @@ public class StoreProductService {
         return storeProductRepository.findByProduct_IdInOrderByProduct_IdAsc(productIds);
     }
 
+    public String getFirstUrlByProductId(long productId) throws DataException {
+        List<StoreProduct> storeProduct = storeProductRepository.findByProduct_id(productId);
+        if(storeProduct.isEmpty()) {
+           throw new DataException("No se encontraron productos con el código {" + productId + "}");
+        }
+        return storeProduct.get(0).getUrlProduct();
+    }
+
 }
