@@ -39,4 +39,12 @@ public class StoreProductPk implements Serializable {
     public void setProductId(int productId) {
         this.productId = productId;
     }
+
+    @Override
+    public String toString() {
+        return "StoreProductPk{" +
+                "storeRut=" + storeRut +
+                ", productId=" + productId +
+                '}';
+    }
 }
