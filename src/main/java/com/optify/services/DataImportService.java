@@ -68,8 +68,6 @@ public class DataImportService {
         if(product == null && productResult != null && productResult.containsKey("final")) {
             product = productResult.get("final");
         } else if(product == null && productResult != null && productResult.containsKey("control")) {
-            //TODO: Lógica para guardar registro en tabla para futura validación
-            //No se debe hacer la asociación.
             if(!manualMatchService.existsByStoreAndIdWeb(store,dto.getIdWeb())) {
                 String urlProductDB = storeProductService.getFirstUrlByProductId(productResult.get("control").getId());
                 ManualMatchPending pending = new ManualMatchPending(productResult.get("control"),store,dto.getIdWeb(),
@@ -81,15 +79,19 @@ public class DataImportService {
         }
 
         if(product != null) {
-            StoreProduct storeProduct = new StoreProduct();
-            storeProduct.setProduct(product);
-            storeProduct.setStore(store);
-            storeProduct.setIdWeb(dto.getIdWeb());
-            storeProduct.setUrlProduct(dto.getUrlProduct());
-            storeProduct.setPrice(dto.getProductPrice());
-            storeProductService.addOrUpdateStoreProduct(storeProduct);
+            saveStoreProduct(product,store,dto);
         }
 
+    }
+
+    public void saveStoreProduct(Product product, Store store, ProductImportDto dto) {
+        StoreProduct storeProduct = new StoreProduct();
+        storeProduct.setProduct(product);
+        storeProduct.setStore(store);
+        storeProduct.setIdWeb(dto.getIdWeb());
+        storeProduct.setUrlProduct(dto.getUrlProduct());
+        storeProduct.setPrice(dto.getProductPrice());
+        storeProductService.addOrUpdateStoreProduct(storeProduct);
     }
 
     private HashMap<String,Product> findProductBySimilarName(ProductImportDto productImportDto) throws DataException {

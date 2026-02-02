@@ -32,6 +32,10 @@ public class Facade {
     private DataImportService dataImportService;
     @Autowired
     private CartService cartService;
+    @Autowired
+    private ManualMatchService manualMatchService;
+    @Autowired
+    private MatchManagerService matchManagerService;
 
     private Facade() {}
 
@@ -153,5 +157,13 @@ public class Facade {
 
     public List<CartSimulation> calculateCartValues(String username) throws DataException {
         return cartService.getCheapestResults(username);
+    }
+
+    public List<ManualMatchPending> getAllPendingMatches() {
+        return manualMatchService.getAll();
+    }
+
+    public void confirmMatch(int id) throws DataException {
+        matchManagerService.confirmMatch(id);
     }
 }
