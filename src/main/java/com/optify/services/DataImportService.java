@@ -3,11 +3,13 @@ package com.optify.services;
 import com.optify.domain.*;
 import com.optify.dto.ProductImportDto;
 import com.optify.exceptions.DataException;
+import com.optify.repository.ManualMatchRepository;
 import com.optify.utils.ComparisonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -20,6 +22,8 @@ public class DataImportService {
     private StoreProductService storeProductService;
     @Autowired
     private StoreService storeService;
+    @Autowired
+    private ManualMatchRepository manualMatchRepository;
 
 
     @Transactional(rollbackFor = Exception.class) //Si algo falla, vuelve atrás.
@@ -31,6 +35,9 @@ public class DataImportService {
 
 
     public void importProductFromStoreData(ProductImportDto dto) throws DataException {
+        if(dto.getIdWeb() == 0) {
+            throw new DataException("El código idWeb no puede ser 0.");
+        }
         Store store = storeService.getStoreByRut(dto.getStoreRut());
         Product product = null;
         if(dto.getIdWeb() != 0 && store != null) {
@@ -39,11 +46,12 @@ public class DataImportService {
                 product = productService.getProductById(id);
             }
         }
+        HashMap<String,Product> productResult = null;
         if(product == null) {
-            product = findProductBySimilarName(dto);
+            productResult = findProductBySimilarName(dto);
         }
 
-        if(product == null) {
+        if(product == null && productResult == null) {
             product = new Product();
             setProductData(product, dto);
             Category category = null;
@@ -57,17 +65,34 @@ public class DataImportService {
             product.setCategory(category);
             productService.addProduct(product);
         }
+        if(product == null && productResult != null && productResult.containsKey("final")) {
+            product = productResult.get("final");
+        } else if(product == null && productResult != null && productResult.containsKey("control")) {
+            //TODO: Lógica para guardar registro en tabla para futura validación
+            //No se debe hacer la asociación.
+            if(!manualMatchRepository.existsByStoreAndIdWeb(store,dto.getIdWeb())) {
+                String urlProductDB = storeProductService.getFirstUrlByProductId(productResult.get("control").getId());
+                ManualMatchPending pending = new ManualMatchPending(productResult.get("control"),store,dto.getIdWeb(),
+                        dto.getProductName(),dto.getProductDescription(),dto.getProductImageUrl(),dto.getProductBrand(),
+                        dto.getCategoryName(),dto.getUrlProduct(),dto.getProductPrice(),urlProductDB
+                );
+                manualMatchRepository.save(pending);
+            }
+        }
 
-        StoreProduct storeProduct = new StoreProduct();
-        storeProduct.setProduct(product);
-        storeProduct.setStore(store);
-        storeProduct.setIdWeb(dto.getIdWeb());
-        storeProduct.setUrlProduct(dto.getUrlProduct());
-        storeProduct.setPrice(dto.getProductPrice());
-        storeProductService.addOrUpdateStoreProduct(storeProduct);
+        if(product != null) {
+            StoreProduct storeProduct = new StoreProduct();
+            storeProduct.setProduct(product);
+            storeProduct.setStore(store);
+            storeProduct.setIdWeb(dto.getIdWeb());
+            storeProduct.setUrlProduct(dto.getUrlProduct());
+            storeProduct.setPrice(dto.getProductPrice());
+            storeProductService.addOrUpdateStoreProduct(storeProduct);
+        }
+
     }
 
-    private Product findProductBySimilarName(ProductImportDto productImportDto) throws DataException {
+    private HashMap<String,Product> findProductBySimilarName(ProductImportDto productImportDto) throws DataException {
         String productName = productImportDto.getProductName();
         String brandName = productImportDto.getProductBrand() != null ? productImportDto.getProductBrand().toLowerCase().trim() : null;
         long storeRut = productImportDto.getStoreRut();
@@ -77,14 +102,19 @@ public class DataImportService {
             return null;
         }
         for(Product product : productsCandidates){
-            String candidateBrand = product.getBrand() != null ? product.getBrand().toLowerCase().trim() : null;
-            if(candidateBrand != null && brandName != null &&  !candidateBrand.equals(brandName)) {
+/*          String candidateBrand = product.getBrand() != null ? product.getBrand().toLowerCase().trim() : null;
+            if(candidateBrand != null && brandName != null && !candidateBrand.equals(brandName)) {
                 continue;
             }
-
-            boolean isSameProduct = ComparisonUtils.compare(productName,product.getName());
-            if(isSameProduct) {
-                return product;
+*/
+            HashMap<String,Boolean> isSameProduct = ComparisonUtils.compare(productName,product.getName());
+            HashMap<String,Product> productResult = new HashMap<>();
+            if(isSameProduct.get("finalResult") && !isSameProduct.get("doControl")) {
+                productResult.put("final",product);
+                return productResult;
+            } else if(!isSameProduct.get("finalResult") && isSameProduct.get("doControl")) {
+                productResult.put("control",product);
+                return productResult;
             }
         }
         return null;

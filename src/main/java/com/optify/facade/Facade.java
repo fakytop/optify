@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Component
@@ -148,5 +149,9 @@ public class Facade {
 
     public Page<Product> getAllProducts(Pageable pageable) {
         return productService.getAllProducts(pageable);
+    }
+
+    public List<CartSimulation> calculateCartValues(String username) throws DataException {
+        return cartService.getCheapestResults(username);
     }
 }

@@ -1,6 +1,9 @@
 package com.optify.controllers;
 
 import com.optify.domain.CartItem;
+import com.optify.domain.CartSimulation;
+import com.optify.dto.CartComparisonDto;
+import com.optify.dto.CartSimulationDto;
 import com.optify.dto.ProductCartDto;
 import com.optify.exceptions.DataException;
 import com.optify.facade.Facade;
@@ -10,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -91,5 +95,26 @@ public class CartController {
             return  ResponseEntity.badRequest().body(e.getMessage());
         }
 
+    }
+
+    @SecurityRequirement(name = "ApiKeyAuth")
+    @SecurityRequirement(name = "BearerAuth")
+    @PostMapping("/calculateCart")
+    public ResponseEntity<?> calculateCartValues(Authentication auth) {
+        String username = auth.getName();
+
+        try {
+            List<CartSimulation> listCartSimulation = instance.calculateCartValues(username);
+            if(!listCartSimulation.isEmpty()){
+                CartComparisonDto response = new CartComparisonDto();
+                response.setOptimum(new CartSimulationDto(listCartSimulation.get(0)));
+                response.setPreferedStore(new CartSimulationDto(listCartSimulation.get(1)));
+                response.setCheapestStore(new CartSimulationDto(listCartSimulation.get(2)));
+                return ResponseEntity.ok(response);
+            }
+            return ResponseEntity.badRequest().body("Error al calcular el carrito.");
+        } catch (DataException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
