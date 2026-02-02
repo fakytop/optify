@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 public class ComparisonUtils {
     private static final Set<String> TYPE_KEYWORDS = new HashSet<>(Arrays.asList(
             "harina","fideo","aceite","arroz","pan","gelatina","light", "maiz", "girasol",
-            "oliva","integral","parboiled","sin sal"
+            "oliva","integral","parboiled","sin sal","suave","compuesta"
     ));
     private static final Levenshtein lev = new Levenshtein();
     private static Logger logger = LoggerFactory.getLogger(ComparisonUtils.class);
@@ -67,28 +68,33 @@ public class ComparisonUtils {
         return text.trim();
     }
 
-    public static boolean compare(String name1, String name2) throws DataException {
+    public static HashMap<String,Boolean> compare(String name1, String name2) throws DataException {
         if(name1 == null || name2 == null) {
             throw new DataException("Los nombres no pueden ser nulos. { Name1: " + name1 + "; Name2: " + name2 + "}");
         }
+        HashMap<String,Boolean> result = new HashMap<>();
 
         String nameRepared1 = repairEncoding(normalize(name1));
         String nameRepared2 = repairEncoding(normalize(name2));
 
         if(!haveSameQuantity(nameRepared1,nameRepared2)) {
             logger.info("*[CANTIDAD DIFERENTE]*{}*{}*0*¡NO Match!", name1, name2);
-            return false;
+            result.put("finalResult",false);
+            result.put("doControl",false);
+            return result;
         }
 
         if(!haveSameCategoryKeywords(nameRepared1,nameRepared2)) {
             logger.info("*[CATEGORIA DIFERENTE]*{}*{}*0*¡NO Match!", name1, name2);
-            return false;
+            result.put("finalResult",false);
+            result.put("doControl",false);
+            return result;
         }
         double similarity = 0;
         similarity = calculateJaccardByWords(nameRepared1,nameRepared2);
 
         int maxWords = Math.max(nameRepared1.split("\\s+").length,nameRepared2.split("\\s+").length);
-        double dynamicThreshold = 80;
+        double dynamicThreshold = 83;
         if(maxWords <= 3) {
             dynamicThreshold = 85;
         } else if(maxWords >= 6) {
@@ -97,11 +103,23 @@ public class ComparisonUtils {
 
         if (similarity > dynamicThreshold) {
             logger.debug(String.format("*[RESULTADO x JACCARD]*%s*%s*%f*¡Match!", name1, name2,similarity));
-            return true;
+            result.put("finalResult",true);
+            result.put("doControl",false);
+            return result;
+        }
+
+        if(similarity > 40) {
+            logger.debug(String.format("*[RESULTADO x JACCARD]*%s*%s*%f*¡No Match! Control Manual", name1, name2,similarity));
+            result.put("finalResult",false);
+            result.put("doControl",true);
+            return result;
+
         }
 
         logger.debug(String.format("*[RESULTADO x JACCARD]*%s*%s*%f*¡NO Match!", name1, name2, similarity));
-        return false;
+        result.put("finalResult",false);
+        result.put("doControl",false);
+        return result;
 
     }
 
@@ -215,10 +233,14 @@ public class ComparisonUtils {
     private static String normalizeSynonyms(String text) {
         if (text == null) return null;
         // Caso específico del mercado uruguayo
-        text.replaceAll("\\b(dietetico|diet)\\b", "light");
-        text.replaceAll("\\b(galleta)\\b", "galletas");
-        text.replaceAll("\\b(tradicional|clasica)\\b", "clasicas");
-        text.replaceAll("\\b(antitranspirante)\\b","desodorante");
+        text = text.replaceAll("\\b(dietetico|diet|light)\\b", "light");
+        text = text.replaceAll("\\b(galleta|galletas)\\b", "galletas");
+        text = text.replaceAll("\\b(tradicional|clasica)\\b", "clasicas");
+        text = text.replaceAll("\\b(antitranspirante|desodorante)\\b","desodorante");
+        text = text.replaceAll("\\b(clasico|comun)\\b","comun");
+        if(text.contains("yerba") && text.contains("mate")) {
+            text = text.replaceAll("\\b(mate)\\b","");
+        }
 
         return text;
     }

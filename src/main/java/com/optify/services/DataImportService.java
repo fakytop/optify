@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -77,14 +78,17 @@ public class DataImportService {
             return null;
         }
         for(Product product : productsCandidates){
-            String candidateBrand = product.getBrand() != null ? product.getBrand().toLowerCase().trim() : null;
-            if(candidateBrand != null && brandName != null &&  !candidateBrand.equals(brandName)) {
+/*          String candidateBrand = product.getBrand() != null ? product.getBrand().toLowerCase().trim() : null;
+            if(candidateBrand != null && brandName != null && !candidateBrand.equals(brandName)) {
                 continue;
             }
-
-            boolean isSameProduct = ComparisonUtils.compare(productName,product.getName());
-            if(isSameProduct) {
+*/
+            HashMap<String,Boolean> isSameProduct = ComparisonUtils.compare(productName,product.getName());
+            if(isSameProduct.get("finalResult") && !isSameProduct.get("doControl")) {
                 return product;
+            } else if(!isSameProduct.get("finalResult") && isSameProduct.get("doControl")) {
+                //TODO: Hacer acción de controlar manual
+                return null;
             }
         }
         return null;
