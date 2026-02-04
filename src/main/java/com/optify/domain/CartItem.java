@@ -71,4 +71,8 @@ public class CartItem {
         CartItem cartItem = (CartItem)obj;
         return id.equals(cartItem.id);
     }
+
+    public CartItemPk getId() {
+        return id;
+    }
 }

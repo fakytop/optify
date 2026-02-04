@@ -90,4 +90,13 @@ public class ProductController {
         Page<ProductCatalogDto> productDtos = products.map(ProductCatalogDto::new);
         return ResponseEntity.ok(productDtos);
     }
+
+    public ResponseEntity<?> mergeProducts(@RequestParam int keepProductId, @RequestParam int suprProductId) {
+        try {
+            instance.mergeProducts(keepProductId,suprProductId);
+        } catch (DataException e) {
+
+        }
+        return ResponseEntity.ok().build();
+    }
 }

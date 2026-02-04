@@ -25,6 +25,10 @@ public class StoreProductService {
         return storeProductRepository.save(storeProduct);
     }
 
+    public void deleteStoreProduct(StoreProduct storeProduct) {
+        storeProductRepository.delete(storeProduct);
+    }
+
     public int getIdProduct(long idWeb, long rut) {
         if(storeProductRepository.findByIdWebAndStore_Rut(idWeb, rut).isPresent()) {
             StoreProduct storeProduct = storeProductRepository.findByIdWebAndStore_Rut(idWeb,rut).get();
@@ -35,6 +39,10 @@ public class StoreProductService {
 
     public List<StoreProduct> getStoreProductsByProductIds(List<Integer> productIds) {
         return storeProductRepository.findByProduct_IdInOrderByProduct_IdAsc(productIds);
+    }
+
+    public List<StoreProduct> getStoreProductsByProductId(long productIds){
+        return storeProductRepository.findByProduct_id(productIds);
     }
 
     public String getFirstUrlByProductId(long productId) throws DataException {

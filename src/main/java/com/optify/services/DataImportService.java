@@ -33,24 +33,27 @@ public class DataImportService {
         }
     }
 
+    private Product findProductFromStoreProductToUpdate(ProductImportDto dto,Store store) throws DataException {
+        if(dto.getIdWeb() != 0 && store != null) {
+            int id = storeProductService.getIdProduct(dto.getIdWeb(),dto.getStoreRut());
+            if(id != -1){
+                return productService.getProductById(id);
+            }
+        }
+        return null;
+    }
+
 
     public void importProductFromStoreData(ProductImportDto dto) throws DataException {
         if(dto.getIdWeb() == 0) {
             throw new DataException("El código idWeb no puede ser 0.");
         }
         Store store = storeService.getStoreByRut(dto.getStoreRut());
-        Product product = null;
-        if(dto.getIdWeb() != 0 && store != null) {
-            int id = storeProductService.getIdProduct(dto.getIdWeb(),dto.getStoreRut());
-            if(id != -1){
-                product = productService.getProductById(id);
-            }
-        }
+        Product product = findProductFromStoreProductToUpdate(dto,store);
         HashMap<String,Product> productResult = null;
         if(product == null) {
             productResult = findProductBySimilarName(dto);
         }
-
         if(product == null && productResult == null) {
             product = new Product();
             setProductData(product, dto);
@@ -68,8 +71,6 @@ public class DataImportService {
         if(product == null && productResult != null && productResult.containsKey("final")) {
             product = productResult.get("final");
         } else if(product == null && productResult != null && productResult.containsKey("control")) {
-            //TODO: Lógica para guardar registro en tabla para futura validación
-            //No se debe hacer la asociación.
             if(!manualMatchService.existsByStoreAndIdWeb(store,dto.getIdWeb())) {
                 String urlProductDB = storeProductService.getFirstUrlByProductId(productResult.get("control").getId());
                 ManualMatchPending pending = new ManualMatchPending(productResult.get("control"),store,dto.getIdWeb(),
@@ -81,15 +82,19 @@ public class DataImportService {
         }
 
         if(product != null) {
-            StoreProduct storeProduct = new StoreProduct();
-            storeProduct.setProduct(product);
-            storeProduct.setStore(store);
-            storeProduct.setIdWeb(dto.getIdWeb());
-            storeProduct.setUrlProduct(dto.getUrlProduct());
-            storeProduct.setPrice(dto.getProductPrice());
-            storeProductService.addOrUpdateStoreProduct(storeProduct);
+            saveStoreProduct(product,store,dto);
         }
 
+    }
+
+    public void saveStoreProduct(Product product, Store store, ProductImportDto dto) {
+        StoreProduct storeProduct = new StoreProduct();
+        storeProduct.setProduct(product);
+        storeProduct.setStore(store);
+        storeProduct.setIdWeb(dto.getIdWeb());
+        storeProduct.setUrlProduct(dto.getUrlProduct());
+        storeProduct.setPrice(dto.getProductPrice());
+        storeProductService.addOrUpdateStoreProduct(storeProduct);
     }
 
     private HashMap<String,Product> findProductBySimilarName(ProductImportDto productImportDto) throws DataException {

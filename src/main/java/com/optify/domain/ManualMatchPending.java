@@ -129,4 +129,12 @@ public class ManualMatchPending {
     public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
     }
+
+    public String getUrlProductDB() {
+        return urlProductDB;
+    }
+
+    public void setUrlProductDB(String urlProductDB) {
+        this.urlProductDB = urlProductDB;
+    }
 }
