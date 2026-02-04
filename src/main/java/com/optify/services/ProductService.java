@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -43,10 +44,11 @@ public class ProductService {
     }
 
     public Product getProductByName(String name)  {
-        if(!productRepository.findByName(name).isPresent()) {
+        Optional<Product> optionalProduct = productRepository.findByName(name);
+        if(!optionalProduct.isPresent()) {
             return null;
         }
-        return productRepository.findByName(name).get();
+        return optionalProduct.get();
     }
 
     public Page<Product> searchProductsByName(String term, Pageable pageable) throws DataException {
@@ -59,10 +61,11 @@ public class ProductService {
     }
 
     public Product getProductById(int id) throws DataException {
-        if(!productRepository.findById(id).isPresent()) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if(!optionalProduct.isPresent()) {
             throw new DataException("No se encuentra el producto id: {" + id + "}");
         }
-        return productRepository.findById(id).get();
+        return optionalProduct.get();
     }
 
     public List<Product> getSimilarCandidates(String name,long storeRut,long idWeb) {

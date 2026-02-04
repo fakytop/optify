@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ManualMatchService {
@@ -30,10 +31,11 @@ public class ManualMatchService {
     }
 
     public ManualMatchPending findById(int id) throws DataException {
-        if(!manualMatchRepository.findById(id).isPresent()){
+        Optional<ManualMatchPending> optionalManualMatchPending = manualMatchRepository.findById(id);
+        if(!optionalManualMatchPending.isPresent()){
             throw new DataException("No se encontró match con id {" + id + "}");
         }
-        return manualMatchRepository.findById(id).get();
+        return optionalManualMatchPending.get();
     }
 
     public void deleteMatchConfirmed(int id) {
@@ -41,10 +43,11 @@ public class ManualMatchService {
     }
 
     public List<ManualMatchPending> getMatchesByProduct(int productId) {
-        if(manualMatchRepository.findByProductId(productId).isEmpty()) {
+        List<ManualMatchPending> manualMatchPendings = manualMatchRepository.findByProductId(productId);
+        if(manualMatchPendings.isEmpty()) {
             return null;
         }
-        return manualMatchRepository.findByProductId(productId);
+        return manualMatchPendings;
     }
 
     public void addOrUpdate(ManualMatchPending manualMatchPending) {

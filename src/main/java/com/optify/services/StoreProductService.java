@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StoreProductService {
@@ -15,10 +16,11 @@ public class StoreProductService {
     private StoreProductRepository storeProductRepository;
 
     public StoreProduct findById(StoreProductPk id) throws DataException {
-        if(!storeProductRepository.findById(id).isPresent()) {
+        Optional<StoreProduct> optionalStoreProduct = storeProductRepository.findById(id);
+        if(!optionalStoreProduct.isPresent()) {
             throw new DataException("[DataException] No se encontró el producto { ean: " + id.getProductId() + "; rut: " + id.getStoreRut() + "}");
         }
-        return storeProductRepository.findById(id).get();
+        return optionalStoreProduct.get();
     }
 
     public StoreProduct addOrUpdateStoreProduct(StoreProduct storeProduct) {

@@ -26,28 +26,30 @@ public class StoreService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Store updateStore(Store store) throws DataException {
-        if(storeRepository.findByRut(store.getRut()).isPresent()) {
-            Store s = storeRepository.findByRut(store.getRut()).get();
-            if(store.getName() != null && store.getName() != "") {
-                s.setName(store.getName());
+    public Store updateStore(Store updateStore) throws DataException {
+        Optional<Store> optionalStore = storeRepository.findByRut(updateStore.getRut());
+        if(optionalStore.isPresent()) {
+            Store store = optionalStore.get();
+            if(updateStore.getName() != null && updateStore.getName() != "") {
+                store.setName(updateStore.getName());
             }
-            if(store.getFantasyName() != null && store.getFantasyName() != "") {
-                s.setFantasyName(store.getFantasyName());
+            if(updateStore.getFantasyName() != null && updateStore.getFantasyName() != "") {
+                store.setFantasyName(updateStore.getFantasyName());
             }
-            if(store.getHomePage() != null && store.getHomePage() != "") {
-                s.setHomePage(store.getHomePage());
+            if(updateStore.getHomePage() != null && updateStore.getHomePage() != "") {
+                store.setHomePage(updateStore.getHomePage());
             }
-            return storeRepository.save(s);
+            return storeRepository.save(store);
         }
-        throw new DataException("[DataException] No se encontró supermercado con rut: [" + store.getRut() + "]");
+        throw new DataException("[DataException] No se encontró supermercado con rut: [" + updateStore.getRut() + "]");
     }
 
     public void deleteStore(long rut) throws DataException {
-        if(!storeRepository.findByRut(rut).isPresent()) {
+        Optional<Store> optionalStore = storeRepository.findByRut(rut);
+        if(!optionalStore.isPresent()) {
             throw new DataException("[DataException] No se encontró supermercado con rut: {" + rut + "}");
         }
-        storeRepository.delete(storeRepository.findByRut(rut).get());
+        storeRepository.delete(optionalStore.get());
     }
 
     public List<Store> getAllStores() {
@@ -55,21 +57,10 @@ public class StoreService {
     }
 
     public Store getStoreByRut(long rut) throws DataException {
-        if(!storeRepository.findByRut(rut).isPresent()) {
+        Optional<Store> optionalStore = storeRepository.findByRut(rut);
+        if(!optionalStore.isPresent()) {
             throw new DataException("[DataException] No se encontró supermercado con RUT: {" + rut + "}");
         }
-        return storeRepository.findByRut(rut).get();
-    }
-
-    @Transactional
-    public void addUrlCategoryToStore(long rut, String category) throws DataException {
-        try {
-            Store store = storeRepository.findByRut(rut).get();
-            store.addUrlCategory(category);
-            storeRepository.save(store);
-        } catch (NoSuchElementException e) {
-            throw new DataException("[DataException] No se encontró super con el RUT: ["
-                    + rut+"]. \nMensaje Original: " + e.getMessage());
-        }
+        return optionalStore.get();
     }
 }

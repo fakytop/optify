@@ -8,6 +8,7 @@ import com.optify.dto.ProductImportDto;
 import com.optify.exceptions.DataException;
 import com.optify.facade.Facade;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -91,12 +92,14 @@ public class ProductController {
         return ResponseEntity.ok(productDtos);
     }
 
+    @SecurityRequirement(name = "ApiKeyAuth")
+    @PostMapping("/mergeProducts")
     public ResponseEntity<?> mergeProducts(@RequestParam int keepProductId, @RequestParam int suprProductId) {
         try {
             instance.mergeProducts(keepProductId,suprProductId);
         } catch (DataException e) {
-
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Productos vinculados correctamente.");
     }
 }

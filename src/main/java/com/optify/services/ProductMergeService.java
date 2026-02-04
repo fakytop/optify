@@ -23,21 +23,15 @@ public class ProductMergeService {
 
     @Transactional
     public void mergeProducts(int keepProductId, int suprProductId) throws DataException {
-
         Product keepProduct = productService.getProductById(keepProductId);
         Product suprProduct = productService.getProductById(suprProductId);
-
         List<StoreProduct> storeProductsToDelete = storeProductService.getStoreProductsByProductId(suprProductId);
-
         createNewStoreProducts(storeProductsToDelete,keepProduct);
         createOrUpdateCartItem(suprProductId,keepProduct);
         updateManualMatchesPending(suprProductId,keepProduct);
         updateCartSimulationDetails(suprProductId,keepProduct);
-
         productService.flush();
         productService.deleteProduct(suprProduct);
-
-
     }
 
     private void updateCartSimulationDetails(int productId, Product product) {
@@ -58,7 +52,6 @@ public class ProductMergeService {
                 manualMatchService.addOrUpdate(match);
             }
         }
-
     }
 
     private void createOrUpdateCartItem(int productId, Product product) {
@@ -67,7 +60,6 @@ public class ProductMergeService {
             for(CartItem cartItem : cartItemsToDelete) {
                 Cart cart = cartItem.getCart();
                 double quant = cartItem.getQuant();
-
                 CartItem ct = new CartItem(cart,product,quant);
                 CartItem existsCi = cartService.getCartItemByPk(ct.getId());
                 if(existsCi != null) {
@@ -87,17 +79,14 @@ public class ProductMergeService {
             double price = storeProduct.getPrice();
             long idWeb = storeProduct.getIdWeb();
             String urlWeb = storeProduct.getUrlProduct();
-
             StoreProduct sp = new StoreProduct();
             sp.setProduct(product);
             sp.setStore(store);
             sp.setIdWeb(idWeb);
             sp.setPrice(price);
             sp.setUrlProduct(urlWeb);
-
             storeProductService.addOrUpdateStoreProduct(sp);
             storeProductService.deleteStoreProduct(storeProduct);
         }
     }
-
 }

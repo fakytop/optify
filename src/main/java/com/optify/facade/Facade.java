@@ -68,10 +68,6 @@ public class Facade {
         return storeService.getStoreByRut(rut);
     }
 
-    public void addUrlCategoryByRut(long rut, String category) throws DataException {
-        storeService.addUrlCategoryToStore(rut, category);
-    }
-
     public void deleteStore(long rut) throws DataException {
         storeService.deleteStore(rut);
     }
