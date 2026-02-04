@@ -33,24 +33,27 @@ public class DataImportService {
         }
     }
 
+    private Product findProductFromStoreProductToUpdate(ProductImportDto dto,Store store) throws DataException {
+        if(dto.getIdWeb() != 0 && store != null) {
+            int id = storeProductService.getIdProduct(dto.getIdWeb(),dto.getStoreRut());
+            if(id != -1){
+                return productService.getProductById(id);
+            }
+        }
+        return null;
+    }
+
 
     public void importProductFromStoreData(ProductImportDto dto) throws DataException {
         if(dto.getIdWeb() == 0) {
             throw new DataException("El código idWeb no puede ser 0.");
         }
         Store store = storeService.getStoreByRut(dto.getStoreRut());
-        Product product = null;
-        if(dto.getIdWeb() != 0 && store != null) {
-            int id = storeProductService.getIdProduct(dto.getIdWeb(),dto.getStoreRut());
-            if(id != -1){
-                product = productService.getProductById(id);
-            }
-        }
+        Product product = findProductFromStoreProductToUpdate(dto,store);
         HashMap<String,Product> productResult = null;
         if(product == null) {
             productResult = findProductBySimilarName(dto);
         }
-
         if(product == null && productResult == null) {
             product = new Product();
             setProductData(product, dto);
