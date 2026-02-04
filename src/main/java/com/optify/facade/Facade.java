@@ -36,6 +36,8 @@ public class Facade {
     private ManualMatchService manualMatchService;
     @Autowired
     private MatchManagerService matchManagerService;
+    @Autowired
+    private ProductMergeService productMergeService;
 
     private Facade() {}
 
@@ -165,5 +167,9 @@ public class Facade {
 
     public void confirmMatch(int id) throws DataException {
         matchManagerService.confirmMatch(id);
+    }
+
+    public void mergeProducts(int keepProductId, int suprProductId) throws DataException {
+        productMergeService.mergeProducts(keepProductId,suprProductId);
     }
 }

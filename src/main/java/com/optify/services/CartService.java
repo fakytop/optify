@@ -3,18 +3,13 @@ package com.optify.services;
 
 import com.optify.domain.*;
 import com.optify.exceptions.DataException;
-import com.optify.repository.CartSimulationRepository;
-import com.optify.repository.ProductRepository;
-import com.optify.repository.UserRepository;
+import com.optify.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class CartService {
@@ -27,17 +22,23 @@ public class CartService {
     private StoreProductService storeProductService;
     @Autowired
     private CartSimulationRepository cartSimulationRepository;
+    @Autowired
+    private CartItemRepository cartItemRepository;
+    @Autowired
+    private CartSimulationDetailsRepository cartSimulationDetailsRepository;
 
     @Transactional(rollbackFor=Exception.class)
     public void addProductToCart(String username, int id, double quant) throws DataException {
-        if(!userRepository.findByUsername(username).isPresent()) {
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if(!optionalUser.isPresent()) {
             throw new DataException("[DataException] No existe el nombre de usuario: " + username);
         }
-        if(!productRepository.findById(id).isPresent()) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if(!optionalProduct.isPresent()) {
             throw new DataException("[DataException] No se encuentra el producto con código: " + id);
         }
-        User user = userRepository.findByUsername(username).get();
-        Product product = productRepository.findById(id).get();
+        User user = optionalUser.get();
+        Product product = optionalProduct.get();
 
         CartItem cartItem = new CartItem(user.getCart(), product, quant);
         user.addItemToCart(cartItem);
@@ -239,5 +240,39 @@ public class CartService {
             }
         }
         return true;
+    }
+
+    public List<CartItem> getCartItemsByProductId(long productId) {
+        if(!cartItemRepository.findByProductId(productId).isEmpty()) {
+            return cartItemRepository.findByProductId(productId);
+        }
+        return null;
+    }
+
+    public CartItem getCartItemByPk(CartItemPk cartItemPk) {
+        Optional<CartItem> cartItem = cartItemRepository.findById(cartItemPk);
+        if(!cartItem.isPresent()) {
+            return null;
+        }
+        return cartItem.get();
+    }
+
+    public void addCartItem(CartItem cartItem) {
+        cartItemRepository.save(cartItem);
+    }
+
+    public void deleteCartItem(CartItem cartItem) {
+        cartItemRepository.delete(cartItem);
+    }
+
+    public List<CartSimulationDetail> getCartSimulationDetailsByProductId(int productId) {
+        if(cartSimulationDetailsRepository.findByProductId(productId).isEmpty()) {
+            return null;
+        }
+        return cartSimulationDetailsRepository.findByProductId(productId);
+    }
+
+    public void addOrUpdateCartSimulationDetail(CartSimulationDetail cartSimulationDetail) {
+        cartSimulationDetailsRepository.save(cartSimulationDetail);
     }
 }

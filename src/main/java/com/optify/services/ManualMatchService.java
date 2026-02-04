@@ -40,4 +40,14 @@ public class ManualMatchService {
         manualMatchRepository.deleteById(id);
     }
 
+    public List<ManualMatchPending> getMatchesByProduct(int productId) {
+        if(manualMatchRepository.findByProductId(productId).isEmpty()) {
+            return null;
+        }
+        return manualMatchRepository.findByProductId(productId);
+    }
+
+    public void addOrUpdate(ManualMatchPending manualMatchPending) {
+        manualMatchRepository.save(manualMatchPending);
+    }
 }

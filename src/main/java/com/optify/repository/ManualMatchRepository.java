@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface ManualMatchRepository extends JpaRepository<ManualMatchPending,Integer> {
     boolean existsByStoreAndIdWeb(Store store, long idWeb);
     Optional<ManualMatchPending> findById(int id);
+    List<ManualMatchPending> findByProductId(long id);
 }

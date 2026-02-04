@@ -1,6 +1,8 @@
 package com.optify.services;
 
 import com.optify.domain.Product;
+import com.optify.domain.Store;
+import com.optify.domain.StoreProduct;
 import com.optify.exceptions.DataException;
 import com.optify.repository.ProductRepository;
 import com.optify.specifications.ProductSpecifications;
@@ -9,13 +11,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private StoreProductService storeProductService;
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
@@ -52,11 +58,22 @@ public class ProductService {
         return products;
     }
 
-    public Product getProductById(int id) {
+    public Product getProductById(int id) throws DataException {
+        if(!productRepository.findById(id).isPresent()) {
+            throw new DataException("No se encuentra el producto id: {" + id + "}");
+        }
         return productRepository.findById(id).get();
     }
 
     public List<Product> getSimilarCandidates(String name,long storeRut,long idWeb) {
         return productRepository.findSimilarByName(name, storeRut, idWeb,10);
+    }
+
+    public void deleteProduct(Product product) {
+        productRepository.delete(product);
+    }
+
+    public void flush() {
+        productRepository.flush();
     }
 }
