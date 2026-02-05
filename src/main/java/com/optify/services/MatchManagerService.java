@@ -17,7 +17,6 @@ public class MatchManagerService {
 
     @Transactional
     public void confirmMatch(int id) throws DataException {
-
         ManualMatchPending manualMatchPending = manualMatchService.findById(id);
         ProductImportDto dto = new ProductImportDto();
         dto.setIdWeb(manualMatchPending.getIdWeb());
@@ -25,6 +24,5 @@ public class MatchManagerService {
         dto.setProductPrice(manualMatchPending.getProductPrice());
         dataImportService.saveStoreProduct(manualMatchPending.getProduct(),manualMatchPending.getStore(),dto);
         manualMatchService.deleteMatchConfirmed(manualMatchPending.getId());
-
     }
 }

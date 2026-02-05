@@ -1,5 +1,6 @@
 package com.optify.domain;
 
+import com.optify.dto.ProductImportDto;
 import jakarta.persistence.*;
 
 @Entity
@@ -43,6 +44,20 @@ public class ManualMatchPending {
         this.categoryName = categoryName;
         this.urlProduct = urlProduct;
         this.productPrice = productPrice;
+        this.urlProductDB = urlProductDB;
+    }
+
+    public ManualMatchPending(Product product, Store store, ProductImportDto dto, String urlProductDB) {
+        this.product = product;
+        this.store = store;
+        this.idWeb = dto.getIdWeb();
+        this.productName = dto.getProductName();
+        this.productDescription = dto.getProductDescription();
+        this.productImageUrl = dto.getProductImageUrl();
+        this.productBrand = dto.getProductBrand();
+        this.categoryName = dto.getCategoryName();
+        this.urlProduct = dto.getUrlProduct();
+        this.productPrice = dto.getProductPrice();
         this.urlProductDB = urlProductDB;
     }
 

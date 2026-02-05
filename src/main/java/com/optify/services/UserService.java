@@ -47,18 +47,15 @@ public class UserService {
         user.setRegisterData(userRegisterDto,preferredStore);
         String passwordHash = encoder.encode(user.getPassword());
         user.setPassword(passwordHash);
-
         return userRepository.save(user);
     }
 
     public String logIn(UserLoginDto userDto) throws AuthenticationException {
         Optional<User> optionalUser = userRepository.findByUsername(userDto.getUserUsername());
-
         if(optionalUser.isEmpty()) {
             throw new AuthenticationException("[Authentication] No existe el nombre de usuario: " + userDto.getUserUsername());
         }
         User user = optionalUser.get();
-
         if(!encoder.matches(userDto.getUserPassword(),user.getPassword())) {
             throw new AuthenticationException("[Authentication] Clave de usuario incorrecta.");
         }
@@ -69,20 +66,16 @@ public class UserService {
     public void updateUserProfile(String username, UserUpdateDto userUpdateDto) throws DataException {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new DataException("User not found."));
-
         if (userUpdateDto.getEmail() != null) {
             user.setMail(userUpdateDto.getEmail());
         }
-
         if (userUpdateDto.getUserPreferredDay() != null) {
             user.setPreferredDay(userUpdateDto.getUserPreferredDay());
         }
-
         if (userUpdateDto.getUserPreferredStore() != null) {
             Store preferredStore = storeService.getStoreByRut(userUpdateDto.getUserPreferredStore());
             user.setPreferredStore(preferredStore);
         }
-
         userRepository.save(user);
     }
 
@@ -90,11 +83,9 @@ public class UserService {
     public void changeUserPassword(String username, UserPasswordUpdateDto userPasswordUpdateDto) throws AuthenticationException, DataException {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new DataException("User not found."));
-
         if (!encoder.matches(userPasswordUpdateDto.getCurrentPassword(), user.getPassword())) {
             throw new AuthenticationException("Current password is incorrect.");
         }
-
         user.setPassword(encoder.encode(userPasswordUpdateDto.getNewPassword()));
         userRepository.save(user);
     }

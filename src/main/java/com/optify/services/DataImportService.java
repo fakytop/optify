@@ -43,6 +43,21 @@ public class DataImportService {
         return null;
     }
 
+    private Product createNewProduct(Product product, ProductImportDto dto) throws DataException {
+        product = new Product();
+        setProductData(product, dto);
+        Category category = null;
+        String normalizedDiacriticalMarksName = ComparisonUtils.deleteDiacriticalMarks(dto.getCategoryName());
+        category = categoryService.getCategoryByName(normalizedDiacriticalMarksName);
+        if(category == null) {
+            category = new Category();
+            category.setName(normalizedDiacriticalMarksName);
+            category = categoryService.addCategory(category);
+        }
+        product.setCategory(category);
+        productService.addProduct(product);
+        return product;
+    }
 
     public void importProductFromStoreData(ProductImportDto dto) throws DataException {
         if(dto.getIdWeb() == 0) {
@@ -55,36 +70,25 @@ public class DataImportService {
             productResult = findProductBySimilarName(dto);
         }
         if(product == null && productResult == null) {
-            product = new Product();
-            setProductData(product, dto);
-            Category category = null;
-            String normalizedDiacriticalMarksName = ComparisonUtils.deleteDiacriticalMarks(dto.getCategoryName());
-            category = categoryService.getCategoryByName(normalizedDiacriticalMarksName);
-            if(category == null) {
-                category = new Category();
-                category.setName(normalizedDiacriticalMarksName);
-                category = categoryService.addCategory(category);
-            }
-            product.setCategory(category);
-            productService.addProduct(product);
+            product = createNewProduct(product,dto);
         }
         if(product == null && productResult != null && productResult.containsKey("final")) {
             product = productResult.get("final");
         } else if(product == null && productResult != null && productResult.containsKey("control")) {
-            if(!manualMatchService.existsByStoreAndIdWeb(store,dto.getIdWeb())) {
-                String urlProductDB = storeProductService.getFirstUrlByProductId(productResult.get("control").getId());
-                ManualMatchPending pending = new ManualMatchPending(productResult.get("control"),store,dto.getIdWeb(),
-                        dto.getProductName(),dto.getProductDescription(),dto.getProductImageUrl(),dto.getProductBrand(),
-                        dto.getCategoryName(),dto.getUrlProduct(),dto.getProductPrice(),urlProductDB
-                );
-                manualMatchService.addManualMatch(pending);
-            }
+            addPendingMatch(store, dto, productResult);
         }
-
         if(product != null) {
             saveStoreProduct(product,store,dto);
         }
 
+    }
+
+    private void addPendingMatch(Store store, ProductImportDto dto, HashMap<String,Product> productResult) throws DataException {
+        if(!manualMatchService.existsByStoreAndIdWeb(store,dto.getIdWeb())) {
+            String urlProductDB = storeProductService.getFirstUrlByProductId(productResult.get("control").getId());
+            ManualMatchPending pending = new ManualMatchPending(productResult.get("control"),store,dto,urlProductDB);
+            manualMatchService.addManualMatch(pending);
+        }
     }
 
     public void saveStoreProduct(Product product, Store store, ProductImportDto dto) {
