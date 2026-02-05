@@ -2,6 +2,7 @@ package com.optify.services;
 
 import com.optify.domain.*;
 import com.optify.dto.ProductImportDto;
+import com.optify.dto.ProductManualImportDto;
 import com.optify.exceptions.DataException;
 import com.optify.repository.ManualMatchRepository;
 import com.optify.utils.ComparisonUtils;
@@ -43,8 +44,8 @@ public class DataImportService {
         return null;
     }
 
-    private Product createNewProduct(Product product, ProductImportDto dto) throws DataException {
-        product = new Product();
+    private Product createNewProduct(ProductImportDto dto) throws DataException {
+        Product product = new Product();
         setProductData(product, dto);
         Category category = null;
         String normalizedDiacriticalMarksName = ComparisonUtils.deleteDiacriticalMarks(dto.getCategoryName());
@@ -70,7 +71,7 @@ public class DataImportService {
             productResult = findProductBySimilarName(dto);
         }
         if(product == null && productResult == null) {
-            product = createNewProduct(product,dto);
+            product = createNewProduct(dto);
         }
         if(product == null && productResult != null && productResult.containsKey("final")) {
             product = productResult.get("final");
@@ -92,13 +93,26 @@ public class DataImportService {
     }
 
     public void saveStoreProduct(Product product, Store store, ProductImportDto dto) {
-        StoreProduct storeProduct = new StoreProduct();
-        storeProduct.setProduct(product);
-        storeProduct.setStore(store);
+        StoreProduct storeProduct = createStoreProduct(product,store);
         storeProduct.setIdWeb(dto.getIdWeb());
         storeProduct.setUrlProduct(dto.getUrlProduct());
         storeProduct.setPrice(dto.getProductPrice());
         storeProductService.addOrUpdateStoreProduct(storeProduct);
+    }
+
+    public void saveStoreProduct(Product product, Store store, ProductManualImportDto dto) {
+        StoreProduct storeProduct = createStoreProduct(product,store);
+        storeProduct.setIdWeb(dto.getIdWeb());
+        storeProduct.setUrlProduct(dto.getUrlProduct());
+        storeProduct.setPrice(dto.getProductPrice());
+        storeProductService.addOrUpdateStoreProduct(storeProduct);
+    }
+
+    public StoreProduct createStoreProduct(Product product, Store store) {
+        StoreProduct storeProduct = new StoreProduct();
+        storeProduct.setProduct(product);
+        storeProduct.setStore(store);
+        return storeProduct;
     }
 
     private HashMap<String,Product> findProductBySimilarName(ProductImportDto productImportDto) throws DataException {
@@ -137,4 +151,15 @@ public class DataImportService {
         product.setBrand(dto.getProductBrand());
     }
 
+    public void importNewProduct(ProductImportDto dto) throws DataException {
+        Product product = createNewProduct(dto);
+        Store store = storeService.getStoreByRut(dto.getStoreRut());
+        saveStoreProduct(product,store,dto);
+    }
+
+    public void importNewProductWithId(ProductManualImportDto dto) throws DataException {
+        Product product = productService.getProductById(dto.getId());
+        Store store = storeService.getStoreByRut(dto.getStoreRut());
+        saveStoreProduct(product,store,dto);
+    }
 }

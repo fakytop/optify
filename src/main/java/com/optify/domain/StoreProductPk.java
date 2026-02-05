@@ -10,6 +10,14 @@ public class StoreProductPk implements Serializable {
     private long storeRut;
     private int productId;
 
+    public StoreProductPk(long storeRut, int productId) {
+        this.storeRut = storeRut;
+        this.productId = productId;
+    }
+
+    public StoreProductPk() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
