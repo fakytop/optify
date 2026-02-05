@@ -47,7 +47,6 @@ public class ProductController {
         }
     }
 
-    @SecurityRequirement(name = "ApiKeyAuth")
     @GetMapping("/categories")
     public ResponseEntity<List<CategoryDto>> getCategories() {
         List<Category> categories = instance.getAllCategories();
@@ -58,7 +57,6 @@ public class ProductController {
         return ResponseEntity.ok(categoryDtos);
     }
 
-    @SecurityRequirement(name = "ApiKeyAuth")
     @GetMapping("/category/{id}")
     public ResponseEntity<?> getProductsByCategoryId(@PathVariable int id, @PageableDefault(size = 20) Pageable pageable) {
         try {
@@ -71,7 +69,6 @@ public class ProductController {
         }
     }
 
-    @SecurityRequirement(name = "ApiKeyAuth")
     @GetMapping("/search")
     public ResponseEntity<?> searchProductsByName(@RequestParam String term,@PageableDefault(size = 20) Pageable pageable) {
         Page<Product> products = null;
@@ -84,7 +81,6 @@ public class ProductController {
         }
     }
 
-    @SecurityRequirement(name = "ApiKeyAuth")
     @GetMapping("/allProducts")
     public ResponseEntity<?> getAllProducts(@PageableDefault(size = 20) Pageable pageable) {
         Page<Product> products = instance.getAllProducts(pageable);
@@ -92,7 +88,6 @@ public class ProductController {
         return ResponseEntity.ok(productDtos);
     }
 
-    @SecurityRequirement(name = "ApiKeyAuth")
     @PostMapping("/mergeProducts")
     public ResponseEntity<?> mergeProducts(@RequestParam int keepProductId, @RequestParam int suprProductId) {
         try {

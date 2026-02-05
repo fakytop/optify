@@ -17,13 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private Facade instance;
 
-    @SecurityRequirement(name = "ApiKeyAuth")
     @PostMapping("/login")
     public ResponseEntity<?> logIn(@RequestBody UserLoginDto userDto) {
         try {
@@ -34,7 +33,6 @@ public class UserController {
         }
     }
 
-    @SecurityRequirement(name = "ApiKeyAuth")
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserRegisterDto userRegisterDto) {
         try {
@@ -45,7 +43,6 @@ public class UserController {
         }
     }
     @PostMapping("/updateProfile")
-    @SecurityRequirement(name = "ApiKeyAuth")
     @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> updateUserProfile(Authentication auth, @RequestBody UserUpdateDto userUpdateDto) {
         try {
@@ -58,7 +55,6 @@ public class UserController {
     }
 
     @PostMapping("/changePassword")
-    @SecurityRequirement(name = "ApiKeyAuth")
     @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> changeUserPassword(Authentication auth, @RequestBody UserPasswordUpdateDto userPasswordUpdateDto) {
         try {

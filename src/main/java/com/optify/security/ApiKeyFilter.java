@@ -21,8 +21,13 @@ public class ApiKeyFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String path = request.getServletPath();
+        boolean isPublicProductEndpoint = path.startsWith("/api/products/categories")
+                || path.startsWith("/api/products/category")
+                || path.startsWith("/api/products/search")
+                || path.startsWith("/api/products/allProducts")
+                || path.startsWith("/api/products/mergeProducts");
 
-        if (path.startsWith("/api/") /*&& !path.contains("/users/")*/) {
+        if (path.startsWith("/api/") && !isPublicProductEndpoint/*&& !path.contains("/users/")*/) {
             String requestKey = request.getHeader("X-API-KEY");
             if (apiKey != null && apiKey.trim().equals(requestKey)) {
                 filterChain.doFilter(request, response);

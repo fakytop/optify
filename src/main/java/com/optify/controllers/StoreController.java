@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/stores")
+@RequestMapping("/stores")
 public class StoreController {
     @Autowired
     private Facade instance;
 
-    @SecurityRequirement(name = "ApiKeyAuth")
     @GetMapping("/getAllStores")
     public ResponseEntity<?> getAllStores() {
         List<Store> stores = instance.getAllStores();
@@ -29,7 +28,6 @@ public class StoreController {
         return ResponseEntity.notFound().build();
     }
 
-    @SecurityRequirement(name = "ApiKeyAuth")
     @PostMapping("/addStore")
     public ResponseEntity<?> addStore(@RequestBody StoreAddDto storeAddDto)  {
         try {
@@ -47,7 +45,6 @@ public class StoreController {
         }
     }
 
-    @SecurityRequirement(name = "ApiKeyAuth")
     @PostMapping("/updateStore")
     public ResponseEntity<?> updateStore(@RequestBody StoreAddDto storeAddDto) {
         try {
@@ -64,7 +61,6 @@ public class StoreController {
         }
     }
 
-    @SecurityRequirement(name = "ApiKeyAuth")
     @DeleteMapping("/deleteStore")
     public ResponseEntity<?> deleteStore(@RequestParam long rut) {
         try {
