@@ -85,9 +85,9 @@ public class CartSimulation {
     public void saveCheaperStoreProduct(CheapestProductInfo cheapestProductInfo) throws DataException {
         CheapestProductInfo actual = this.getCheapestProducts().get(cheapestProductInfo.getProduct().getId());
         if(actual == null) {
-            this.getCheapestProducts().put(cheapestProductInfo.getProduct().getId(), cheapestProductInfo);
+            this.getCheapestProducts().put(cheapestProductInfo.getProduct().getId(), new CheapestProductInfo(cheapestProductInfo));
         } else if(actual.getPrice() > cheapestProductInfo.getPrice()) {
-            this.getCheapestProducts().replace(cheapestProductInfo.getProduct().getId(), cheapestProductInfo);
+            this.getCheapestProducts().replace(cheapestProductInfo.getProduct().getId(), new CheapestProductInfo(cheapestProductInfo));
         } else if(actual.getPrice() == cheapestProductInfo.getPrice()) {
             if(!cheapestProductInfo.getStores().isEmpty() && !actual.getStores().contains(cheapestProductInfo.getStores().getFirst())) {
                 actual.addStore(cheapestProductInfo.getStores().getFirst());
