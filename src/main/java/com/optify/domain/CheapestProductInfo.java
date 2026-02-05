@@ -19,6 +19,12 @@ public class CheapestProductInfo {
         this.price = price;
     }
 
+    public CheapestProductInfo(CheapestProductInfo cheapestProductInfo) {
+        this.product = cheapestProductInfo.getProduct();
+        this.stores = new ArrayList<>(cheapestProductInfo.getStores());
+        this.price = cheapestProductInfo.getPrice();
+    }
+
     public Product getProduct() {
         return product;
     }
