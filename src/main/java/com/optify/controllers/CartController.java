@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/cart")
+@RequestMapping("/cart")
 public class CartController {
 
     @Autowired
