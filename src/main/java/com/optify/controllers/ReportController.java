@@ -5,7 +5,6 @@ import com.optify.repository.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,29 +16,32 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Reports", description = "Endpoints para visualizar reportes y estadísticas del sistema")
 public class ReportController {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+    private final StoreRepository storeRepository;
+    private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
+    private final StoreProductRepository storeProductRepository;
+    private final CartItemRepository cartItemRepository;
+    private final ManualMatchRepository manualMatchRepository;
+    private final DiscardReferenceRepository discardReferenceRepository;
 
-    @Autowired
-    private StoreRepository storeRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
-    private StoreProductRepository storeProductRepository;
-
-    @Autowired
-    private CartItemRepository cartItemRepository;
-
-    @Autowired
-    private ManualMatchRepository manualMatchRepository;
-
-    @Autowired
-    private DiscardReferenceRepository discardReferenceRepository;
+    public ReportController(ProductRepository productRepository,
+                           StoreRepository storeRepository,
+                           UserRepository userRepository,
+                           CategoryRepository categoryRepository,
+                           StoreProductRepository storeProductRepository,
+                           CartItemRepository cartItemRepository,
+                           ManualMatchRepository manualMatchRepository,
+                           DiscardReferenceRepository discardReferenceRepository) {
+        this.productRepository = productRepository;
+        this.storeRepository = storeRepository;
+        this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
+        this.storeProductRepository = storeProductRepository;
+        this.cartItemRepository = cartItemRepository;
+        this.manualMatchRepository = manualMatchRepository;
+        this.discardReferenceRepository = discardReferenceRepository;
+    }
 
     @Operation(summary = "Obtener estadísticas del sistema",
                description = "Retorna métricas generales del sistema incluyendo totales de productos, tiendas, usuarios, etc.")
