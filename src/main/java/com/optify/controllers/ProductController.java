@@ -39,8 +39,6 @@ public class ProductController {
     }
 
     @GetMapping("/categories")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-    @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<List<CategoryDto>> getCategories() {
         List<Category> categories = instance.getAllCategories();
         List<CategoryDto> categoryDtos = categories.stream()
@@ -51,8 +49,6 @@ public class ProductController {
     }
 
     @GetMapping("/category/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-    @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> getProductsByCategoryId(@PathVariable int id, @PageableDefault(size = 20) Pageable pageable) {
         try {
             Page<Product> products = instance.getProductsByCategoryId(id,pageable);
@@ -65,8 +61,6 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-    @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> searchProductsByName(@RequestParam String term,@PageableDefault(size = 20) Pageable pageable) {
         Page<Product> products = null;
         try {
@@ -79,8 +73,6 @@ public class ProductController {
     }
 
     @GetMapping("/allProducts")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-    @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> getAllProducts(@PageableDefault(size = 20) Pageable pageable) {
         Page<Product> products = instance.getAllProducts(pageable);
         Page<ProductCatalogDto> productDtos = products.map(ProductCatalogDto::new);

@@ -108,6 +108,7 @@ public class CartController {
             List<CartSimulation> listCartSimulation = instance.calculateCartValues(username);
             if(!listCartSimulation.isEmpty()){
                 CartComparisonDto response = new CartComparisonDto();
+
                 response.setOptimum(new CartSimulationDto(listCartSimulation.get(0)));
                 response.setPreferedStore(new CartSimulationDto(listCartSimulation.get(1)));
                 response.setCheapestStore(new CartSimulationDto(listCartSimulation.get(2)));

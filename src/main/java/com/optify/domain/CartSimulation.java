@@ -40,6 +40,7 @@ public class CartSimulation {
     }
 
     public CartSimulation() {
+        this.cheapestProducts = new HashMap<>();
     }
 
     public int getId() {

@@ -151,7 +151,12 @@ public class CartService {
         if(preferred == cheapest) {
             cheapest = createAnotherCheapestCartSimulation(cheapest,user);
         }
-        preferred.setName("Super preferido: " + preferred.getName());
+        if(preferred == null) {
+            preferred = new CartSimulation();
+            preferred.setName("Super preferido: N/A");
+        } else {
+            preferred.setName("Super preferido: " + preferred.getName());
+        }
         cheapest.setName("Super más barato: " + cheapest.getName());
         finalResults.add(optimal);
         finalResults.add(preferred);
