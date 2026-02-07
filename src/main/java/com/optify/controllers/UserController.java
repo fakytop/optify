@@ -1,9 +1,6 @@
 package com.optify.controllers;
 
-import com.optify.dto.UserPasswordUpdateDto;
-import com.optify.dto.UserRegisterDto;
-import com.optify.dto.UserLoginDto;
-import com.optify.dto.UserUpdateDto;
+import com.optify.dto.*;
 import com.optify.exceptions.AuthenticationException;
 import com.optify.exceptions.DataException;
 import com.optify.facade.Facade;
@@ -27,8 +24,8 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> logIn(@RequestBody UserLoginDto userDto) {
         try {
-            String token = instance.logIn(userDto);
-            return ResponseEntity.ok(token);
+            UserResponseDto userResp = instance.logIn(userDto);
+            return ResponseEntity.ok(userResp);
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body(e.getMessage());
         }
@@ -37,8 +34,8 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserRegisterDto userRegisterDto) {
         try {
-            String token = instance.register(userRegisterDto);
-            return ResponseEntity.ok(token);
+            UserResponseDto userResp = instance.register(userRegisterDto);
+            return ResponseEntity.ok(userResp);
         } catch (AuthenticationException | DataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

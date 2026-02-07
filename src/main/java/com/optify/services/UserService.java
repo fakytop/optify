@@ -2,10 +2,7 @@ package com.optify.services;
 
 import com.optify.domain.Store;
 import com.optify.domain.User;
-import com.optify.dto.UserPasswordUpdateDto;
-import com.optify.dto.UserRegisterDto;
-import com.optify.dto.UserLoginDto;
-import com.optify.dto.UserUpdateDto;
+import com.optify.dto.*;
 import com.optify.exceptions.AuthenticationException;
 import com.optify.exceptions.DataException;
 import com.optify.repository.UserRepository;
@@ -29,7 +26,7 @@ public class UserService {
     private JwtUtil jwtUtil;
 
     @Transactional(rollbackFor = Exception.class)
-    public String register(UserRegisterDto userRegisterDto) throws AuthenticationException, DataException {
+    public UserResponseDto register(UserRegisterDto userRegisterDto) throws AuthenticationException, DataException {
         if(userRegisterDto.getUserCi() == 0) {
             throw new AuthenticationException("[Authentication] Debe ingresar una cédula de identidad válida.");
         }
@@ -48,10 +45,10 @@ public class UserService {
         String passwordHash = encoder.encode(user.getPassword());
         user.setPassword(passwordHash);
         userRepository.save(user);
-        return jwtUtil.generateToken(user.getUsername(),user.getRole().name());
+        return new UserResponseDto(user,jwtUtil.generateToken(user.getUsername(),user.getRole().name()));
     }
 
-    public String logIn(UserLoginDto userDto) throws AuthenticationException {
+    public UserResponseDto logIn(UserLoginDto userDto) throws AuthenticationException {
         Optional<User> optionalUser = userRepository.findByUsername(userDto.getUserUsername());
         if(optionalUser.isEmpty()) {
             throw new AuthenticationException("[Authentication] No existe el nombre de usuario: " + userDto.getUserUsername());
@@ -60,7 +57,7 @@ public class UserService {
         if(!encoder.matches(userDto.getUserPassword(),user.getPassword())) {
             throw new AuthenticationException("[Authentication] Clave de usuario incorrecta.");
         }
-        return jwtUtil.generateToken(user.getUsername(),user.getRole().name());
+        return new UserResponseDto(user,jwtUtil.generateToken(user.getUsername(),user.getRole().name()));
     }
 
     @Transactional(rollbackFor = Exception.class)
