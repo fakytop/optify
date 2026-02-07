@@ -38,6 +38,8 @@ public class ProductController {
     }
 
     @PostMapping("/manualImport")
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> manualImportProducts(@RequestBody ProductImportDto dto) {
         try {
             instance.importNewProduct(dto);
@@ -48,6 +50,8 @@ public class ProductController {
     }
 
     @PostMapping("/manualImportWithId")
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> manualImportWithId(@RequestBody ProductManualImportDto dto) {
         try {
             instance.importNewProductWithId(dto);
