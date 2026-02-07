@@ -43,6 +43,8 @@ public class ManualMatchController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "BearerAuth")
     @PostMapping("/decline")
     public ResponseEntity<?> declineMatch(@RequestParam int id) {
         try {
@@ -53,6 +55,8 @@ public class ManualMatchController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "BearerAuth")
     @GetMapping("/getAllDiscarded")
     public ResponseEntity<?> getAllDiscardedUrls() {
         try {
@@ -63,6 +67,8 @@ public class ManualMatchController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "BearerAuth")
     @GetMapping("/deleteReferenceDiscarded")
     public ResponseEntity<?> deleteDiscardedReference(int id) {
         try {

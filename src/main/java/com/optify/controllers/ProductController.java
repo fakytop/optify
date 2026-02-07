@@ -110,6 +110,8 @@ public class ProductController {
         return ResponseEntity.ok("Productos vinculados correctamente.");
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "BearerAuth")
     @PostMapping("/changeProductReference")
     public ResponseEntity<?> changeProductReference(@RequestParam int newProductId, @RequestParam int oldProductid, @RequestParam long storeRut) {
         StoreProductPk spId = new StoreProductPk(storeRut,oldProductid);
@@ -121,6 +123,8 @@ public class ProductController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "BearerAuth")
     @DeleteMapping("/deleteProductReference")
     public ResponseEntity<?> deleteProductReference(@RequestParam int productId, @RequestParam long storeRut) {
         StoreProductPk spId = new StoreProductPk(storeRut,productId);
@@ -134,6 +138,9 @@ public class ProductController {
         }
     }
 
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "BearerAuth")
     @GetMapping("/getStoreProductsByProduct")
     public ResponseEntity<?> getStoreProductsByProductId(@RequestParam int productId) {
         List<StoreProduct> storeProducts = instance.getStoreProductByProductId(productId);

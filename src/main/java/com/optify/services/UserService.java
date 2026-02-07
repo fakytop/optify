@@ -28,16 +28,16 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public UserResponseDto register(UserRegisterDto userRegisterDto) throws AuthenticationException, DataException {
         if(userRegisterDto.getUserCi() == 0) {
-            throw new AuthenticationException("[Authentication] Debe ingresar una cédula de identidad válida.");
+            throw new AuthenticationException("Debe ingresar una cédula de identidad válida.");
         }
         if(userRepository.findByUsername(userRegisterDto.getUserUsername()).isPresent()) {
-            throw new AuthenticationException("[Authentication] Ya existe el nombre de usuario: " + userRegisterDto.getUserUsername());
+            throw new AuthenticationException("Ya existe el nombre de usuario: " + userRegisterDto.getUserUsername());
         }
         if(userRepository.existsById(userRegisterDto.getUserCi())) {
-            throw new AuthenticationException("[Authentication] La cédula de identidad ya está registrada.");
+            throw new AuthenticationException("La cédula de identidad ya está registrada.");
         }
         if(userRepository.findByMail(userRegisterDto.getUserMail()).isPresent()) {
-            throw new AuthenticationException("[Authentication] Ya existe el e-mail: " + userRegisterDto.getUserMail());
+            throw new AuthenticationException("Ya existe el e-mail: " + userRegisterDto.getUserMail());
         }
         User user = new User();
         Store preferredStore = storeService.getStoreByRut(userRegisterDto.getUserPreferredStore());
@@ -51,11 +51,11 @@ public class UserService {
     public UserResponseDto logIn(UserLoginDto userDto) throws AuthenticationException {
         Optional<User> optionalUser = userRepository.findByUsername(userDto.getUserUsername());
         if(optionalUser.isEmpty()) {
-            throw new AuthenticationException("[Authentication] No existe el nombre de usuario: " + userDto.getUserUsername());
+            throw new AuthenticationException("No existe el nombre de usuario: " + userDto.getUserUsername());
         }
         User user = optionalUser.get();
         if(!encoder.matches(userDto.getUserPassword(),user.getPassword())) {
-            throw new AuthenticationException("[Authentication] Clave de usuario incorrecta.");
+            throw new AuthenticationException("Clave de usuario incorrecta.");
         }
         return new UserResponseDto(user,jwtUtil.generateToken(user.getUsername(),user.getRole().name()));
     }

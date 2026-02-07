@@ -43,7 +43,7 @@ public class StoreController {
                     storeAddDto.getHomePage()
             );
             instance.addStore(store);
-            return ResponseEntity.ok("[ADDED] Supermercado " +
+            return ResponseEntity.ok("Supermercado " +
                     store.getFantasyName() +" agregado con éxito.");
         } catch (DataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -62,7 +62,7 @@ public class StoreController {
                     storeAddDto.getHomePage()
             );
             instance.updateStore(store);
-            return ResponseEntity.ok("[UPDATE] Datos acualizados.");
+            return ResponseEntity.ok("Datos acualizados.");
         } catch (DataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -74,7 +74,7 @@ public class StoreController {
     public ResponseEntity<?> deleteStore(@RequestParam long rut) {
         try {
             instance.deleteStore(rut);
-            return ResponseEntity.ok("[DELETE] Supermercado eliminado. Rut: {" + rut + "}");
+            return ResponseEntity.ok("Supermercado eliminado. Rut: {" + rut + "}");
         } catch (DataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
