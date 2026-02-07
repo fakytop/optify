@@ -5,6 +5,7 @@ import com.optify.domain.Store;
 public class StoreDto {
     private long rut;
     private String name;
+    private String fantasyName;
     private String homePage;
 
     public StoreDto() {
@@ -12,7 +13,8 @@ public class StoreDto {
 
     public StoreDto(Store store) {
         this.rut = store.getRut();
-        this.name = store.getFantasyName();
+        this.name = store.getName();
+        this.fantasyName = store.getFantasyName();
         this.homePage = store.getHomePage();
     }
 
@@ -38,5 +40,13 @@ public class StoreDto {
 
     public void setHomePage(String homePage) {
         this.homePage = homePage;
+    }
+
+    public String getFantasyName() {
+        return fantasyName;
+    }
+
+    public void setFantasyName(String fantasyName) {
+        this.fantasyName = fantasyName;
     }
 }
