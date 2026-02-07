@@ -2,13 +2,12 @@ package com.optify.controllers;
 
 import com.optify.domain.Category;
 import com.optify.domain.Product;
-import com.optify.dto.CategoryDto;
-import com.optify.dto.ProductCatalogDto;
-import com.optify.dto.ProductImportDto;
+import com.optify.domain.StoreProduct;
+import com.optify.domain.StoreProductPk;
+import com.optify.dto.*;
 import com.optify.exceptions.DataException;
 import com.optify.facade.Facade;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +32,26 @@ public class ProductController {
         try {
             instance.importProductsBatch(dtos);
             return ResponseEntity.ok("[IMPORT] Productos procesados: {" + dtos.size() + "}");
+        } catch (DataException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/manualImport")
+    public ResponseEntity<?> manualImportProducts(@RequestBody ProductImportDto dto) {
+        try {
+            instance.importNewProduct(dto);
+            return ResponseEntity.ok("Producto creado correctamente.");
+        } catch (DataException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/manualImportWithId")
+    public ResponseEntity<?> manualImportWithId(@RequestBody ProductManualImportDto dto) {
+        try {
+            instance.importNewProductWithId(dto);
+            return ResponseEntity.ok("Producto creado correctamente.");
         } catch (DataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -89,5 +108,39 @@ public class ProductController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok("Productos vinculados correctamente.");
+    }
+
+    @PostMapping("/changeProductReference")
+    public ResponseEntity<?> changeProductReference(@RequestParam int newProductId, @RequestParam int oldProductid, @RequestParam long storeRut) {
+        StoreProductPk spId = new StoreProductPk(storeRut,oldProductid);
+        try {
+            instance.changeStoreProductReference(spId,newProductId);
+            return ResponseEntity.ok("Productos vinculados correctamente.");
+        } catch (DataException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/deleteProductReference")
+    public ResponseEntity<?> deleteProductReference(@RequestParam int productId, @RequestParam long storeRut) {
+        StoreProductPk spId = new StoreProductPk(storeRut,productId);
+        try {
+            instance.deleteStoreProduct(spId);
+            return ResponseEntity.ok("El producto id: {" + productId +
+                    "} ha sido desvinculado del supermercado con RUT: {" + storeRut +
+                            "} correctamente.");
+        } catch (DataException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/getStoreProductsByProduct")
+    public ResponseEntity<?> getStoreProductsByProductId(@RequestParam int productId) {
+        List<StoreProduct> storeProducts = instance.getStoreProductByProductId(productId);
+        if(storeProducts == null || storeProducts.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        List<StoreProductDto> dtos = storeProducts.stream().map(StoreProductDto::new).toList();
+        return ResponseEntity.ok(dtos);
     }
 }

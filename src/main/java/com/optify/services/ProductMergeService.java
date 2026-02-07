@@ -2,12 +2,10 @@ package com.optify.services;
 
 import com.optify.domain.*;
 import com.optify.exceptions.DataException;
-import com.optify.repository.ManualMatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 @Service
 public class ProductMergeService {
@@ -21,7 +19,7 @@ public class ProductMergeService {
     @Autowired
     private ManualMatchService manualMatchService;
 
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public void mergeProducts(int keepProductId, int suprProductId) throws DataException {
         Product keepProduct = productService.getProductById(keepProductId);
         Product suprProduct = productService.getProductById(suprProductId);
@@ -88,5 +86,28 @@ public class ProductMergeService {
             storeProductService.addOrUpdateStoreProduct(sp);
             storeProductService.deleteStoreProduct(storeProduct);
         }
+    }
+
+    @Transactional(rollbackFor=Exception.class)
+    public void changeStoreProductReference(StoreProductPk spId, int productId) throws DataException {
+        StoreProduct actualSp = storeProductService.getStoreProductById(spId);
+        Product newProduct = productService.getProductById(productId);
+        StoreProduct newStoreProduct = createNewStoreProduct(newProduct, actualSp);
+        storeProductService.deleteStoreProduct(actualSp);
+        storeProductService.addOrUpdateStoreProduct(newStoreProduct);
+    }
+
+    private StoreProduct createNewStoreProduct(Product product, StoreProduct storeProduct) throws DataException {
+        StoreProduct newStoreProduct = new StoreProduct();
+        newStoreProduct.setProduct(product);
+        newStoreProduct.setStore(storeProduct.getStore());
+        if(storeProductService.getStoreProductById(newStoreProduct.getId()) != null) {
+            throw new DataException("Ya existe el producto con el id: {" + newStoreProduct.getProduct().getId() + "} para" +
+                    "el supermercado con RUT: {" + newStoreProduct.getStore().getRut() + "}");
+        }
+        newStoreProduct.setUrlProduct(storeProduct.getUrlProduct());
+        newStoreProduct.setPrice(storeProduct.getPrice());
+        newStoreProduct.setIdWeb(storeProduct.getIdWeb());
+        return newStoreProduct;
     }
 }

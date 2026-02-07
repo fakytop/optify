@@ -37,6 +37,8 @@ public class Facade {
     private MatchManagerService matchManagerService;
     @Autowired
     private ProductMergeService productMergeService;
+    @Autowired
+    private DiscardReferenceService  discardReferenceService;
 
     private Facade() {
     }
@@ -170,5 +172,37 @@ public class Facade {
 
     public void mergeProducts(int keepProductId, int suprProductId) throws DataException {
         productMergeService.mergeProducts(keepProductId,suprProductId);
+    }
+
+    public void changeStoreProductReference(StoreProductPk spId, int productId) throws DataException {
+        productMergeService.changeStoreProductReference(spId, productId);
+    }
+
+    public List<StoreProduct> getStoreProductByProductId(int productId) {
+        return storeProductService.getStoreProductsByProductId(productId);
+    }
+
+    public void deleteStoreProduct(StoreProductPk spId) throws DataException {
+        storeProductService.deleteStoreProductWithId(spId);
+    }
+
+    public void importNewProduct(ProductImportDto dto) throws DataException {
+        dataImportService.importNewProduct(dto);
+    }
+
+    public void declineMatch(int id) throws DataException {
+        matchManagerService.declineMatch(id);
+    }
+
+    public void importNewProductWithId(ProductManualImportDto dto) throws DataException {
+        dataImportService.importNewProductWithId(dto);
+    }
+
+    public List<DiscardReference> getAllDiscardedUrls() throws DataException {
+        return discardReferenceService.getAllDiscardadedReferences();
+    }
+
+    public void deleteDiscardedReference(int id) throws DataException {
+        discardReferenceService.deleteDiscardedReference(id);
     }
 }

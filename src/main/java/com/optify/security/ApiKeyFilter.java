@@ -35,7 +35,12 @@ public class ApiKeyFilter extends OncePerRequestFilter {
                 || path.startsWith("/api/products/category")
                 || path.startsWith("/api/products/search")
                 || path.startsWith("/api/products/allProducts")
-                || path.startsWith("/api/products/mergeProducts");
+                || path.startsWith("/api/products/mergeProducts")
+                || path.startsWith("/api/products/changeProductReference")
+                || path.startsWith("/api/products/getStoreProductsByProduct")
+                || path.startsWith("/api/products/manualImport")
+                || path.startsWith("/api/products/deleteProductReference")
+                || path.startsWith("/api/products/manualImportToProduct");
 
         if (path.startsWith("/api/") && !isPublicProductEndpoint/*&& !path.contains("/users/")*/) {
             String requestKey = request.getHeader("X-API-KEY");

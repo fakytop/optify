@@ -2,12 +2,10 @@ package com.optify.services;
 
 import com.optify.domain.ManualMatchPending;
 import com.optify.domain.Store;
-import com.optify.dto.ProductImportDto;
 import com.optify.exceptions.DataException;
 import com.optify.repository.ManualMatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +28,7 @@ public class ManualMatchService {
         return manualMatchRepository.findAll();
     }
 
-    public ManualMatchPending findById(int id) throws DataException {
+    public ManualMatchPending getMatchById(int id) throws DataException {
         Optional<ManualMatchPending> optionalManualMatchPending = manualMatchRepository.findById(id);
         if(!optionalManualMatchPending.isPresent()){
             throw new DataException("No se encontró match con id {" + id + "}");
@@ -38,7 +36,7 @@ public class ManualMatchService {
         return optionalManualMatchPending.get();
     }
 
-    public void deleteMatchConfirmed(int id) {
+    public void deleteMatch(int id) {
         manualMatchRepository.deleteById(id);
     }
 
