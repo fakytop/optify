@@ -1,0 +1,10 @@
+.git
+.gitignore
+node_modules/
+.mvn/
+mvnw
+mvnw.cmd
+pom.xml
+# Asegúrate de que las líneas de abajo NO existan o estén comentadas
+#!target/
+#!target/*.jar
