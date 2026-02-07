@@ -20,8 +20,6 @@ public class StoreController {
     private Facade instance;
 
     @GetMapping("/getAllStores")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-    @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> getAllStores() {
         List<Store> stores = instance.getAllStores();
         if(stores != null && !stores.isEmpty()) {
