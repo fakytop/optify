@@ -43,8 +43,8 @@ public class Facade {
 
     // Métodos referidos al usuario.
 
-    public void register(UserRegisterDto userRegisterDto) throws AuthenticationException, DataException {
-        userService.register(userRegisterDto);
+    public String register(UserRegisterDto userRegisterDto) throws AuthenticationException, DataException {
+        return userService.register(userRegisterDto);
     }
 
     public String logIn(UserLoginDto userDto) throws AuthenticationException {

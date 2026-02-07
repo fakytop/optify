@@ -4,13 +4,23 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
+import java.util.Collections;
 
 // SIN @Component aquí
 public class ApiKeyFilter extends OncePerRequestFilter {
 
     private String apiKey;
+
+    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+            "API_KEY_USER",
+            null,
+            Collections.singletonList(new SimpleGrantedAuthority("ROLE_SCRIPT")) // <--- Asignamos el rol aquí
+    );
 
     public void setApiKey(String apiKey) {
         this.apiKey = apiKey;
@@ -30,6 +40,7 @@ public class ApiKeyFilter extends OncePerRequestFilter {
         if (path.startsWith("/api/") && !isPublicProductEndpoint/*&& !path.contains("/users/")*/) {
             String requestKey = request.getHeader("X-API-KEY");
             if (apiKey != null && apiKey.trim().equals(requestKey)) {
+                SecurityContextHolder.getContext().setAuthentication(auth);
                 filterChain.doFilter(request, response);
             } else {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

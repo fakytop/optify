@@ -29,7 +29,7 @@ public class UserService {
     private JwtUtil jwtUtil;
 
     @Transactional(rollbackFor = Exception.class)
-    public User register(UserRegisterDto userRegisterDto) throws AuthenticationException, DataException {
+    public String register(UserRegisterDto userRegisterDto) throws AuthenticationException, DataException {
         if(userRegisterDto.getUserCi() == 0) {
             throw new AuthenticationException("[Authentication] Debe ingresar una cédula de identidad válida.");
         }
@@ -47,7 +47,8 @@ public class UserService {
         user.setRegisterData(userRegisterDto,preferredStore);
         String passwordHash = encoder.encode(user.getPassword());
         user.setPassword(passwordHash);
-        return userRepository.save(user);
+        userRepository.save(user);
+        return jwtUtil.generateToken(user.getUsername(),user.getRole().name());
     }
 
     public String logIn(UserLoginDto userDto) throws AuthenticationException {
@@ -59,7 +60,7 @@ public class UserService {
         if(!encoder.matches(userDto.getUserPassword(),user.getPassword())) {
             throw new AuthenticationException("[Authentication] Clave de usuario incorrecta.");
         }
-        return jwtUtil.generateToken(user.getUsername());
+        return jwtUtil.generateToken(user.getUsername(),user.getRole().name());
     }
 
     @Transactional(rollbackFor = Exception.class)

@@ -10,6 +10,7 @@ import com.optify.facade.Facade;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,9 +24,9 @@ public class CartController {
     @Autowired
     private Facade instance;
 
-    @SecurityRequirement(name = "ApiKeyAuth")
     @SecurityRequirement(name = "BearerAuth")
     @PostMapping("/addProduct")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public ResponseEntity<?> addProductToCart(Authentication auth, @RequestParam int id, @RequestParam double quant) {
 
         try {
@@ -37,9 +38,9 @@ public class CartController {
         }
     }
 
-    @SecurityRequirement(name = "ApiKeyAuth")
     @SecurityRequirement(name = "BearerAuth")
     @PostMapping("/removeProduct")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public ResponseEntity<?> removeProductFromCart(Authentication auth, @RequestParam int id) {
         try {
             String username = auth.getName();
@@ -50,9 +51,9 @@ public class CartController {
         }
     }
 
-    @SecurityRequirement(name = "ApiKeyAuth")
     @SecurityRequirement(name = "BearerAuth")
     @GetMapping("/getProductsCart")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public ResponseEntity<?> getProductsCart(Authentication auth) {
         String username = auth.getName();
         List<CartItem> cartItems = null;
@@ -67,9 +68,9 @@ public class CartController {
         }
     }
 
-    @SecurityRequirement(name = "ApiKeyAuth")
     @SecurityRequirement(name = "BearerAuth")
     @PostMapping("/addUnitProductCart")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public ResponseEntity<?> addUnitProductCart(Authentication auth, @RequestParam int id) {
 
         String username = auth.getName();
@@ -82,9 +83,9 @@ public class CartController {
 
     }
 
-    @SecurityRequirement(name = "ApiKeyAuth")
     @SecurityRequirement(name = "BearerAuth")
     @PostMapping("/subtractUnitProductCart")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public ResponseEntity<?> subtractUnitProductCart(Authentication auth, @RequestParam int id) {
 
         String username = auth.getName();
@@ -97,9 +98,9 @@ public class CartController {
 
     }
 
-    @SecurityRequirement(name = "ApiKeyAuth")
     @SecurityRequirement(name = "BearerAuth")
     @PostMapping("/calculateCart")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public ResponseEntity<?> calculateCartValues(Authentication auth) {
         String username = auth.getName();
 

@@ -3,9 +3,11 @@ package com.optify.controllers;
 import com.optify.dto.MatchesPendingDto;
 import com.optify.exceptions.DataException;
 import com.optify.facade.Facade;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +19,8 @@ public class ManualMatchController {
     private Facade instance;
 
     @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> getAllPendingMatches() {
         List<MatchesPendingDto> matchesPending = instance.getAllPendingMatches()
                 .stream().map(MatchesPendingDto::new).toList();
@@ -27,6 +31,8 @@ public class ManualMatchController {
     }
 
     @PostMapping("/confirm")
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> confirmMatch(@RequestParam int id) {
         try {
             instance.confirmMatch(id);

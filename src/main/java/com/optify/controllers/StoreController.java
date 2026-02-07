@@ -8,6 +8,7 @@ import com.optify.facade.Facade;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,8 @@ public class StoreController {
     private Facade instance;
 
     @GetMapping("/getAllStores")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> getAllStores() {
         List<Store> stores = instance.getAllStores();
         if(stores != null && !stores.isEmpty()) {
@@ -29,6 +32,8 @@ public class StoreController {
     }
 
     @PostMapping("/addStore")
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> addStore(@RequestBody StoreAddDto storeAddDto)  {
         try {
             Store store = new Store(
@@ -46,6 +51,8 @@ public class StoreController {
     }
 
     @PostMapping("/updateStore")
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> updateStore(@RequestBody StoreAddDto storeAddDto) {
         try {
             Store store = new Store(
@@ -62,6 +69,8 @@ public class StoreController {
     }
 
     @DeleteMapping("/deleteStore")
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> deleteStore(@RequestParam long rut) {
         try {
             instance.deleteStore(rut);

@@ -29,15 +29,23 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String jwt = authHeader.substring(7);
-            String username = jwtUtil.validateTokenAndGetUsername(jwt);
 
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                        username, null, Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
-                auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            try {
+                var claims = jwtUtil.getClaims(jwt);
+                String username = claims.getSubject();
+                String role = claims.get("role").toString();
 
-                SecurityContextHolder.getContext().setAuthentication(auth);
-                System.out.println("DEBUG JWT: Usuario autenticado: " + username);
+                if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    String authority = "ROLE_" + role;
+
+                    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                            username, null, Collections.singletonList(new SimpleGrantedAuthority(authority)));
+
+                    auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
+            }  catch (Exception ex) {
+                System.out.println("DEBUG JWT: Token inválido o expirado");
             }
         }
         filterChain.doFilter(request, response);

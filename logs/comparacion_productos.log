@@ -38987,3 +38987,18 @@
 2026-02-04 23:38:05 - *[RESULTADO x JACCARD]*Dulce crema de leche CONAPROLE 250 g*Dulce De Leche Conaprole Crema 250 G*100.000000*¡Match!
 2026-02-04 23:38:05 - *[RESULTADO x JACCARD]*Dulce de leche CONAPROLE dietético 0% 440 g*Dulce De Leche Conaprole Light 440 G*85.714286*¡Match!
 2026-02-04 23:38:05 - *[RESULTADO x JACCARD]*Helado CONAPROLE chocolate holandés y dulce de leche 2 L*Helado sabor Dulce de Leche y Chocolate Tipo Holandés CONAPROLE Pote 2 L*75.000000*¡No Match! Control Manual
+2026-02-06 21:55:11 - *[CANTIDAD DIFERENTE]*Yerba ARMIÑO Clásica 1 Kg*Yerba ARMIÑO Clásica 500 gr*0*¡NO Match!
+2026-02-06 21:55:11 - *[RESULTADO x JACCARD]*Yerba ARMIÑO Clásica 1 Kg*Yerba Mate Armiño 1 Kg*80.000000*¡No Match! Control Manual
+2026-02-06 21:55:11 - *[RESULTADO x JACCARD]*Yerba ARMIÑO Clásica 500 gr*Yerba ARMIÑO Clásica 500 gr*100.000000*¡Match!
+2026-02-06 21:55:11 - *[RESULTADO x JACCARD]*Yerba ARMIÑO Suave 1 Kg + 100 gr de Regalo*Yerba Armiño Suave 1.1 Kg*62.500000*¡No Match! Control Manual
+2026-02-06 21:55:11 - *[RESULTADO x JACCARD]*Antitranspirante en Aerosol V8 REXONA 250 ml*Desodorante En Aerosol Rexona Ap 250 Ml*62.500000*¡No Match! Control Manual
+2026-02-06 21:55:11 - *[RESULTADO x JACCARD]*Yerba Armiño Clasica 1Kg*Yerba Mate Armiño 1 Kg*80.000000*¡No Match! Control Manual
+2026-02-06 21:55:11 - *[RESULTADO x JACCARD]*Desodorante Rexona Men Ap V8 Aeresol 250Ml*Desodorante En Aerosol Rexona Ap 250 Ml*50.000000*¡No Match! Control Manual
+2026-02-06 21:55:11 - *[RESULTADO x JACCARD]*HELADO CONAPROLE 2Lt CHOCOLATE HOLANDES Y DULCE DE LECHE*Helado sabor Dulce de Leche y Chocolate Tipo Holandés CONAPROLE Pote 2 L*75.000000*¡No Match! Control Manual
+2026-02-06 21:55:11 - *[RESULTADO x JACCARD]*Yerba ARMIÑO 500 g*Yerba ARMIÑO Clásica 500 gr*80.000000*¡No Match! Control Manual
+2026-02-06 21:55:11 - *[RESULTADO x JACCARD]*Desodorante REXONA V8 Men 250 ml*Desodorante En Aerosol Rexona Ap 250 Ml*44.444444*¡No Match! Control Manual
+2026-02-06 21:55:11 - *[RESULTADO x JACCARD]*Helado CONAPROLE chocolate holandés y dulce de leche 2 L*Helado sabor Dulce de Leche y Chocolate Tipo Holandés CONAPROLE Pote 2 L*75.000000*¡No Match! Control Manual
+2026-02-06 21:55:11 - *[RESULTADO x JACCARD]*Papas fritas LAYS rusticas 160 G*Papas Lays Rusticas Con Sal 160 g*71.428571*¡No Match! Control Manual
+2026-02-06 21:55:11 - *[RESULTADO x JACCARD]*Yerba ARMIÑO 500 g*Yerba ARMIÑO Clásica 500 gr*80.000000*¡No Match! Control Manual
+2026-02-06 21:55:11 - *[RESULTADO x JACCARD]*Desodorante REXONA V8 Men 250 ml*Desodorante En Aerosol Rexona Ap 250 Ml*44.444444*¡No Match! Control Manual
+2026-02-06 21:55:11 - *[RESULTADO x JACCARD]*Helado CONAPROLE chocolate holandés y dulce de leche 2 L*Helado sabor Dulce de Leche y Chocolate Tipo Holandés CONAPROLE Pote 2 L*75.000000*¡No Match! Control Manual

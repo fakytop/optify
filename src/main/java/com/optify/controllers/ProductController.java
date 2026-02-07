@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,19 +25,9 @@ public class ProductController {
     @Autowired
     private Facade instance;
 
-/*    @SecurityRequirement(name = "ApiKeyAuth")
-    @GetMapping("/all")
-    public ResponseEntity<List<ProductDto>> getAllProducts() {
-        List<Product> products = instance.getAllProducts();
-        List<ProductDto> productDtos = products.stream()
-                .map(ProductDto::new)
-                .toList();
-        return ResponseEntity.ok(productDtos);
-    }
-*/
-
     @SecurityRequirement(name = "ApiKeyAuth")
     @PostMapping("/import")
+    @PreAuthorize("hasRole('SCRIPT')")
     public ResponseEntity<?> importProducts(@RequestBody List<ProductImportDto> dtos) {
 
         try {
@@ -48,6 +39,8 @@ public class ProductController {
     }
 
     @GetMapping("/categories")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<List<CategoryDto>> getCategories() {
         List<Category> categories = instance.getAllCategories();
         List<CategoryDto> categoryDtos = categories.stream()
@@ -58,6 +51,8 @@ public class ProductController {
     }
 
     @GetMapping("/category/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> getProductsByCategoryId(@PathVariable int id, @PageableDefault(size = 20) Pageable pageable) {
         try {
             Page<Product> products = instance.getProductsByCategoryId(id,pageable);
@@ -70,6 +65,8 @@ public class ProductController {
     }
 
     @GetMapping("/search")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> searchProductsByName(@RequestParam String term,@PageableDefault(size = 20) Pageable pageable) {
         Page<Product> products = null;
         try {
@@ -82,6 +79,8 @@ public class ProductController {
     }
 
     @GetMapping("/allProducts")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> getAllProducts(@PageableDefault(size = 20) Pageable pageable) {
         Page<Product> products = instance.getAllProducts(pageable);
         Page<ProductCatalogDto> productDtos = products.map(ProductCatalogDto::new);
@@ -89,6 +88,8 @@ public class ProductController {
     }
 
     @PostMapping("/mergeProducts")
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> mergeProducts(@RequestParam int keepProductId, @RequestParam int suprProductId) {
         try {
             instance.mergeProducts(keepProductId,suprProductId);

@@ -24,6 +24,8 @@ public class User {
     @JoinColumn(name = "preferred_store_rut")
     private Store preferredStore;
     private int preferredDay;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public int getPreferredDay() {
         return preferredDay;
@@ -44,6 +46,15 @@ public class User {
     public User() {
         this.cart = new Cart();
         cart.setUser(this);
+        this.role = Role.USER;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getPassword() {
@@ -182,6 +193,7 @@ public class User {
         validatePassword();
         this.preferredStore = preferredStore;
         this.preferredDay = userRegisterDto.getUserPreferredDay();
+        this.role = Role.USER;
     }
 
     public CartItem removeItemFromCart(Product product) throws DataException {

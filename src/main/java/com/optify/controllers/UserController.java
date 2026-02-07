@@ -10,6 +10,7 @@ import com.optify.facade.Facade;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,13 +37,14 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserRegisterDto userRegisterDto) {
         try {
-            instance.register(userRegisterDto);
-            return ResponseEntity.ok("[REGISTER] Usuario registrado con éxito.");
+            String token = instance.register(userRegisterDto);
+            return ResponseEntity.ok(token);
         } catch (AuthenticationException | DataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
     @PostMapping("/updateProfile")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> updateUserProfile(Authentication auth, @RequestBody UserUpdateDto userUpdateDto) {
         try {
@@ -55,6 +57,7 @@ public class UserController {
     }
 
     @PostMapping("/changePassword")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> changeUserPassword(Authentication auth, @RequestBody UserPasswordUpdateDto userPasswordUpdateDto) {
         try {
