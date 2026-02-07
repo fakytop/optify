@@ -106,6 +106,9 @@ public class ProductController {
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "BearerAuth")
     public ResponseEntity<?> mergeProducts(@RequestParam int keepProductId, @RequestParam int suprProductId) {
+        if(keepProductId == suprProductId) {
+            return ResponseEntity.badRequest().body("Los productos seleccionados son el mismo. No es posible realizar la acción.");
+        }
         try {
             instance.mergeProducts(keepProductId,suprProductId);
         } catch (DataException e) {
@@ -118,6 +121,9 @@ public class ProductController {
     @SecurityRequirement(name = "BearerAuth")
     @PostMapping("/changeProductReference")
     public ResponseEntity<?> changeProductReference(@RequestParam int newProductId, @RequestParam int oldProductid, @RequestParam long storeRut) {
+        if(newProductId == oldProductid) {
+            return ResponseEntity.badRequest().body("El producto que se intenta re-asignar es el mismo. No es posible realizar la acción.");
+        }
         StoreProductPk spId = new StoreProductPk(storeRut,oldProductid);
         try {
             instance.changeStoreProductReference(spId,newProductId);
