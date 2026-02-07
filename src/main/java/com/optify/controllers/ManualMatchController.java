@@ -1,5 +1,6 @@
 package com.optify.controllers;
 
+import com.optify.domain.DiscardReference;
 import com.optify.dto.MatchesPendingDto;
 import com.optify.exceptions.DataException;
 import com.optify.facade.Facade;
@@ -16,7 +17,7 @@ public class ManualMatchController {
     @Autowired
     private Facade instance;
 
-    @GetMapping("/all")
+    @GetMapping("/getAll")
     public ResponseEntity<?> getAllPendingMatches() {
         List<MatchesPendingDto> matchesPending = instance.getAllPendingMatches()
                 .stream().map(MatchesPendingDto::new).toList();
@@ -32,7 +33,37 @@ public class ManualMatchController {
             instance.confirmMatch(id);
             return ResponseEntity.ok("Productos matcheados con éxito.");
         } catch (DataException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/decline")
+    public ResponseEntity<?> declineMatch(@RequestParam int id) {
+        try {
+            instance.declineMatch(id);
+            return ResponseEntity.ok("Match eliminado correctamente.");
+        } catch (DataException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/getAllDiscarded")
+    public ResponseEntity<?> getAllDiscardedUrls() {
+        try {
+            List<DiscardReference> references = instance.getAllDiscardedUrls();
+            return  ResponseEntity.ok(references);
+        } catch (DataException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/deleteReferenceDiscarded")
+    public ResponseEntity<?> deleteDiscardedReference(int id) {
+        try {
+            instance.deleteDiscardedReference(id);
+            return ResponseEntity.ok("Referencia eliminada con éxito.");
+        } catch (DataException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }

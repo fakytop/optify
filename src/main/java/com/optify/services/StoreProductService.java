@@ -6,6 +6,7 @@ import com.optify.exceptions.DataException;
 import com.optify.repository.StoreProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,11 +15,13 @@ import java.util.Optional;
 public class StoreProductService {
     @Autowired
     private StoreProductRepository storeProductRepository;
+    @Autowired
+    private DiscardReferenceService discardReferenceService;
 
-    public StoreProduct findById(StoreProductPk id) throws DataException {
+    public StoreProduct getStoreProductById(StoreProductPk id) {
         Optional<StoreProduct> optionalStoreProduct = storeProductRepository.findById(id);
         if(!optionalStoreProduct.isPresent()) {
-            throw new DataException("[DataException] No se encontró el producto { ean: " + id.getProductId() + "; rut: " + id.getStoreRut() + "}");
+            return null;
         }
         return optionalStoreProduct.get();
     }
@@ -43,7 +46,7 @@ public class StoreProductService {
         return storeProductRepository.findByProduct_IdInOrderByProduct_IdAsc(productIds);
     }
 
-    public List<StoreProduct> getStoreProductsByProductId(long productIds){
+    public List<StoreProduct> getStoreProductsByProductId(int productIds){
         return storeProductRepository.findByProduct_id(productIds);
     }
 
@@ -55,4 +58,13 @@ public class StoreProductService {
         return storeProduct.get(0).getUrlProduct();
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteStoreProductWithId(StoreProductPk spId) throws DataException {
+        StoreProduct deleteStoreProduct = getStoreProductById(spId);
+        if(deleteStoreProduct == null) {
+            throw new DataException("No se encontró el producto con id: {" + spId.getProductId() + "} y RUT: " + spId.getStoreRut() + "}");
+        }
+        discardReferenceService.addDiscardedReference(deleteStoreProduct.getUrlProduct());
+        deleteStoreProduct(deleteStoreProduct);
+    }
 }

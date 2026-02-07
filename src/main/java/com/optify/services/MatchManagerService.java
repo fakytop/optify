@@ -14,15 +14,24 @@ public class MatchManagerService {
     private DataImportService dataImportService;
     @Autowired
     private ManualMatchService manualMatchService;
+    @Autowired
+    private DiscardReferenceService discardReferenceService;
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void confirmMatch(int id) throws DataException {
-        ManualMatchPending manualMatchPending = manualMatchService.findById(id);
+        ManualMatchPending manualMatchPending = manualMatchService.getMatchById(id);
         ProductImportDto dto = new ProductImportDto();
         dto.setIdWeb(manualMatchPending.getIdWeb());
         dto.setUrlProduct(manualMatchPending.getUrlProduct());
         dto.setProductPrice(manualMatchPending.getProductPrice());
         dataImportService.saveStoreProduct(manualMatchPending.getProduct(),manualMatchPending.getStore(),dto);
-        manualMatchService.deleteMatchConfirmed(manualMatchPending.getId());
+        manualMatchService.deleteMatch(manualMatchPending.getId());
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void declineMatch(int id) throws DataException {
+        ManualMatchPending manualMatchPending = manualMatchService.getMatchById(id);
+        discardReferenceService.addDiscardedReference(manualMatchPending.getUrlProduct());
+        manualMatchService.deleteMatch(manualMatchPending.getId());
     }
 }
